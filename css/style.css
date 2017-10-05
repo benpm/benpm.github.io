@@ -3,5 +3,6 @@ body {
 }
 
 .mdl-layout__content {
-  padding-left: 2em;
+  width: 50%;
+  margin: auto;
 }
