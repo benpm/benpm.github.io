@@ -1,0 +1,92 @@
+_defaults:
+  symbol: "?"
+  category: "misc"
+  rarity: common
+  hp: 10
+  idle: wander
+  behaviour: wander
+  stash: null
+  stamina: 3
+  strength: 1
+  armor: 0
+  sight: 3
+  dexterous: false
+
+player:
+  symbol: "@"
+  hp: 10
+  idle: none
+  behaviour: none
+  rarity: none
+  stash: "max=5"
+  stamina: 5
+  sight: 5
+  dexterous: true
+
+rat:
+  symbol: "r"
+  category: monster
+  behaviour: flee
+  hp: 5
+  stash: "num=1,entrails,bone"
+
+goo:
+  symbol: "G"
+  category: monster
+  hp: 8
+  behaviour: follow
+  stash: "num=1,goo"
+
+goblin:
+  symbol: "g"
+  category: monster
+  hp: 8
+  sight: 4
+  behaviour: follow
+  stash: "num=2,entrails,bone & num=1,p=50,weapon & num=1,p=50,armor"
+  dexterous: true
+
+warm goo:
+  symbol: "O"
+  category: monster
+  rarity: rare
+  hp: 8
+  behaviour: follow
+  strength: 3
+  stash: "num=1,goo"
+
+troglodyte:
+  symbol: "T"
+  category: monster
+  rarity: rare
+  hp: 15
+  sight: 6
+  armor: 2
+  behaviour: follow
+  stamina: 7
+  strength: 2
+  stash: "num=2,entrails,bone & num=1,p=50,weapon & num=1,p=50,armor"
+  dexterous: true
+
+hot goo:
+  symbol: "8"
+  category: monster
+  rarity: vrare
+  hp: 8
+  behaviour: follow
+  strength: 6
+  stash: "num=1,goo"
+
+demon:
+  symbol: "D"
+  category: monster
+  rarity: vrare
+  hp: 35
+  armor: 5
+  behaviour: follow
+  stamina: 10
+  strength: 3
+  sight: 6
+  armor: 2
+  stash: "num=2,entrails,bone & num=1,p=50,weapon & num=1,p=50,armor"
+  dexterous: true
