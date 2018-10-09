@@ -6,6 +6,7 @@ var container = $("#container");
 var template3D = $("#template-3d").children();
 var templateMap = $("#template-map").children();
 var templateStatusBar = $("#template-statusbar").children();
+var templateData = $("#template-data").children();
 
 //Helper functions
 function select(element) {
@@ -20,8 +21,9 @@ function arrange(which) {
 			arrangement.init();
 			break;
 		case 2:
+			console.log("hey");
 			arrangement.close();
-			arrangement = new ArrDefault();
+			arrangement = new ArrTesting();
 			arrangement.init();
 			break;
 		case 3:
@@ -60,11 +62,14 @@ function View3D() {
 	this.onresize = function (event) {
 		var width = this.parent.width();
 		var height = this.parent.height() - 48;
+		console.log(width, height);
 		this.camera.aspect = width / height;
 		this.camera.updateProjectionMatrix();
 		this.renderer.setViewport(width, height);
 		this.renderer.setSize(width, height);
-		this.camera.position.z = 2 * (width / innerWidth);
+		var canvas = $(this.renderer.getContext().canvas);
+		canvas.width("100%");
+		canvas.height("calc(100% - 48px)");
 	};
 	this.init = function (parent) {
 		this.parent = $(parent);
@@ -86,6 +91,7 @@ function View3D() {
 		var callback = function (object) {
 			this.scene.add(object);
 			this.boat = object;
+			object.position.y = -0.2;
 		};
 		loader.load("boat.obj", callback.bind(this), null, console.error);
 
@@ -95,7 +101,6 @@ function View3D() {
 		this.scene.add(alight);
 
 		this.camera.position.z = 2;
-		this.camera.position.y = 0.4;
 
 		//Setup orbit controls
 		this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
@@ -104,6 +109,9 @@ function View3D() {
 		this.animate();
 
 		window.addEventListener("resize", this.onresize.bind(this));
+	};
+	this.close = function () {
+		window.removeEventListener("resize");
 	};
 }
 function ViewMap() {
@@ -120,6 +128,32 @@ function ViewStatusBar() {
 		this.parent = $(parent);
 		this.parent.append(templateStatusBar);
 		this.element = this.parent.children()[0];
+	}
+}
+function ViewData() {
+	View.call(this);
+	this.charts = [];
+	this.addChart = function () {
+		var canvas = $("<canvas class='chart'>");
+		this.parent.append(canvas);
+		var chart = new Chart(canvas.get(0).getContext("2d"), {
+			type: "line",
+			datasets: [{
+				label: "sample",
+				data: [12, 235, 35, 53, 454, 23, 23, 60, 65, 67, 68, 72, 74, 76]
+			}],
+			options: {
+				responsive: true
+			}
+		});
+		this.charts.push(chart);
+	}
+	this.init = function (parent) {
+		this.parent = $(parent);
+		this.parent.append(templateData);
+		this.element = this.parent.children()[0];
+
+		this.addChart();
 	}
 }
 
@@ -147,7 +181,31 @@ function ArrDefault() {
 		this.views.length = 0;
 	}
 }
+function ArrTesting() {
+	Arrangement.call(this);
+	this.init = function () {
+		container.append($("<div class='view half'>"));
+		container.append($("<div class='view half'>"));
+		container.append($("<div class='view bar'>"));
+		this.members = $("#container .view");
+		this.views.push(new View3D());
+		this.views.push(new ViewData());
+		this.views.push(new ViewStatusBar());
+		this.views[0].init(this.members[0]);
+		this.views[1].init(this.members[1]);
+		this.views[2].init(this.members[2]);
+	}
+	this.close = function () {
+		container.children().remove();
+		this.members = null;
+		this.views[0].close();
+		this.views[1].close();
+		this.views[2].close();
+		this.views.length = 0;
+	}
+}
 ArrDefault.prototype = Object.create(Arrangement.prototype);
+ArrTesting.prototype = Object.create(Arrangement.prototype);
 
 //Start
 arrangement = new ArrDefault();

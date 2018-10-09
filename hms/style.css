@@ -81,3 +81,8 @@ div.tabs {
 	height: calc(100% - 44px);
 }
 
+canvas {
+	cursor: -webkit-grab;
+	cursor: grab;
+}
+
