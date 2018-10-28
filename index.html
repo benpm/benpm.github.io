@@ -1,38 +1,48 @@
-<!DOCTYPE HTML>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>lemoncreme.github.io</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-teal.min.css">
-    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
-    <div class="demo-layout-transparent mdl-layout mdl-js-layout">
-      <header class="mdl-layout__header">
-        <div class="mdl-layout__header-row">
-          <!-- Title -->
-          <span class="mdl-layout-title">Benjamin Mastripolito</span>
-          <!-- Add spacer, to align navigation to the right -->
-          <div class="mdl-layout-spacer"></div>
-        </div>
-      </header>
-      <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Projects</span>
-        <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="/hms/index.html">HMS</a>
-          <a class="mdl-navigation__link" href="/paperlike/index.html">Paperlike</a>
-          <a class="mdl-navigation__link" href="/npigs/index.html">Npigs</a>
-        </nav>
-      </div>
-      <main class="mdl-layout__content">
-        <h1>Welcome!</h1>
-        <p>
-          This site is where I showcase demos for my GitHub projects.
-        </p>
-      </main>
-    </div>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:100,400,900" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<link rel="icon" href="favicon.png" type="image/png">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.6/papaparse.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<title>signless.science</title>
+</head>
+<body>
+	<div id="filters" onmouseout="science.untooltip(this);" style="display: none;">
+		<style id="filterer"></style>
+		<img color="#963d5a" src="img/game.svg" onclick="science.filter(this);" onmouseover="science.tooltip(this);" alt="Game">
+		<img color="#c589e8" src="img/music.svg" onclick="science.filter(this);" onmouseover="science.tooltip(this);" alt="Music">
+		<img color="#ecfff8" src="img/video.svg" onclick="science.filter(this);" onmouseover="science.tooltip(this);" alt="Video">
+		<img color="#6b8f71" src="img/writing.svg" onclick="science.filter(this);" onmouseover="science.tooltip(this);" alt="Writing">
+		<img color="#e3daff" src="img/photo.svg" onclick="science.filter(this);" onmouseover="science.tooltip(this);" alt="Photo">
+		<img color="#cef7a0" src="img/art.svg" onclick="science.filter(this);" onmouseover="science.tooltip(this);" alt="Art">
+		<img color="#eb8258" src="img/misc.svg" onclick="science.filter(this);" onmouseover="science.tooltip(this);" alt="Misc">
+		<img color="#eed7c5" src="img/web.svg" onclick="science.filter(this);" onmouseover="science.tooltip(this);" alt="Web">
+		<div id="tooltip"></div>
+	</div>
+	<div id="out">
+		<div id="close" onclick="science.projectExit();"></div>
+	</div>
+	<div class="top">
+		<img id="header-img" src="img/logo-01.svg">
+		<p>
+			Hello! My name is Benjamin Mastripolito and sometimes I make things.
+			Below you can find all of my various projects. Games, music, writing,
+			photography, video, crafts, etc. This website is simply a big collection
+			of my projects. Use the filter to view only the projects in various
+			categories.
+			<br>
+			<a class="social" target="_blank" href="https://twitter.com/bpmw_"><img src="img/twitter.svg" alt="twitter link"></a>
+			<a class="social" target="_blank" href="https://www.youtube.com/channel/UCOKtiRzllkPmRYT1t7wKfjw"><img src="img/youtube.svg" alt="youtube link"></a>
+			<a class="social" target="_blank" href="https://trello.com/b/TtuTv5Sm"><img src="img/trello.svg" alt="trello link"></a>
+		</p>
+	</div>
+	<div class="projects">
+	</div>
+</body>
+<script src="main.js"></script>
 </html>
