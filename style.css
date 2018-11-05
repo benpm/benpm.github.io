@@ -2,6 +2,7 @@ body {
 	font-family: Roboto, sans-serif;
 	margin: 0;
 	padding: 0;
+	background: #f0f0f0;
 }
 
 .content {
@@ -25,6 +26,21 @@ body {
 
 .content a:hover {
 	background: #e4e4e4;
+}
+
+.content p code, pre {
+	background: #2b2b2b;
+	color: white;
+	padding: 3px;
+	border-radius: 4px;
+	font-family: "Ubuntu Mono", monospace;
+	font-size: 16px;
+}
+
+.content blockquote {
+	background: #d0d0d0;
+	padding: 3px;
+	border-radius: 4px;
 }
 
 #nav {
@@ -69,7 +85,7 @@ a {
 		margin-right: 16px;
 	}
 
-	p, span {
+	p, span, code, pre {
 		font-size: 14pt;
 	}
 

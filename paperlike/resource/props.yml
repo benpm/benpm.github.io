@@ -1,0 +1,14 @@
+_defaults:
+  symbol: "?"
+  category: "misc"
+  stash: null
+  solid: false
+
+chest:
+  symbol: "$"
+  stash: "max=10"
+  solid: true
+
+carcass:
+  symbol: "C"
+  stash: "max=5"
