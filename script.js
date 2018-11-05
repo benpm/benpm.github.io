@@ -67,8 +67,8 @@ for (const category in pageTree) {
 	$category.on("click", navToggle);
 }
 nav.prepend($("<a>", {
-	style: "font-weight: bold;",
+	style: "font-weight: bold; background: #505050;",
 	class: "item",
-	text: "home",
+	text: "benpm.github.io",
 	href: root
 }));
