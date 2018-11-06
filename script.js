@@ -1,5 +1,6 @@
 function navOn(event) {
 	let element = $(event.currentTarget);
+	$nest.show();
 	$("#nav #nest a").hide();
 	$("#nav .cat").data("selected", "false").css("text-decoration", "");
 	$("." + element.text()).show();
@@ -8,6 +9,7 @@ function navOn(event) {
 
 function navOff(event) {
 	let element = $(event.currentTarget);
+	$nest.hide();
 	$("." + element.text()).hide();
 	element.css("text-decoration", "");
 }
@@ -72,3 +74,4 @@ nav.prepend($("<a>", {
 	text: "benpm.github.io",
 	href: root
 }));
+$nest.hide();

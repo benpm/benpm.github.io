@@ -33,8 +33,13 @@ body {
 	color: white;
 	padding: 3px;
 	border-radius: 4px;
-	font-family: "Ubuntu Mono", monospace;
+	font-family: "Roboto Mono", monospace;
 	font-size: 16px;
+}
+
+.content pre {
+	padding: 6px;
+	word-wrap: normal;
 }
 
 .content blockquote {
@@ -78,7 +83,7 @@ a {
 	text-decoration: none;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
 	.content {
 		width: auto;
 		margin-left: 16px;
@@ -89,9 +94,18 @@ a {
 		font-size: 14pt;
 	}
 
+	#nav {
+		padding: 0 0 5px 0;
+		text-align: center;
+	}
+
+	#nav .item {
+		padding: 6px;
+	}
+
 	#nav #nest {
 		display: block;
-		margin: 12px 0 0 0;
+		margin: 12px 0 1px 0;
 		text-align: center;
 	}
 }
