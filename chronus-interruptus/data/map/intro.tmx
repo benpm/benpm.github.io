@@ -18,7 +18,7 @@
   <object id="18" name="mainPlayer" x="1645" y="700" width="35" height="88"/>
   <object id="21" name="me.LevelEntity" x="210" y="945" width="70" height="105">
    <properties>
-    <property name="duration" value="150"/>
+    <property name="duration" value="25"/>
     <property name="fade" value="#fff"/>
     <property name="to" value="level1"/>
    </properties>

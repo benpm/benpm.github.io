@@ -220,6 +220,16 @@ game.resources = [
         "src": "data/map/template2.tmx"
     },
     {
+        "name": "test",
+        "type": "tmx",
+        "src": "data/map/test.tmx"
+    },
+    {
+        "name": "tower",
+        "type": "tmx",
+        "src": "data/map/tower.tmx"
+    },
+    {
         "name": "map1",
         "type": "tmx",
         "src": "data/map/map1.json"
