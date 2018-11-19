@@ -125,39 +125,29 @@ game.resources = [
         "src": "data/img/assets/hazards/platform.png"
     },
     {
+        "name": "spikey",
+        "type": "image",
+        "src": "data/img/assets/hazards/spikey.png"
+    },
+    {
         "name": "weight",
         "type": "image",
         "src": "data/img/assets/hazards/weight.png"
     },
     {
-        "name": "shadedDark01",
+        "name": "black",
         "type": "image",
-        "src": "data/img/assets/UI/shadedDark01.png"
+        "src": "data/img/assets/UI/black.png"
     },
     {
-        "name": "shadedDark07",
+        "name": "white",
         "type": "image",
-        "src": "data/img/assets/UI/shadedDark07.png"
+        "src": "data/img/assets/UI/white.png"
     },
     {
-        "name": "shadedDark13",
+        "name": "zee",
         "type": "image",
-        "src": "data/img/assets/UI/shadedDark13.png"
-    },
-    {
-        "name": "shadedDark15",
-        "type": "image",
-        "src": "data/img/assets/UI/shadedDark15.png"
-    },
-    {
-        "name": "shadedDark30",
-        "type": "image",
-        "src": "data/img/assets/UI/shadedDark30.png"
-    },
-    {
-        "name": "shadedDark36",
-        "type": "image",
-        "src": "data/img/assets/UI/shadedDark36.png"
+        "src": "data/img/assets/UI/zee.png"
     },
     {
         "name": "background",
@@ -190,6 +180,11 @@ game.resources = [
         "src": "data/img/texture.json"
     },
     {
+        "name": "hub",
+        "type": "tmx",
+        "src": "data/map/hub.tmx"
+    },
+    {
         "name": "intro",
         "type": "tmx",
         "src": "data/map/intro.tmx"
@@ -198,6 +193,21 @@ game.resources = [
         "name": "level1",
         "type": "tmx",
         "src": "data/map/level1.tmx"
+    },
+    {
+        "name": "level2",
+        "type": "tmx",
+        "src": "data/map/level2.tmx"
+    },
+    {
+        "name": "level3",
+        "type": "tmx",
+        "src": "data/map/level3.tmx"
+    },
+    {
+        "name": "level4",
+        "type": "tmx",
+        "src": "data/map/level4.tmx"
     },
     {
         "name": "map0",
