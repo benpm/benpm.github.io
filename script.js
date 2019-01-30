@@ -34,7 +34,8 @@ const pageTree = {
 		"paperlike"
 	],
 	journal: [
-		"11_4_2018"
+		"11_4_2018",
+		"1_29_2019"
 	],
 	art: [
 		"gallery"
