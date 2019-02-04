@@ -29,6 +29,7 @@ function navToggle(event) {
 
 const pageTree = {
 	projects: [
+		"forest",
 		"easypin",
 		"new_soils",
 		"paperlike"
