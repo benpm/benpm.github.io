@@ -1,0 +1,22 @@
+body {
+    font-family: sans-serif;
+}
+
+#drawing {
+    margin: auto;
+    float: left;
+}
+
+#wrapper {
+    margin: auto;
+    text-align: center;
+    width: 1500px;
+}
+
+.input {
+    text-align: left;
+}
+
+input {
+    vertical-align: middle;
+}
