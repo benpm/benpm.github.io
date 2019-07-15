@@ -64,24 +64,20 @@ function main() {
     }
 
     //Image
-    image = new Image();
-    image.onload = () => {
-        gl.bindTexture(gl.TEXTURE_2D, dataTex);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, canvas.width, canvas.height, 0, gl.RGB, gl.UNSIGNED_BYTE, image);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-        fbB = gl.createFramebuffer();
-        gl.bindFramebuffer(gl.FRAMEBUFFER, fbB);
-        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, dataTex, 0);
-        animateScene();
-    };
-    image.url = "img.png";
-
+    dataTex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, dataTex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    fbB = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fbB);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, dataTex, 0);
+    
     //Destination texture
     targetTex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, targetTex);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, canvas.width, canvas.height, 0, gl.RGB, gl.UNSIGNED_BYTE, null);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
@@ -114,6 +110,7 @@ function main() {
         rules: {loc: gl.getUniformLocation(shaderProgram, "uRules")}
     };
     aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+    animateScene();
 }
 
 function mapResource(name) {
@@ -166,3 +163,6 @@ function buildShaderProgram(shaderInfo) {
 //Load resources
 $.get("frag.glsl", mapResource("frag"));
 $.get("vertex.glsl", mapResource("vertex"));
+image = new Image();
+image.src = "./tree.png";
+image.onload = mapResource("tree");
