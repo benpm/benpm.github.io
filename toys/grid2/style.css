@@ -13,4 +13,5 @@ body {
     padding: 0;
     overflow: hidden;
     image-rendering: optimizeSpeed;
+    transform: scaleY(-1);
 }

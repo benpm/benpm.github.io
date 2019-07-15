@@ -10,6 +10,23 @@ const rules = new Int32Array([
     0, 0, 0, 1, 0, 0, 0, 0,
     0, 0, 1, 1, 0, 0, 0, 0
 ]);
+const useShader = "gol";
+const blending = gl.LINEAR;
+const imageName = "tree.png";
+const edgeBehavior = gl.REPEAT;
+
+function mouseHandler(e) {
+    uniforms.mouse.val[0] = (e.pageX / window.innerWidth);
+    uniforms.mouse.val[1] = (e.pageY / window.innerHeight);
+}
+
+function clickOn(e) {
+    uniforms.mouse.val[2] = 1;
+}
+
+function clickOff(e) {
+    uniforms.mouse.val[2] = 0;
+}
 
 //Render to the screen
 function animateScene() {
@@ -21,6 +38,7 @@ function animateScene() {
     gl.uniform1f(uniforms.width.loc, canvas.width);
     gl.uniform1f(uniforms.height.loc, canvas.height);
     gl.uniform1i(uniforms.sampler.loc, 0);
+    gl.uniform4fv(uniforms.mouse.loc, uniforms.mouse.val);
 
     //Render to framebuffer
     gl.bindFramebuffer(gl.FRAMEBUFFER, flip ? fbB : fbA);
@@ -49,9 +67,9 @@ function main() {
     dataTex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, dataTex);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, edgeBehavior);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, edgeBehavior);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, blending);
 
     //First framebuffer
     fbB = gl.createFramebuffer();
@@ -62,9 +80,9 @@ function main() {
     targetTex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, targetTex);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, edgeBehavior);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, edgeBehavior);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, blending);
 
     //Second framebuffer
     fbA = gl.createFramebuffer();
@@ -73,7 +91,7 @@ function main() {
 
     //Shaders
     const shaderSet = [
-        {type: gl.FRAGMENT_SHADER, name: "frag"},
+        {type: gl.FRAGMENT_SHADER, name: useShader},
         {type: gl.VERTEX_SHADER, name: "vertex"}
     ];
     shaderProgram = buildShaderProgram(shaderSet);
@@ -92,7 +110,8 @@ function main() {
         time: {loc: gl.getUniformLocation(shaderProgram, "uTime"), val: 0},
         width: {loc: gl.getUniformLocation(shaderProgram, "uWidth")},
         height: {loc: gl.getUniformLocation(shaderProgram, "uHeight")},
-        sampler: {loc: gl.getUniformLocation(shaderProgram, "uSampler")}
+        sampler: {loc: gl.getUniformLocation(shaderProgram, "uSampler")},
+        mouse: {loc: gl.getUniformLocation(shaderProgram, "uMouse"), val: [0, 0, 0, 0]}
     };
 
     //Attributes
@@ -101,6 +120,12 @@ function main() {
     gl.vertexAttribPointer(aVertexPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(aVertexPosition);
     gl.useProgram(shaderProgram);
+
+    //Handlers
+    $(document.body).on("mousemove", mouseHandler);
+    $(document.body).on("mousedown", clickOn);
+    $(document.body).on("mouseup", clickOff);
+
     animateScene();
 }
 
@@ -153,8 +178,8 @@ function buildShaderProgram(shaderInfo) {
 }
 
 //Load resources
-$.get("frag.glsl", mapResource("frag"));
+$.get(useShader + ".glsl", mapResource(useShader));
 $.get("vertex.glsl", mapResource("vertex"));
 image = new Image();
-image.src = "./tree.png";
+image.src = imageName;
 image.onload = mapResource("tree");
