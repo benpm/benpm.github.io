@@ -6,6 +6,10 @@ const canvas = document.getElementById("glCanvas");
 const gl = canvas.getContext("webgl2");
 var flip = false;
 var shaderProgram, uniforms, aVertexPosition, vertexBuffer, dataTex, targetTex, fbA, fbB;
+const rules = new Int32Array([
+    0, 0, 0, 1, 0, 0, 0, 0,
+    0, 0, 1, 1, 0, 0, 0, 0
+]);
 
 function animateScene() {
     gl.viewport(0, 0, canvas.width, canvas.height);
@@ -22,6 +26,7 @@ function animateScene() {
         gl.uniform1f(uniforms.width.loc, canvas.width);
         gl.uniform1f(uniforms.height.loc, canvas.height);
         gl.uniform1i(uniforms.sampler.loc, 0);
+        gl.uniform1iv(uniforms.rules.loc, rules);
     
         gl.enableVertexAttribArray(aVertexPosition);
         gl.vertexAttribPointer(aVertexPosition, 2, gl.FLOAT, false, 0, 0);
@@ -61,7 +66,7 @@ function main() {
     //Texture
     let texData = new Uint8Array(canvas.width * canvas.height * 3);
     for (let i = 0; i < texData.length; i++) {
-        texData[i] = Math.random() * 255;
+        texData[i] = 255;
     }
 
     //Texture A
@@ -107,7 +112,8 @@ function main() {
         time: {loc: gl.getUniformLocation(shaderProgram, "uTime"), val: 0},
         width: {loc: gl.getUniformLocation(shaderProgram, "uWidth")},
         height: {loc: gl.getUniformLocation(shaderProgram, "uHeight")},
-        sampler: {loc: gl.getUniformLocation(shaderProgram, "uSampler")}
+        sampler: {loc: gl.getUniformLocation(shaderProgram, "uSampler")},
+        rules: {loc: gl.getUniformLocation(shaderProgram, "uRules")}
     };
     aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
     animateScene();
