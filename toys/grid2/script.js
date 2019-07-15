@@ -5,7 +5,7 @@ var resourcesRemaining = 0;
 const canvas = document.getElementById("glCanvas");
 const gl = canvas.getContext("webgl2");
 var flip = false;
-var shaderProgram, uniforms, aVertexPosition, vertexBuffer, dataTex, targetTex, fbA, fbB;
+var shaderProgram, uniforms, aVertexPosition, vertexBuffer, dataTex, targetTex, fbA, fbB, image;
 const rules = new Int32Array([
     0, 0, 0, 1, 0, 0, 0, 0,
     0, 0, 1, 1, 0, 0, 0, 0
@@ -63,22 +63,20 @@ function main() {
         return;
     }
 
-    //Texture
-    let texData = new Uint8Array(canvas.width * canvas.height * 3);
-    for (let i = 0; i < texData.length; i++) {
-        texData[i] = 255;
-    }
-
-    //Texture A
-    dataTex = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, dataTex);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, canvas.width, canvas.height, 0, gl.RGB, gl.UNSIGNED_BYTE, texData);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    fbB = gl.createFramebuffer();
-    gl.bindFramebuffer(gl.FRAMEBUFFER, fbB);
-    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, dataTex, 0);
+    //Image
+    image = new Image();
+    image.onload = () => {
+        gl.bindTexture(gl.TEXTURE_2D, dataTex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, canvas.width, canvas.height, 0, gl.RGB, gl.UNSIGNED_BYTE, image);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+        fbB = gl.createFramebuffer();
+        gl.bindFramebuffer(gl.FRAMEBUFFER, fbB);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, dataTex, 0);
+        animateScene();
+    };
+    image.url = "img.png";
 
     //Destination texture
     targetTex = gl.createTexture();
@@ -116,7 +114,6 @@ function main() {
         rules: {loc: gl.getUniformLocation(shaderProgram, "uRules")}
     };
     aVertexPosition = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-    animateScene();
 }
 
 function mapResource(name) {
