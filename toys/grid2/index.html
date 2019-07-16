@@ -8,10 +8,15 @@
     <link rel="stylesheet" href="style.css">
     <title>Grid</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.6/dat.gui.min.js"></script>
 </head>
 
-<body>
-    <canvas id="glCanvas" width="640" height="480"></canvas>
+<body oncontextmenu="return false;">
+    <canvas style="display: none;" id="imgCanvas" width="500" height="500"></canvas>
+    <canvas id="glCanvas" width="500" height="500"></canvas>
+    <div id="tools">
+        in
+    </div>
     <script src="script.js"></script>
  </body>
 

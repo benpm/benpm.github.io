@@ -5,15 +5,32 @@ const gl = canvas.getContext("webgl2");
 var resources = {};
 var resourcesRemaining = 0;
 var flip = false;
-var shaderProgram, uniforms, aVertexPosition, vertexBuffer, dataTex, targetTex, fbA, fbB, image;
+var shaderProgram, uniforms, aVertexPosition, vertexBuffer, dataTex, targetTex, fbA, fbB, image, gui;
 const rules = new Int32Array([
     0, 0, 0, 1, 0, 0, 0, 0,
     0, 0, 1, 1, 0, 0, 0, 0
 ]);
-const useShader = "gol";
 const blending = gl.LINEAR;
-const imageName = "tree.png";
 const edgeBehavior = gl.REPEAT;
+const parameters = {
+    shader: "gol",
+    image: "bikes.jpg",
+    reload: restart,
+    clear: () => {restart(null, true);},
+    penSize: 50.0,
+    param1: 3.0,
+    pause: false
+};
+const shaderSet = { 
+    gol: "gol",
+    spirals: "spirals",
+    sand: "sand",
+    glow: "glow",
+    swirly: "swirly",
+    mix: "mix",
+    mix2: "mix2",
+    frag: "frag"
+};
 
 function mouseHandler(e) {
     uniforms.mouse.val[0] = (e.pageX / window.innerWidth);
@@ -21,11 +38,15 @@ function mouseHandler(e) {
 }
 
 function clickOn(e) {
-    uniforms.mouse.val[2] = 1;
+    uniforms.mouse.val[2] = e.originalEvent.button;
 }
 
 function clickOff(e) {
-    uniforms.mouse.val[2] = 0;
+    uniforms.mouse.val[2] = -1;
+}
+
+function onPenSize() {
+    uniforms.mouse.val[3] = parameters.penSize;
 }
 
 //Render to the screen
@@ -39,6 +60,7 @@ function animateScene() {
     gl.uniform1f(uniforms.height.loc, canvas.height);
     gl.uniform1i(uniforms.sampler.loc, 0);
     gl.uniform4fv(uniforms.mouse.loc, uniforms.mouse.val);
+    gl.uniform1f(uniforms.param1.loc, uniforms.param1.val);
 
     //Render to framebuffer
     gl.bindFramebuffer(gl.FRAMEBUFFER, flip ? fbB : fbA);
@@ -52,21 +74,17 @@ function animateScene() {
 
     //Flip framebuffers
     flip = !flip;
-    window.requestAnimationFrame(animateScene);
+    if (!parameters.pause) window.requestAnimationFrame(animateScene);
 }
 
-//Main function
-function main() {
-    //Check if WebGL2 is available
-    if (gl == null) {
-        console.error("Unable to initialize WebGL 2 context");
-        return;
-    }
+//Setup for WebGL stuff
+function webGlSetup() {
 
     //Initial texture from image
     dataTex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, dataTex);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height,
+        0, gl.RGBA, gl.UNSIGNED_BYTE, document.getElementById("imgCanvas"));
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, edgeBehavior);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, edgeBehavior);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, blending);
@@ -91,7 +109,7 @@ function main() {
 
     //Shaders
     const shaderSet = [
-        {type: gl.FRAGMENT_SHADER, name: useShader},
+        {type: gl.FRAGMENT_SHADER, name: parameters.shader},
         {type: gl.VERTEX_SHADER, name: "vertex"}
     ];
     shaderProgram = buildShaderProgram(shaderSet);
@@ -111,7 +129,8 @@ function main() {
         width: {loc: gl.getUniformLocation(shaderProgram, "uWidth")},
         height: {loc: gl.getUniformLocation(shaderProgram, "uHeight")},
         sampler: {loc: gl.getUniformLocation(shaderProgram, "uSampler")},
-        mouse: {loc: gl.getUniformLocation(shaderProgram, "uMouse"), val: [0, 0, 0, 0]}
+        param1: {loc: gl.getUniformLocation(shaderProgram, "uParam1"), val: parameters.param1},
+        mouse: {loc: gl.getUniformLocation(shaderProgram, "uMouse"), val: [0, 0, -1, 50]}
     };
 
     //Attributes
@@ -120,11 +139,22 @@ function main() {
     gl.vertexAttribPointer(aVertexPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(aVertexPosition);
     gl.useProgram(shaderProgram);
+}
+
+//Main function
+function main() {
+    //Check if WebGL2 is available
+    if (gl == null) {
+        console.error("Unable to initialize WebGL 2 context");
+        return;
+    }
+
+    webGlSetup();
 
     //Handlers
-    $(document.body).on("mousemove", mouseHandler);
-    $(document.body).on("mousedown", clickOn);
-    $(document.body).on("mouseup", clickOff);
+    $(canvas).on("mousemove", mouseHandler);
+    $(canvas).on("mousedown", clickOn);
+    $(canvas).on("mouseup", clickOff);
 
     animateScene();
 }
@@ -177,9 +207,55 @@ function buildShaderProgram(shaderInfo) {
     return program;
 }
 
+//Restart
+function restart(e, doFlip) {
+    console.log(parameters, flip, doFlip, parameters.pause);
+    parameters.pause = true;
+    flip = doFlip;
+    image = new Image();
+    image.src = parameters.image;
+    image.onload = () => {
+        const can = document.getElementById("imgCanvas");
+        can.width = window.innerWidth;
+        can.height = window.innerHeight;
+        const c = document.getElementById("imgCanvas").getContext("2d");
+        c.drawImage(image, 0, 0, can.width, can.height);
+        webGlSetup();
+        if (parameters.pause) animateScene();
+    };
+    image.onerror = console.error;
+}
+
+//GUI
+gui = new dat.GUI();
+let controller = gui.add(parameters, "shader", shaderSet);
+controller.onFinishChange(restart);
+controller = gui.add(parameters, "image");
+controller.onFinishChange(restart);
+controller = gui.add(parameters, "reload");
+controller = gui.add(parameters, "penSize", 1.0, 200.0);
+controller.onChange(onPenSize);
+controller = gui.add(parameters, "clear");
+controller = gui.add(parameters, "param1", -5.0, 5.0);
+controller.onChange(() => {uniforms.param1.val = parameters.param1});
+controller = gui.add(parameters, "pause");
+controller.onChange(() => {if (!parameters.pause) animateScene();});
+
 //Load resources
-$.get(useShader + ".glsl", mapResource(useShader));
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+Object.keys(shaderSet).forEach((shaderName) => {
+    $.get(shaderName + ".glsl", mapResource(shaderName));
+});
 $.get("vertex.glsl", mapResource("vertex"));
 image = new Image();
-image.src = imageName;
-image.onload = mapResource("tree");
+image.src = parameters.image;
+var rsc = mapResource("tree");
+image.onload = () => {
+    const can = document.getElementById("imgCanvas");
+    can.width = window.innerWidth;
+    can.height = window.innerHeight;
+    const c = document.getElementById("imgCanvas").getContext("2d");
+    c.drawImage(image, 0, 0, can.width, can.height);
+    rsc();
+};
