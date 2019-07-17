@@ -29,7 +29,8 @@ const shaderSet = {
     swirly: "swirly",
     mix: "mix",
     mix2: "mix2",
-    frag: "frag"
+    frag: "frag",
+    fractal: "fractal"
 };
 
 function mouseHandler(e) {
@@ -79,9 +80,8 @@ function animateScene() {
 
 //Setup for WebGL stuff
 function webGlSetup() {
-
     //Initial texture from image
-    dataTex = gl.createTexture();
+    dataTex = dataTex || gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, dataTex);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height,
         0, gl.RGBA, gl.UNSIGNED_BYTE, document.getElementById("imgCanvas"));
@@ -90,12 +90,12 @@ function webGlSetup() {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, blending);
 
     //First framebuffer
-    fbB = gl.createFramebuffer();
+    fbB = fbB || gl.createFramebuffer();
     gl.bindFramebuffer(gl.FRAMEBUFFER, fbB);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, dataTex, 0);
     
     //Destination texture
-    targetTex = gl.createTexture();
+    targetTex = targetTex || gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, targetTex);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, canvas.width, canvas.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, edgeBehavior);
@@ -103,7 +103,7 @@ function webGlSetup() {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, blending);
 
     //Second framebuffer
-    fbA = gl.createFramebuffer();
+    fbA = fbA || gl.createFramebuffer();
     gl.bindFramebuffer(gl.FRAMEBUFFER, fbA);
     gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, targetTex, 0);
 
@@ -115,11 +115,11 @@ function webGlSetup() {
     shaderProgram = buildShaderProgram(shaderSet);
 
     //Create vertices for quad
-    var vertexArray = new Float32Array([
+    var vertexArray = vertexArray || new Float32Array([
         -1.0, 1.0, 1.0, 1.0, 1.0, -1.0,
         -1.0, 1.0, 1.0, -1.0, -1.0, -1.0
     ]);
-    vertexBuffer = gl.createBuffer();
+    vertexBuffer = vertexBuffer || gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, vertexArray, gl.STATIC_DRAW);
 
@@ -210,6 +210,7 @@ function buildShaderProgram(shaderInfo) {
 //Restart
 function restart(e, doFlip) {
     console.log(parameters, flip, doFlip, parameters.pause);
+    let wasPaused = parameters.pause;
     parameters.pause = true;
     flip = doFlip;
     image = new Image();
@@ -221,7 +222,8 @@ function restart(e, doFlip) {
         const c = document.getElementById("imgCanvas").getContext("2d");
         c.drawImage(image, 0, 0, can.width, can.height);
         webGlSetup();
-        if (parameters.pause) animateScene();
+        parameters.pause = wasPaused;
+        animateScene();
     };
     image.onerror = console.error;
 }
