@@ -15,11 +15,9 @@ const blending = gl.LINEAR;
 const edgeBehavior = gl.REPEAT;
 const parameters = {
     shader: "fractal",
-    reload: restart,
-    clear: () => {restart(null, true);},
-    penSize: 50.0,
     param1: 2.0,
     param2: 4.0,
+    iterations: 50.0,
     pause: false
 };
 const shaderSet = { 
@@ -74,6 +72,7 @@ function animateScene() {
     gl.uniform1f(uniforms.height.loc, canvas.height);
     gl.uniform1f(uniforms.param1.loc, uniforms.param1.val);
     gl.uniform1f(uniforms.param2.loc, uniforms.param2.val);
+    gl.uniform1f(uniforms.iterations.loc, uniforms.iterations.val);
     gl.uniform4fv(uniforms.view.loc, uniforms.view.val);
     gl.drawArrays(gl.TRIANGLES, 0, 6);
 
@@ -106,6 +105,7 @@ function webGlSetup() {
         height: {loc: gl.getUniformLocation(shaderProgram, "uHeight")},
         param1: {loc: gl.getUniformLocation(shaderProgram, "uParam1"), val: 2.0},
         param2: {loc: gl.getUniformLocation(shaderProgram, "uParam2"), val: 4.0},
+        iterations: {loc: gl.getUniformLocation(shaderProgram, "uIterations"), val: 50.0},
         view: {loc: gl.getUniformLocation(shaderProgram, "uView"), val: [0, 0, 0.25, 0]}
     };
     zoom = uniforms.view.val[2];
@@ -129,16 +129,12 @@ function main() {
     
     //GUI
     gui = new dat.GUI();
-    let controller = gui.add(parameters, "shader", shaderSet);
-    controller.onFinishChange(restart);
-    controller = gui.add(parameters, "reload");
-    controller = gui.add(parameters, "clear");
-    controller = gui.add(parameters, "param1", -5.0, 5.0);
+    let controller = gui.add(parameters, "param1", -5.0, 5.0);
     controller.onChange(() => {uniforms.param1.val = parameters.param1});
     controller = gui.add(parameters, "param2", -5.0, 5.0);
     controller.onChange(() => {uniforms.param2.val = parameters.param2});
-    controller = gui.add(parameters, "pause");
-    controller.onChange(() => {if (!parameters.pause) animateScene();});
+    //controller = gui.add(parameters, "iterations", 1.0, 200.0);
+    //controller.onChange(() => {uniforms.iterations.val = parameters.iterations});
 
     //Handlers
     $(canvas).on("mousemove", mouseHandler);

@@ -6,6 +6,7 @@ uniform float uWidth;
 uniform float uHeight;
 uniform float uParam1;
 uniform float uParam2;
+uniform float uIterations;
 uniform vec4 uView;
 
 float add(vec2 a)
@@ -34,7 +35,7 @@ void main()
 	vec3 c = vec3(0.0, 0.0, 0.0);
 	float v;
 	
-	for(float i = 0.0; i < 100.0; i++)
+	for(float i = 0.0; i < 75.0; i++)
 	{
 		if(add(pow(z, vec2(uParam1))) >= uParam2) break;
 		z = vec2(sub(pow(z, vec2(uParam1))), 2.0 * z.y * z.x) + uv;
