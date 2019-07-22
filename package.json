@@ -1,0 +1,23 @@
+{
+  "name": "benpm.github.io",
+  "version": "1.0.0",
+  "description": "https://benpm.github.io site",
+  "main": "gen_site.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benpm/benpm.github.io.git"
+  },
+  "author": "Benjamin Mastripolito",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benpm/benpm.github.io"
+  },
+  "homepage": "https://github.com/benpm/benpm.github.io",
+  "dependencies": {
+    "showdown": "latest",
+    "fs": "latest"
+  }
+}

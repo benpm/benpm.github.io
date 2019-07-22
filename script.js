@@ -43,6 +43,9 @@ const pageTree = {
 	],
 	archive: [
 		"old_stuff"
+	],
+	toys: [
+		"index"
 	]
 };
 

@@ -4,7 +4,7 @@ const fs = require("fs");
 
 //Globals
 const convertor = new showdown.Converter();
-const ignore = ["paperlike", ".git"];
+const ignore = ["paperlike", ".git", "node_modules"];
 var template;
 
 //Load the template file
