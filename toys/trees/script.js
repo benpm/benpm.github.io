@@ -1,5 +1,8 @@
 var canvas = document.getElementById("drawing");
 var c = canvas.getContext("2d");
+const DPR = window.devicePixelRatio || 1;
+canvas.width *= DPR;
+canvas.height *= DPR;
 
 //Parameters
 p = {
@@ -10,6 +13,7 @@ p = {
     angleOffset:    {value: 0.5, min: 0.0, max: 1.0, step: "any"},
     angleDivisor:   {value: 2.0, min: 1.0, max: 3.0, step: "any"},
     initialLength:  {value: 300, min: 1, max: 600, step: 1},
+    lineWidth:      {value: DPR, min: 1, max: 8, step: 1},
 };
 
 //Register a parameter to be user-modifiable
@@ -65,9 +69,10 @@ function recurse(x, y, length, angle, iteration) {
 
 //Function called to generate the fractal
 function createfractal() {
+    c.lineWidth = p.lineWidth.value;
     c.clearRect(0, 0, canvas.width, canvas.height);
     c.beginPath();
-    recurse(500, 1000, p.initialLength.value, -Math.PI / 2.0, 0);
+    recurse(500 * DPR, 1000 * DPR, p.initialLength.value * DPR, -Math.PI / 2.0, 0);
     c.stroke(); 
     c.closePath();
 }
