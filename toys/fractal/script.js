@@ -1,7 +1,7 @@
 'use strict';
 
 const canvas = document.getElementById("glCanvas");
-const gl = canvas.getContext("webgl2");
+const gl = canvas.getContext("webgl");
 var resources = {};
 var resourcesRemaining = 0;
 var flip = false;
