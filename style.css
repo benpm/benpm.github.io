@@ -1,8 +1,14 @@
+@keyframes drop {
+	from { transform: translateY(-100%) }
+	to { transform: translateY(0) }
+}
+
 body {
 	font-family: Inter, sans-serif;
 	margin: 0;
 	padding: 0;
 	background: #f0f0f0;
+	overflow-x: hidden;
 }
 
 .content {
@@ -23,6 +29,11 @@ body {
 .content img.small {
 	width: 50%;
 	margin-left: 25%;
+}
+
+.content>p>img {
+	box-shadow: none;
+	width: 50%;
 }
 
 .content iframe {
@@ -47,8 +58,9 @@ body {
 }
 
 .content pre {
-	padding: 6px;
+	padding: 12px;
 	word-wrap: normal;
+	font-family: "Roboto Mono", monospace;
 }
 
 .content blockquote {
@@ -82,31 +94,53 @@ body {
 #nav {
 	background: #2b2b2b;
 	color: white;
-	padding: 6px 0 6px 0;
-	box-shadow: 0px 2px 4px #00000050;
+	box-shadow: 0px 2px 12px #00000050;
 	user-select: none;
 	-moz-user-select: none;
+	z-index: 100;
 }
 
 #nav img {
-	height: 100%;
+	height: 30px;
 	vertical-align: middle;
-	padding: 0 12px 0 6px;
+	background: black;
+	padding: 5px;
 }
 
 #nav .item {
-	padding: 6px;
+	padding: 8px 0px 8px 16px;
 	margin: 0;
 	cursor: pointer;
+	display: inline-block;
+	z-index: -1;
 }
 
 #nav .item.nested {
 	background: black;
 	color: #B0B0B0;
+	display: block;
+	width: 100%;
 }
 
 #nav a.item:hover {
 	color: white;
+}
+
+#nav #title {
+	float: right;
+	display: block;
+	padding: 8px 16px 8px 8px;
+	font-weight: bold;
+	color: #999;
+}
+
+#nav #dropdown {
+	width: 150px;
+	background: none;
+	color: white;
+	display: block;
+	position: absolute;
+	top: 40px;
 }
 
 a {
@@ -129,18 +163,16 @@ a {
 		font-size: 14pt;
 	}
 
-	#nav {
-		padding: 0 0 5px 0;
-		text-align: center;
-	}
-
 	#nav .item {
 		padding: 6px;
 	}
 
-	#nav #nest {
-		display: block;
-		margin: 12px 0 1px 0;
-		text-align: center;
+	#nav #title {
+		display: none;
+	}
+
+	#nav #dropdown {
+		left: 0px;
+		width: 100%;
 	}
 }

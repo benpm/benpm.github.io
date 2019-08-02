@@ -1,19 +1,29 @@
+var currentNav = null;
+
+//Display navigation
 function navOn(event) {
 	let element = $(event.currentTarget);
-	$nest.show();
-	$("#nav #nest a").hide();
+	element.append($drop);
+	currentNav = element;
+	$drop.show();
+	//$drop.css("animation", "drop 0.2s");
+	$("#dropdown a").hide();
 	$("#nav .cat").data("selected", "false").css("text-decoration", "");
-	$("." + element.text()).show();
+	$drop.children("." + event.currentTarget.innerText).show();
 	element.css("text-decoration", "underline");
 }
 
+//Hide navigation
 function navOff(event) {
 	let element = $(event.currentTarget);
-	$nest.hide();
+	element.remove("#dropdown");
+	$drop.hide();
+	//$drop.css("animation", "");
 	$("." + element.text()).hide();
 	element.css("text-decoration", "");
 }
 
+//Toggle navigation
 function navToggle(event) {
 	let element = $(event.currentTarget);
 	let state = element.data("selected");
@@ -27,6 +37,7 @@ function navToggle(event) {
 	
 }
 
+//Navigation structure
 const pageTree = {
 	projects: [
 		"forest",
@@ -52,10 +63,10 @@ const pageTree = {
 const nav = $("#nav");
 const navLinks = $("#nav a");
 const root = window.location.origin;
+const title = $("title").text();
 
 //Construct pagetree
-const $nest = $("<span>", { id: "nest" });
-nav.append($nest);
+const $drop = $("<span>", { id: "dropdown" });
 for (const category in pageTree) {
 	const $category = $("<span>", {
 		class: "item cat",
@@ -64,7 +75,7 @@ for (const category in pageTree) {
 	$category.data("selected", "false");
 	nav.prepend($category);
 	for (const page of pageTree[category]) {
-		$nest.append($("<a>", {
+		$drop.append($("<a>", {
 			style: "display: none;",
 			class: "item nested " + category,
 			text: page,
@@ -73,10 +84,18 @@ for (const category in pageTree) {
 	}
 	$category.on("click", navToggle);
 }
+
+//Home navigation button
 nav.prepend($("<a>", {
-	style: "font-weight: bold; background: #505050;",
-	class: "item",
-	text: "benpm.github.io",
 	href: root
-}));
-$nest.hide();
+}).append($("<img>", {
+	src: "../img/frac_light.png"
+})))
+
+//Current page
+nav.append($("<span>", {
+	id: "title"
+}).text(title));
+
+//Hide the dropdown nav menu
+$drop.hide();
