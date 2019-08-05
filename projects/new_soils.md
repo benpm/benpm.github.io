@@ -8,4 +8,4 @@ I am no longer working on this project, but I feel I might return to it one day.
 
 ![blocks](../img/newsoils2.png)
 
-More information can be found [here](https://www.indiedb.com/games/new-soils).
+More information can be found [here](https://www.indiedb.com/games/new-soils). The source code is [here](https://github.com/benpm/new-soils).

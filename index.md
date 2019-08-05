@@ -5,6 +5,7 @@ Welcome to my landing page! My name is Benjamin Mastripolito and sometimes I mak
 Navigation is at the top of the page, you can find many things there. I also have an [archive](archive/old_stuff.html) of all my older projects.
 
 ## New Stuff
+- (8/5/2019) [Balls!](https://codepen.io/_bm/pen/RXxaPj)
 - (8/1/2019) New project: [music machine](https://github.com/benpm/music-machine)
 - (7/26/2019) Updated [trees](toys/trees)
 - (7/22/2019) New [toys](toys) page! Including WebGL goodness...
@@ -15,4 +16,4 @@ Navigation is at the top of the page, you can find many things there. I also hav
 
 ## Projects
 [Paperlike](projects/paperlike.html), a tiny roguelike:
-![paperlike](paperlike/media/doors.gif)
+![paperlike](img/doors.gif)
