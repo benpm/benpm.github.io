@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Balls</title>
+    <style>
+        body {
+            overflow: hidden;
+            margin: 0;
+        }
+
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -10;
+        }
+
+        h1 {
+            color: white;
+            font-family: sans-serif;
+            text-align: center;
+            user-select: none;
+            -moz-user-select: none;
+            text-shadow: 0px 0px 4px black;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cash/4.1.4/cash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.18/chance.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+</head>
+<body>
+    <h1>Touch Me!</h1>
+    <canvas id="canvas"></canvas>
+    <script src="script.js"></script>
+</body>
+</html>
