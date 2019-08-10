@@ -17,13 +17,14 @@ var clickInterval = null;
 var mx = 0;
 var my = 0;
 
-function Ball(x, y, vx, vy, size, color) {
+function Ball(x, y, vx, vy, size, color, decay) {
     this.x = x;
     this.y = y;
     this.vx = vx;
     this.vy = vy;
     this.size = size;
     this.color = color;
+    this.decay = decay;
 }
 
 function resizeHandler() {
@@ -51,12 +52,12 @@ function clickHandler() {
     var ball = new Ball(
         mx - radius / 2.0, my - radius / 2.0,
         (0.5 - Math.random()) * 2, (0.5 - Math.random()) * 2,
-        radius, chance.pickone(colors));
+        radius, chance.pickone(colors), 1 + Math.random() * 0.1);
     balls.push(ball);
 }
 
 function drawBall(ball, index, arr) {
-    ball.size /= 1.025;
+    ball.size /= ball.decay;
     if (ball.size < 1.0)
         return false;
     ball.vx += Math.sin(t + ball.x / 100.0) * 0.05;
@@ -74,7 +75,7 @@ function drawBall(ball, index, arr) {
 }
 
 function loop() {
-    ctx.fillStyle = "rgba(62,54,57,0.02)";
+    ctx.fillStyle = "rgba(62,54,57,0.01)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     balls = balls.filter(drawBall);
     $title.text(balls.length);
@@ -84,6 +85,7 @@ function loop() {
 $("body").on("click", clickHandler);
 $("body").on("mousemove", mouseHandler);
 touch.on("pan", touchHandler);
+touch.on("tap", touchHandler);
 resizeHandler();
 ctx.fillStyle = "#3E3639";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
