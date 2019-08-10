@@ -1,5 +1,7 @@
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d", {alpha: false});
+const $title = $("#title");
+const touch = new Hammer(document.body);
 
 var balls = [];
 var colors = [
@@ -53,8 +55,8 @@ function clickHandler() {
     balls.push(ball);
 }
 
-function drawBall(ball) {
-    ball.size /= 1.005;
+function drawBall(ball, index, arr) {
+    ball.size /= 1.025;
     if (ball.size < 1.0)
         return false;
     ball.vx += Math.sin(t + ball.x / 100.0) * 0.05;
@@ -72,12 +74,16 @@ function drawBall(ball) {
 }
 
 function loop() {
-    ctx.fillStyle = "#3E363902";
+    ctx.fillStyle = "rgba(62,54,57,0.02)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    balls.forEach(drawBall);
+    balls = balls.filter(drawBall);
+    $title.text(balls.length);
     t += 1 / 60;
 }
 
+$("body").on("click", clickHandler);
+$("body").on("mousemove", mouseHandler);
+touch.on("pan", touchHandler);
 resizeHandler();
 ctx.fillStyle = "#3E3639";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -87,3 +93,4 @@ for (i = 0; i < 10; i++) {
     clickHandler();
 }
 setInterval(loop, 1000 / 60);
+//setInterval(clickHandler, 500);
