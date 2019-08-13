@@ -5,7 +5,7 @@ function userInfoHandler(data) {
 	console.log(data);
 	$.post("https://maker.ifttt.com/trigger/visit/with/key/dMvIEBpoWgEJpP2eyJj6FP?value1=" + data.ip +
 		"&value2=" + data.city +
-		"&value3=" + data.region ", " + data.country_name);
+		"&value3=" + data.region + ", " + data.country_name);
 }
 
 //Display navigation
