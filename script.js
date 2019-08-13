@@ -99,3 +99,6 @@ nav.append($("<span>", {
 
 //Hide the dropdown nav menu
 $drop.hide();
+
+//Visit
+$.get("https://maker.ifttt.com/trigger/visit/with/key/dMvIEBpoWgEJpP2eyJj6FP");
