@@ -1,5 +1,13 @@
 var currentNav = null;
 
+//User info handler
+function userInfoHandler(data) {
+	console.log(data);
+	$.post("https://maker.ifttt.com/trigger/visit/with/key/dMvIEBpoWgEJpP2eyJj6FP?value1=" + data.ip +
+		"&value2=" + data.city +
+		"&value3=" + data.region);
+}
+
 //Display navigation
 function navOn(event) {
 	let element = $(event.currentTarget);
@@ -101,4 +109,4 @@ nav.append($("<span>", {
 $drop.hide();
 
 //Visit
-$.get("https://maker.ifttt.com/trigger/visit/with/key/dMvIEBpoWgEJpP2eyJj6FP");
+$.get("https://ipapi.co/json", userInfoHandler);
