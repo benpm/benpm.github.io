@@ -5,7 +5,7 @@ function userInfoHandler(data) {
 	console.log(data);
 	$.post("https://maker.ifttt.com/trigger/visit/with/key/dMvIEBpoWgEJpP2eyJj6FP?value1=" + data.ip +
 		"&value2=" + data.city +
-		"&value3=" + data.region);
+		"&value3=" + data.region ", " + data.country_name);
 }
 
 //Display navigation
@@ -109,4 +109,4 @@ nav.append($("<span>", {
 $drop.hide();
 
 //Visit
-$.get("https://ipapi.co/json", userInfoHandler);
+$.get("https://api.ipdata.co/?api-key=8f4dce134d909add3349e13f6079409916dc2b3ceefecdd7029b72a4", userInfoHandler);
