@@ -8,6 +8,7 @@ Sometimes I make games.
 - [Npigs](https://adiv.itch.io/npigs)
 - [Hallways](https://adiv.itch.io/hallways)
 - [Explorium](https://gamejolt.com/games/explorium/30723)
+- [Erth](https://adiv.itch.io/erth)
 - [Deep Cuts](https://gamejolt.com/games/deep-cuts/146526)
 - [Starkid Fighters](https://adiv.itch.io/starkid-fighters)
 - [Neuro Versus Infinity](https://www.indiedb.com/games/neuro-versus-infinity)

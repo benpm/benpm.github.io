@@ -1,5 +1,12 @@
 # Gallery
 
+## Drawing
+Sometimes I draw stuff. Mostly pencil/pen.
+![Drawing 1](https://i.imgur.com/zSL1Ozl.jpg)
+![Drawing 2](https://i.imgur.com/tbTxFsq.jpg)
+![Drawing 3](https://i.imgur.com/OiC0dEi.jpg)
+![Drawing 4](https://i.imgur.com/evGxxvy.jpg)
+
 ## Photography
 Amateur photography. I've used a few different cameras, sometimes a phone camera. Heavy use of Photoshop and [Filter Forge](https://www.filterforge.com/).
 ![Facilities at Night](https://i.imgur.com/alQN9ly.jpg)
