@@ -32,6 +32,12 @@ const shaderSet = {
     frag: "frag",
     fractal: "fractal"
 };
+const imageSet = {
+    bikes: "bikes.jpg",
+    building: "building.jpg",
+    dog: "dog.png",
+    tree: "tree.png"
+};
 
 function mouseHandler(e) {
     uniforms.mouse.val[0] = (e.pageX / window.innerWidth);
@@ -232,7 +238,7 @@ function restart(e, doFlip) {
 gui = new dat.GUI();
 let controller = gui.add(parameters, "shader", shaderSet);
 controller.onFinishChange(restart);
-controller = gui.add(parameters, "image");
+controller = gui.add(parameters, "image", imageSet);
 controller.onFinishChange(restart);
 controller = gui.add(parameters, "reload");
 controller = gui.add(parameters, "penSize", 1.0, 200.0);
