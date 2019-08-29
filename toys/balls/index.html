@@ -16,6 +16,7 @@
             top: 0;
             left: 0;
             z-index: -10;
+            opacity: 0.9;
         }
 
         h1 {
@@ -26,6 +27,18 @@
             -moz-user-select: none;
             text-shadow: 0px 0px 4px black;
         }
+
+        #bg {
+            background-image: url("tca.png");
+            background-size: cover;
+            background-position-x: center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -20;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cash/4.1.4/cash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.18/chance.min.js"></script>
@@ -34,6 +47,7 @@
 <body>
     <h1 id="title">Touch Me!</h1>
     <canvas id="canvas"></canvas>
+    <div id="bg"></div>
     <script src="script.js"></script>
 </body>
 </html>
