@@ -123,7 +123,8 @@ function buyFriend() {
 function buyFast() {
     friendspeed += 0.5;
     squares -= costs.b_fast;
-    b_better.style.display = "";
+    if (better_friends == false)
+        b_better.style.display = "";
     costs.b_fast *= 2;
     b_fast.innerText = `(${costs.b_fast}*) faster friends`;
     flashcolor = "blue";
