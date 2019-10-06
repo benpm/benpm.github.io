@@ -18,6 +18,7 @@ let b_fast = document.getElementById("b_fast");
 let b_better = document.getElementById("b_better");
 let b_sacrifice = document.getElementById("b_sacrifice");
 let b_salvation = document.getElementById("b_salvation");
+let b_speed = document.getElementById("b_speed");
 
 //Create a Pixi Application
 let app = new Application({
@@ -52,6 +53,7 @@ let friends = new Container();
 let fairies = new Container();
 let leftinlayer = tw * th;
 let layer = 0;
+let manspeed = 1;
 let squares = 0;
 let friendspeed = 1;
 let squares_multiplier = 1;
@@ -60,6 +62,7 @@ let salvation = false;
 let shrink = 1.0;
 let flash = 2;
 let flashcolor = "";
+let sndBuy = new Audio('buy.wav');
 let messages = [
     "reveal what lies beneath",
     "reveal what lies beneath?",
@@ -85,6 +88,7 @@ let costs = {
     b_friend: 50,
     b_fast: 500,
     b_better: 2000,
+    b_speed: 500,
     b_sacrifice: 2,
     b_salvation: 10000
 };
@@ -97,6 +101,7 @@ let buttons = {
     up: false,
     down: false
 };
+let stuff = "";
 for (let i = 0; i < 100; i+=1) {
     colors.push(chroma.hsl(((i % 6) / 6.0) * 360, 100, 100).num());
 }
@@ -111,13 +116,12 @@ function buyFriend() {
     friends.addChild(friend);
     squares -= costs.b_friend;
     b_fast.style.display = "";
-    costs.b_friend += 50;
+    costs.b_friend += 25;
     b_friend.innerText = `(${costs.b_friend}*) new friend`;
     flashcolor = "yellow";
     flash = 4;
 
-    let snd = new Audio('buy.wav');
-    snd.play();
+    sndBuy.play();
 }
 
 function buyFast() {
@@ -129,9 +133,10 @@ function buyFast() {
     b_fast.innerText = `(${costs.b_fast}*) faster friends`;
     flashcolor = "blue";
     flash = 4;
+    if (manspeed == 1)
+        b_speed.style.display = "";
 
-    let snd = new Audio('buy.wav');
-    snd.play();
+    sndBuy.play();
 }
 
 function buyBetter(e) {
@@ -140,9 +145,11 @@ function buyBetter(e) {
     b_better.style.display = "none";
     flashcolor = "red";
     flash = 4;
+    stuff += "\n- better friends";
 
-    let snd = new Audio('buy.wav');
-    snd.play();
+    msg.innerText = "harder, better, faster, stronger...";
+
+    sndBuy.play();
 }
 
 function buySalvation(e) {
@@ -155,8 +162,24 @@ function buySalvation(e) {
     msg.innerText = "you have been saved.";
     msg.style.color = "white";
 
-    let snd = new Audio('buy.wav');
-    snd.play();
+    sndBuy.play();
+}
+
+function buySpeed(e) {
+    squares -= costs.b_speed;
+    manspeed += 1;
+    flashcolor = "orange";
+    flash = 4;
+    stuff += `\n- ${manspeed}x feets`;
+
+    msg.innerText = "go easy on the speed, pal";
+    costs.b_speed *= 3;
+    b_speed.innerText = `(${costs.b_speed}*) even faster feets`;
+
+    if (manspeed == 3)
+        b_speed.style.display = "none";
+
+    sndBuy.play();
 }
 
 function sacrifice() {
@@ -172,8 +195,7 @@ function sacrifice() {
     flashcolor = "green";
     flash = 8;
 
-    let snd = new Audio('buy.wav');
-    snd.play();
+    sndBuy.play();
 }
 
 function newlayer() {
@@ -194,8 +216,8 @@ function newlayer() {
 
 function dig(x, y, i) {
     i = i ? i : 0;
-    ix = clamp0(Math.floor(x - 1 + (i%3)), 255);
-    iy = clamp0(Math.floor(y - 1 + (i/3)), 255);
+    ix = clamp0(Math.floor(x - 1 + (i%3)), tw-1);
+    iy = clamp0(Math.floor(y - 1 + (i/3)), th-1);
     let t = tiles.children[Math.floor(iy * tw + ix)];
     if (!t) return;
     if (t.dug == layer) {
@@ -298,23 +320,25 @@ function gameLoop(delta) {
     info.innerText = `${squares}*`
     + `\nlayer ${layer}`
     + `\n${leftinlayer}/${tw * th}`
-    + `\n${friends.children.length} friends`;
+    + `\n${friends.children.length} friends`
+    + `${stuff}`;
     if (buttons["ArrowUp"] || buttons["w"])
-        man.vy = -1;
+        man.vy = -manspeed;
     else if (buttons["ArrowDown"] || buttons["s"])
-        man.vy = 1;
+        man.vy = manspeed;
     else
         man.vy = 0;
     if (buttons["ArrowLeft"] || buttons["a"])
-        man.vx = -1;
+        man.vx = -manspeed;
     else if (buttons["ArrowRight"] || buttons["d"])
-        man.vx = 1;
+        man.vx = manspeed;
     else
         man.vx = 0;
     man.x = clamp(man.x + man.vx * delta, 2, 253);
     man.y = clamp(man.y + man.vy * delta, 2, 253);
     b_friend.disabled = (squares < costs.b_friend);
     b_fast.disabled = (squares < costs.b_fast);
+    b_speed.disabled = (squares < costs.b_speed);
     b_better.disabled = (squares < costs.b_better);
     b_sacrifice.disabled = (friends.children.length < costs.b_sacrifice);
     b_salvation.disabled = (squares < costs.b_salvation);
