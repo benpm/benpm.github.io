@@ -86,7 +86,7 @@ let costs = {
     b_fast: 500,
     b_better: 2000,
     b_sacrifice: 2,
-    b_salvation: 1000000
+    b_salvation: 10000
 };
 let colors = [
     0xFFFFFF
@@ -160,11 +160,12 @@ function buySalvation(e) {
 }
 
 function sacrifice() {
-    friends.children.slice(costs.b_sacrifice);
+    friends.children = friends.children.slice(costs.b_sacrifice);
     msg.innerText = messages_alt[costs.b_sacrifice - 2];
     fairies.children.pop();
     if (costs.b_sacrifice == 6) {
         b_sacrifice.style.display = "none";
+        b_salvation.style.display = "";
     }
     costs.b_sacrifice += 1;
     b_sacrifice.innerText = `(${costs.b_sacrifice}F) sacrifice`;
