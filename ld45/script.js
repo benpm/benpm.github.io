@@ -1,4 +1,4 @@
-console.log("Ad Infinitum v1.0");
+console.log("Ad Infinitum v1.0.1");
 
 //Aliases
 let Application = PIXI.Application,
