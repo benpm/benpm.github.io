@@ -1,3 +1,5 @@
+console.log("Ad Infinitum v1.0");
+
 //Aliases
 let Application = PIXI.Application,
     Container = PIXI.Container,
