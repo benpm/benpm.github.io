@@ -315,6 +315,7 @@ function gameLoop(delta) {
     b_fast.disabled = (squares < costs.b_fast);
     b_better.disabled = (squares < costs.b_better);
     b_sacrifice.disabled = (friends.children.length < costs.b_sacrifice);
+    b_salvation.disabled = (squares < costs.b_salvation);
     if (man.vx != 0 || man.vy != 0)
         dig(man.x / 8, man.y / 8);
     for (let i = 0; i < friends.children.length; i += 1) {
