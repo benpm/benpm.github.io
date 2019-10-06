@@ -188,12 +188,12 @@ function sacrifice() {
     friends.children = friends.children.slice(costs.b_sacrifice);
     msg.innerText = messages_alt[costs.b_sacrifice - 2];
     fairies.children.pop();
-    if (costs.b_sacrifice == 6) {
+    if (costs.b_sacrifice == 3) {
         b_sacrifice.style.display = "none";
         b_salvation.style.display = "";
     }
-    costs.b_sacrifice += 1;
-    b_sacrifice.innerText = `(${costs.b_sacrifice}F) sacrifice`;
+    costs.b_sacrifice += 0.3;
+    b_sacrifice.innerText = `(${Math.floor(costs.b_sacrifice)}F) sacrifice`;
     flashcolor = "green";
     flash = 8;
 
