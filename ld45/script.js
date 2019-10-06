@@ -118,7 +118,7 @@ function buyFriend() {
     friends.addChild(friend);
     squares -= costs.b_friend;
     b_fast.style.display = "";
-    costs.b_friend += 25;
+    costs.b_friend += 15;
     b_friend.innerText = `(${costs.b_friend}*) new friend`;
     flashcolor = "yellow";
     flash = 4;
