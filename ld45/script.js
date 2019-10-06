@@ -44,7 +44,7 @@ loader
 //Define any variables that are used in more than one function
 let man;
 
-
+let started = false;
 let tw = Math.floor(width / 8);
 let th = Math.floor(height / 8);
 let tiles = new Container();
@@ -315,7 +315,8 @@ function gameLoop(delta) {
     b_fast.disabled = (squares < costs.b_fast);
     b_better.disabled = (squares < costs.b_better);
     b_sacrifice.disabled = (friends.children.length < costs.b_sacrifice);
-    dig(man.x / 8, man.y / 8);
+    if (man.vx != 0 || man.vy != 0)
+        dig(man.x / 8, man.y / 8);
     for (let i = 0; i < friends.children.length; i += 1) {
         let friend = friends.children[i];
         if (Math.random() < 0.10) {
