@@ -186,10 +186,9 @@ function buySpeed(e) {
 
 function sacrifice() {
     friends.children = friends.children.slice(costs.b_sacrifice);
-    msg.innerText = messages_alt[costs.b_sacrifice - 2];
+    msg.innerText = messages_alt[Math.floor((costs.b_sacrifice - 2) * 4)];
     fairies.children.pop();
-    if (costs.b_sacrifice == 3) {
-        b_sacrifice.style.display = "none";
+    if (costs.b_sacrifice >= 3) {
         b_salvation.style.display = "";
     }
     costs.b_sacrifice += 0.3;
@@ -226,7 +225,7 @@ function dig(x, y, i) {
         t.dug += 1;
         t.tint = colors[t.dug];
         leftinlayer -= 1;
-        squares += 1;
+        squares += Math.ceil(layer / 8);
         if (leftinlayer == 0) {
             newlayer();
         }
