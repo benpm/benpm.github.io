@@ -230,8 +230,6 @@ function dig(x, y, i) {
         if (leftinlayer == 0) {
             newlayer();
         }
-        let blip = new Audio('p.wav');
-        blip.play();
         return true;
     } else {
         if (i >= 9) return false;
