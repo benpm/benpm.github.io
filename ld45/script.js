@@ -1,4 +1,4 @@
-console.log("Ad Infinitum v1.0.1");
+console.log("Ad Infinitum v1.0.2");
 
 //Aliases
 let Application = PIXI.Application,
@@ -225,7 +225,7 @@ function dig(x, y, i) {
         t.dug += 1;
         t.tint = colors[t.dug];
         leftinlayer -= 1;
-        squares += Math.ceil(layer / 8);
+        squares += Math.ceil((layer + 1) / 8);
         if (leftinlayer == 0) {
             newlayer();
         }
