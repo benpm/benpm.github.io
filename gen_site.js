@@ -23,7 +23,7 @@ function readAndConvertOut(err, data) {
     let title = this.file.split(".")[0];
     let htmlOutput = convertor.makeHtml(data.toString());
     let output = template.replace("???content???", htmlOutput);
-    output = output.replace("???title???", title);
+    output = output.replace("???title???", "benpm/" + title);
 
     //Write the file to disk
     let outpath = this.fullpath.split(".");

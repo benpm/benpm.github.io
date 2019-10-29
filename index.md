@@ -5,6 +5,7 @@ Welcome to my landing page! My name is Benjamin Mastripolito and sometimes I mak
 Navigation is at the top of the page, you can find many things there. I also have an [archive](archive/old_stuff.html) of all my older projects.
 
 ## New Stuff
+- (10/29/2019) Added [music](music/trope.html) page
 - (10/7/2019) Submission for Ludum Dare 45 - ["Ad Infinitum"](https://ldjam.com/events/ludum-dare/45/ad-infinitum)
 - (8/5/2019) [Balls!](https://codepen.io/_bm/pen/RXxaPj)
 - (8/1/2019) New project: [music machine](https://github.com/benpm/music-machine)

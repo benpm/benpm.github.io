@@ -65,6 +65,9 @@ const pageTree = {
 	],
 	toys: [
 		"index"
+	],
+	music: [
+		"trope"
 	]
 };
 
