@@ -14,7 +14,7 @@ Navigation is at the top of the page, you can find many things there. I also hav
 - (1/29/2019) [New journal entry](journal/1_29_2019.html)
 
 ## Social Media / Web Links
-[Twitter](https://twitter.com/bpmw_), [GitHub](https://github.com/benpm)
+[Twitter](https://twitter.com/bpmw_), [GitHub](https://github.com/benpm), [Medium](https://medium.com/@bpmw)
 
 ## Projects
 [Paperlike](projects/paperlike.html), a tiny roguelike:
