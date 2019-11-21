@@ -35,19 +35,18 @@ void main()
 	vec3 c = vec3(0.0, 0.0, 0.0);
 	float v;
 	
-	for(float i = 0.0; i < 75.0; i++)
+	for(int i = 0; i < 50; i++)
 	{
-		if(add(pow(z, vec2(uParam1))) >= uParam2) break;
-		z = vec2(sub(pow(z, vec2(uParam1))), 2.0 * z.y * z.x) + uv;
 
+		if(add(z * z) >= 4.0) break; /*add(z * z) = z.x*z.x + z.y*z.y*/
+		z = vec2(sub(z * z), 2.0 * z.y * z.x) + uv; /*sub(z * z) = z^2 = z.x*z.x - z.y*z.y*/
 		
 		
-		if (add(pow(z, vec2(uParam1))) >= 2.0)
+		if(add(z * z) >= 2.0) /*add(z * z) = z.x*z.x + z.y*z.y*/
 		{
-			float sn = i - log2(log2(dot(z,z))) + 4.0;
-			c.b = sn / 20.0;
-			c.r = sin(sn / 5.0);
-			c.g = sin(sn / 8.0);
+			c.b = float(i) / 20.0;
+			c.r = sin(float(i) / 5.0);
+			c.g = sin(float(i) / 3.0) / 2.0;
 		}
 
 	}

@@ -68,6 +68,9 @@ const pageTree = {
 	],
 	music: [
 		"trope"
+	],
+	portfolio: [
+		"portfolio"
 	]
 };
 

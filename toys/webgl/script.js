@@ -248,6 +248,7 @@ controller = gui.add(parameters, "param1", -5.0, 5.0);
 controller.onChange(() => {uniforms.param1.val = parameters.param1});
 controller = gui.add(parameters, "pause");
 controller.onChange(() => {if (!parameters.pause) animateScene();});
+gui.close();
 
 //Load resources
 canvas.width = window.innerWidth;

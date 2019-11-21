@@ -53,6 +53,7 @@ function onZoom(e) {
         zoom /= 1.25;
     else
         zoom *= 1.25;
+    e.preventDefault()
 }
 
 function onResize(e) {
@@ -133,6 +134,7 @@ function main() {
     controller.onChange(() => {uniforms.param1.val = parameters.param1});
     controller = gui.add(parameters, "param2", -5.0, 5.0);
     controller.onChange(() => {uniforms.param2.val = parameters.param2});
+    gui.close();
     //controller = gui.add(parameters, "iterations", 1.0, 200.0);
     //controller.onChange(() => {uniforms.iterations.val = parameters.iterations});
 
