@@ -1,4 +1,5 @@
 # Portfolio
+*Benjamin Mastripolito*
 
 ## Research Projects
 
@@ -24,8 +25,8 @@
 <iframe style="width: 100%; height: 500px;" src="https://www.youtube.com/embed/HUQ0Ku_WqNc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Graphics Projects
-Game of life in WebGL:
+[Game of life in WebGL:](https://github.com/benpm/benpm.github.io/tree/master/toys/webgl)
 <iframe style="width: 100%; height: 500px;" src="../toys/webgl/index.html" frameborder="0" ></iframe>
 
-Fractal explorer in WebGL:
+[Fractal explorer in WebGL:](https://github.com/benpm/benpm.github.io/tree/master/toys/fractal)
 <iframe style="width: 100%; height: 500px;" src="../toys/fractal/index.html" frameborder="0" ></iframe>
