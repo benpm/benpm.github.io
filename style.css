@@ -40,6 +40,10 @@ body {
 	margin: auto !important;
 }
 
+.content iframe.niceframe {
+	border: none;
+}
+
 .content a {
 	text-decoration: underline;
 }

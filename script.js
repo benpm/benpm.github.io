@@ -51,7 +51,8 @@ const pageTree = {
 		"forest",
 		"easypin",
 		"new_soils",
-		"paperlike"
+		"paperlike",
+		"p5_experiments"
 	],
 	journal: [
 		"11_4_2018",
