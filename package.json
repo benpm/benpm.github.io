@@ -5,7 +5,8 @@
   "main": "gen_site.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate": "node gen_site.js"
+    "generate": "node gen_site.js",
+    "serve": "http-server -p 8000"
   },
   "repository": {
     "type": "git",

@@ -5,6 +5,7 @@ Welcome to my landing page! My name is Benjamin Mastripolito and sometimes I mak
 Navigation is at the top of the page, you can find many things there. I also have an [archive](archive/old_stuff.html) of all my older projects.
 
 ## New Stuff
+- (12/7/2019) Updated [branching fractal generator](toys/trees/index.html)
 - (12/4/2019) Added [p5js experiments](projects/p5_experiments.html)
 - (11/20/2019) Added [portfolio](portfolio/portfolio.html) page
 - (10/29/2019) Added [music](music/trope.html) page
