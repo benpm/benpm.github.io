@@ -6,6 +6,7 @@ const fs = require("fs");
 const convertor = new showdown.Converter();
 const ignore = ["paperlike", ".git", "node_modules"];
 var template;
+var directory = {};
 
 //Load the template file
 function assignTemplate(err, data) {
@@ -24,6 +25,7 @@ function readAndConvertOut(err, data) {
     let htmlOutput = convertor.makeHtml(data.toString());
     let output = template.replace("???content???", htmlOutput);
     output = output.replace("???title???", "benpm/" + title);
+    output = output.replace("\"???directory???\"", `const pageTree = ${JSON.stringify(directory)};`);
 
     //Write the file to disk
     let outpath = this.fullpath.split(".");
@@ -54,6 +56,25 @@ function doReadConvert(err, files) {
         }
     }
 }
+
+//Construct directory
+files = fs.readdirSync(".");
+for (file of files) {
+    stats = fs.statSync(file);
+    if (stats.isDirectory() && file[0] != ".") {
+        subfiles = fs.readdirSync(file);
+        list = []
+        for (subfile of subfiles) {
+            if (subfile.split(".")[1] == "html") {
+                list.push(subfile.split(".")[0]);
+            }
+        }
+        if (list.length) {
+            directory[file] = list
+        }
+    }
+}
+console.log(directory);
 
 //Start the process
 fs.readFile("template.html", assignTemplate);

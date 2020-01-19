@@ -45,36 +45,6 @@ function navToggle(event) {
 	
 }
 
-//Navigation structure
-const pageTree = {
-	projects: [
-		"forest",
-		"easypin",
-		"new_soils",
-		"paperlike",
-		"p5_experiments"
-	],
-	journal: [
-		"11_4_2018",
-		"1_29_2019"
-	],
-	art: [
-		"gallery"
-	],
-	archive: [
-		"old_stuff"
-	],
-	toys: [
-		"index"
-	],
-	music: [
-		"trope"
-	],
-	portfolio: [
-		"portfolio"
-	]
-};
-
 const nav = $("#nav");
 const navLinks = $("#nav a");
 const root = window.location.origin;
