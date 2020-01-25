@@ -30,3 +30,8 @@
 
 [Fractal explorer in WebGL:](https://github.com/benpm/benpm.github.io/tree/master/toys/fractal)
 <iframe style="width: 100%; height: 500px;" src="../toys/fractal/index.html" frameborder="0" ></iframe>
+
+### CUDA Raytracer
+Built a raytracer using CUDA and OpenGL from scratch. Supports multiple materials and volumes. Code found [on GitHub](https://github.com/benpm/cuda-raytracer).
+
+![Screenshot](https://github.com/benpm/cuda-raytracer/blob/master/screenshot.png)

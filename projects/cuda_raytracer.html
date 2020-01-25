@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>benpm/cuda_raytracer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet"> 
+	<link href="https://rsms.me/inter/inter.css" rel="stylesheet"> 
+	<link rel="stylesheet" type="text/css" media="screen" href="../style.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="icon" href="../icon.png" type="image/png">
+</head>
+
+<body>
+	<div id="nav"></div>
+	<div class="content"><h1 id="cudaandopenglraytracer">CUDA and OpenGL Raytracer</h1>
+<p>A simple raytracer using CUDA, with OpenGL for drawing. Adapted from <a href="https://devblogs.nvidia.com/accelerated-ray-tracing-cuda/">"Accelerated Ray Tracer in One Weekend in CUDA"</a>
+<img src="https://github.com/benpm/cuda-raytracer/blob/master/screenshot.png" alt="Screenshot" /></p>
+<h2 id="features">Features</h2>
+<ul>
+<li>Diffuse lighting</li>
+<li>Matte material, metallic (reflective) material, dielectric (refractive) material</li>
+<li>Planes and spheres</li>
+</ul>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>CUDA 10</li>
+<li>OpenGL 4</li>
+<li>glm</li>
+<li>GLFW 3</li>
+<li>glew</li>
+<li>CMake</li>
+</ul>
+<h2 id="buildingandrunning">Building and Running</h2>
+<p><em>Tested on Ubuntu 19.10</em></p>
+<p>Code hosted at <a href="https://github.com/benpm/cuda-raytracer">https://github.com/benpm/cuda-raytracer</a></p>
+<ol>
+<li>Install dependencies: <code>nvidia-cuda-toolkit libglm-dev libglfw3-dev libglew-dev cmake</code></li>
+<li><code>mkdir build &amp;&amp; cd build</code></li>
+<li><code>cmake ..</code></li>
+<li><code>make</code></li>
+<li><code>./main</code></li>
+</ol></div>
+</body>
+<script src="../script.js"></script>
+
+</html>
