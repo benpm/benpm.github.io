@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/benpm/benpm.github.io",
   "dependencies": {
-    "showdown": "latest",
-    "fs": "latest"
+    "fs": "latest",
+    "http-server": "^0.12.1",
+    "showdown": "latest"
   }
 }
