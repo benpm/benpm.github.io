@@ -1,3 +1,5 @@
+![](icon.png) 
+
 # benpm.github.io
 
 This is my personal site! It's still very much a work in progress, but here is a list of pages:
