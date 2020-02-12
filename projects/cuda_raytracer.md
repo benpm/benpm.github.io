@@ -1,6 +1,6 @@
 # CUDA and OpenGL Raytracer
 A simple raytracer using CUDA, with OpenGL for drawing. Adapted from ["Accelerated Ray Tracer in One Weekend in CUDA"](https://devblogs.nvidia.com/accelerated-ray-tracing-cuda/)
-![Screenshot](https://github.com/benpm/cuda-raytracer/blob/master/screenshot.png)
+![Screenshot](../img/cuda_screenshot.png)
 
 
 ## Features

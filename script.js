@@ -63,7 +63,7 @@ for (const category in pageTree) {
 		$drop.append($("<a>", {
 			style: "display: none;",
 			class: "item nested " + category,
-			text: page,
+			text: "+ " + page,
 			href: `${root}/${category}/${page}.html`
 		}));
 	}

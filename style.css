@@ -52,13 +52,12 @@ body {
 	background: #e4e4e4;
 }
 
-.content p code, pre {
-	background: #2b2b2b;
-	color: white;
-	padding: 3px;
-	border-radius: 4px;
+.content code, pre {
+	background: #d7d6d6;
+	padding: 0px 2px 0px 2px;
+	border-radius: 2px;
 	font-family: "Roboto Mono", monospace;
-	font-size: 16px;
+	font-size: 13px;
 }
 
 .content pre {
