@@ -4,7 +4,7 @@ const fs = require("fs");
 
 //Globals
 const convertor = new showdown.Converter();
-const ignore = ["paperlike", ".git", "node_modules"];
+const ignore = ["paperlike", ".git", "node_modules", "README.md"];
 var template;
 var directory = {};
 
@@ -45,10 +45,15 @@ function doReadConvert(err, files) {
             let extension = file.split(".").pop();
             let fullpath = `${this.path}/${file}`;
 
+            //Skip if in ignore list
+            if (ignore.includes(file)) {
+                continue;
+            }
+
             //Either write the file or follow directory
             if (dirent.isFile() && extension == "md") {
                 fs.readFile(fullpath, readAndConvertOut.bind({ file, fullpath }));
-            } else if (dirent.isDirectory() && !ignore.includes(file)) {
+            } else if (dirent.isDirectory()) {
                 fs.readdir(fullpath, {
                     withFileTypes: true
                 }, doReadConvert.bind({ path: fullpath }));
