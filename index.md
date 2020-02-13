@@ -19,7 +19,3 @@ Navigation is at the top of the page, you can find many things there. I also hav
 
 ## Social Media / Web Links
 [Twitter](https://twitter.com/bpmw_), [GitHub](https://github.com/benpm), [Medium](https://medium.com/@bpmw)
-
-## Projects
-[Paperlike](projects/paperlike.html), a tiny roguelike:
-![paperlike](img/doors.gif)

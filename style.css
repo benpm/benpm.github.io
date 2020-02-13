@@ -61,14 +61,20 @@ body {
 }
 
 .content pre {
+	background: #303030;
 	padding: 12px;
 	word-wrap: normal;
 	font-family: "Roboto Mono", monospace;
 }
 
+.content pre code {
+	background: #303030;
+	color: white;
+}
+
 .content blockquote {
-	background: #d0d0d0;
-	padding: 3px;
+	background: #00000020;
+	padding: 2px 16px 2px 16px;
 	border-radius: 4px;
 }
 
