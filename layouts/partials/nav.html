@@ -1,0 +1,12 @@
+<nav class="nav" id="navigation">
+  <ul class="nav__list">
+    {{ $currentPage := . }}
+    {{ range .Site.Menus.main }}
+      <li>
+        {{ $active := ( or ($currentPage.IsMenuCurrent "main" .) (eq $currentPage.Section .Identifier) (eq $currentPage.Title .Identifier) ) }}
+        <a {{ if $active }} class="active" {{end}} href="{{ .URL }}">{{ .Name }}</a>
+        <div class = "indicator {{ if $active }} active {{end}}"></div>
+      </li>
+    {{ end }}
+  </ul>
+</nav>
