@@ -2,7 +2,7 @@
 title: "Hello World!"
 date: 2020-07-22T15:57:51-06:00
 slug: ""
-description: "Witness me"
+description: "First post to test blog format"
 keywords: []
 draft: false
 tags: ["misc"]

@@ -38,6 +38,9 @@
           {{ partial "tags.html" .}}
         {{ end }}
       </div>
+      <div class="post__desc">
+        <p>{{ .Params.Description }}</p>
+      </div>
     </li>
     {{ end }}
   </ul>

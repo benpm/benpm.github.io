@@ -93,6 +93,16 @@ iframe {
     font-size: 0.8rem;
 }
 
+// Category on page links
+.post__desc {
+    color: $darkGrey;
+    font-size: 0.8rem;
+
+    p {
+        margin-top: 0.3em;
+    }
+}
+
 // Headers for list pages
 .list__header {
     margin: 0 auto 50px;

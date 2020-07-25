@@ -2,7 +2,7 @@
 title: "Rectangle (AABB) Collisions"
 date: 2020-07-22T22:10:40-06:00
 slug: "2D top-down collisions with rectangles (AABBs)"
-description: ""
+description: "Simulating simple 2D game physics with axis-aligned bounding boxes"
 keywords: ["AABB", "2d", "collisions", "physics", "game physics"]
 draft: false
 tags: ["math", "tiletest", "gamedev", "game physics"]
