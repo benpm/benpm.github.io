@@ -5,5 +5,5 @@ draft: false
 hideheader: true
 category: "graphics"
 description: "Simple parallel raytracer on the GPU with CUDA C++"
-outlink: "https://github.com/haydn-jones/PettingZoo"
+outlink: "https://github.com/benpm/cuda-raytracer"
 ---

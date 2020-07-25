@@ -5,5 +5,5 @@ draft: false
 hideheader: true
 category: "machine learning"
 description: "Machine learning game environment with genetic algorithm"
-outlink: "https://github.com/benpm/cuda-raytracer"
+outlink: "https://github.com/haydn-jones/pettingzoo"
 ---
