@@ -14,32 +14,23 @@
     {{ range .Pages }}
     <li class="post">
       <div class="post__header">
-        {{ if not .Params.Outlink }}
-          <time class="post__date" datetime="{{ .Date }}"
-            >{{ .Date.Format $dateFormat }}</time>
-          <h2 class="post__title">
-            <a href="{{.RelPermalink}}">{{ .Title }}</a>
-          </h2>
-          {{ partial "tags.html" .}}
-        {{ else if .Params.Outlink }}
-          <span class="post__date">
-            <time class="post__date" datetime="{{ .Date }}"
-              >{{ .Date.Format $dateFormat }}</time>
-            → {{.Params.Outlink}}
-          </span>
-          <h2 class="post__title">
-            <a href="{{.Params.Outlink}}" target="_blank">{{ .Title }}</a>
-            {{ if .Params.Category }}
-              <span class="post__category">
-                ({{.Params.Category}})
-              </span>
-            {{ end }}
-          </h2>
-          {{ partial "tags.html" .}}
-        {{ end }}
+        <h2 class="post__title">
+          <a href="{{.Params.Outlink}}" target="_blank">{{ .Title }}</a>
+          {{ if .Params.Category }}
+            <span class="post__category">
+              ({{.Params.Category}})
+            </span>
+          {{ end }}
+        </h2>
+        {{ partial "tags.html" .}}
       </div>
       <div class="post__desc">
-        <p>{{ .Params.Description }}</p>
+        <p><time class="post__date" datetime="{{ .Date }}"
+          >{{ .Date.Format $dateFormat }}</time> ~ {{ .Params.Description }}
+          {{ if .Params.Outlink }}
+            <span class="post__date"><br>→ {{.Params.Outlink}}</span>
+          {{ end }}
+        </p>
       </div>
     </li>
     {{ end }}
