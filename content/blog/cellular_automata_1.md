@@ -14,9 +14,13 @@ I've always been fascinated with cellular automata, like Conway's Game of Life:
 
 ![game of life](/images/cellular_automata/gol_1.gif)
 
-The idea that simple rules can produce structured, complex systems is beautiful to me. Of course I'm not the only one, [Stephen Wolfram really has a thing for em'](https://www.youtube.com/watch?v=VguG_y05Xe8). Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a [generalized cellular automaton simulator in WebGL](https://benpm.github.io/webgl-cellular-automata/). This post is about how it is implemented and what new interesting possibilities await!
+The idea that simple rules can produce structured, complex systems is beautiful to me. Of course I'm not the only one, [Stephen Wolfram really has a thing for em'](https://www.youtube.com/watch?v=VguG_y05Xe8).
 
 ![machine-like rule](/images/cellular_automata/machine_rule.gif)
+
+Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a [generalized cellular automaton simulator in WebGL](https://benpm.github.io/webgl-cellular-automata/). This post is about how it is implemented and what new interesting possibilities await!
+
+<iframe src="https://itch.io/embed/715896" width="552" height="167" frameborder="0"><a href="https://ben-m.itch.io/webcell">WebGL Cellular Automata Explorer by Benjamin Mastripolito</a></iframe>
 
 ## How it Works
 Basically, cellular automata consist of, well, cells, each with exactly the same set of possible states. To determine their states, they use a rule. These rules are basically functions that take the states of a cell's neighbors, and possibly the cell itself (like in game of life), as input, and produce the cell's new state as output. Through iteration over discrete time, the whole space evolves:

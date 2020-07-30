@@ -75,6 +75,8 @@ p a, h1 a, h2 a, h3 a {
 
 // External content
 iframe {
+    display: block;
+    margin: auto;
     margin-top: 1em;
 }
 
