@@ -11,6 +11,10 @@ theme = "hugo-theme-codex"
     itchio = "https://ben-m.itch.io/"
     iconTitles = ["youtube", "soundcloud", "itchio"]
 
+[markup]
+    [markup.highlight]
+        style = "manni"
+
 [markup.goldmark.renderer]
     unsafe = true
 

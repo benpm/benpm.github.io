@@ -18,7 +18,7 @@
           {{ if .Params.Outlink }}
             <a href="{{.Params.Outlink}}" target="_blank">{{ .Title }}</a>
           {{ else }}
-            <a href="{{.RelPermalink}}" target="_blank">{{ .Title }}</a>
+            <a href="{{.RelPermalink}}">{{ .Title }}</a>
           {{ end }}
           {{ if .Params.Category }}
             <span class="post__category">

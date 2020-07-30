@@ -5,7 +5,7 @@ slug: "2D top-down collisions with rectangles (AABBs)"
 description: "Simulating simple 2D game physics with axis-aligned bounding boxes"
 keywords: ["AABB", "2d", "collisions", "physics", "game physics"]
 draft: false
-tags: ["math", "tiletest", "gamedev", "game physics"]
+tags: ["math", "tiletest", "gamedev", "game-physics"]
 math: false
 toc: false
 ---

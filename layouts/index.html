@@ -21,7 +21,6 @@
 
     {{ partial "social-icons.html" .}}
     <div class="latest-post">
-      <p>Latest Post</p>
       {{ range (first 1 (where .Site.RegularPages "Section" "blog")) }}
       <div class="post__header">
         <time class="post__date" datetime="{{ .Date }}"
