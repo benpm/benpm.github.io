@@ -16,6 +16,12 @@ You can keep up on it's development [here](/tags/tiletest/).
 
 ![game screenshot](/images/tiletest.png)
 
+## [Groovy B and the Great Cownundrum](https://ben-m.itch.io/groovy-b)
+Join protagonist Groovy B, in their time-cursed Groundhog-Day-esque adventure to cure the town's government and dairy industry of cow-rruption! Made for Ludum Dare 47.
+
+![game screenshot](/images/groovy_b_logo.png)
+![game screenshot](/images/groovy_b.png)
+
 ## [Npigs](https://ben-m.itch.io/npigs)
 Npigs was a game I made for Ludum Dare 40 (*theme: "The more you have, the worse it is"*). It's a fairly challenging platformer with some funky clone mechanics. Your score depends on how many clones you have and how high you've climbed. There's a (probably) functioning scoreboard of top scores. The current high score is very high, so good luck beating it!
 
