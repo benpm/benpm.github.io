@@ -8,13 +8,15 @@ toc: false
 I like to make games! I don't finish them very often, but that doesn't really matter, right?
 Here are some of the notable ones I've made:
 
-## Tiletest
-This my current major project! It doesn't have a proper name yet, but it's supposed to be an
-adventure RPG with someroguelike elements. The game worlds are procedurally generated, so you'll
-never get the same experience twice! It also has multiplayer support.
-You can keep up on it's development [here](/tags/tiletest/).
+## [Demon Island](https://ben-m.itch.io/demon-island)
+Work-in-progress adventure game.
 
-![game screenshot](/images/tiletest.png)
+{{< youtube gZAINGMhRZI >}}
+
+## [I Stole a Wizard's Sack and All I Got Was This Infinite Pocket Universe](https://ben-m.itch.io/wizsack)
+Mind-bending recursive puzzle game. Made for Ludum Dare 48.
+
+![game gif](https://i.imgur.com/zsrUuyI.gif)
 
 ## [Groovy B and the Great Cownundrum](https://ben-m.itch.io/groovy-b)
 Join protagonist Groovy B, in their time-cursed Groundhog-Day-esque adventure to cure the town's government and dairy industry of cow-rruption! Made for Ludum Dare 47.
