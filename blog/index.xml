@@ -1,4 +1,138 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog Posts on benpm.github.io</title><link>https://benpm.github.io/blog/</link><description>Recent content in Blog Posts on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 20 Sep 2020 10:41:59 -0600</lastBuildDate><atom:link href="https://benpm.github.io/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Quadtrees for 2D Games with Moving Elements</title><link>https://benpm.github.io/blog/quadtrees/</link><pubDate>Sun, 20 Sep 2020 10:41:59 -0600</pubDate><guid>https://benpm.github.io/blog/quadtrees/</guid><description>A quadtree is a very useful data structure for performing spatial searches. I am currently using them in Tiletest for collision detection and monster behavior. Quadtrees partition 2D space into quadrants (stored as nodes in a tree), dividing these quadrants into smaller quadrants when they contain more than a certain threshold of elements (shown as dots):
-There are a couple uses for this structure, one of the most useful is searching for the nearest element to a given location.</description></item><item><title>Cellular Automata in WebGL: Part 1</title><link>https://benpm.github.io/blog/gol_1/</link><pubDate>Tue, 28 Jul 2020 10:08:45 -0600</pubDate><guid>https://benpm.github.io/blog/gol_1/</guid><description>I&amp;rsquo;ve always been fascinated with cellular automata, like Conway&amp;rsquo;s Game of Life:
-The idea that simple rules can produce structured, complex systems is beautiful to me. Of course I&amp;rsquo;m not the only one, Stephen Wolfram really has a thing for em&amp;rsquo;.
-Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a generalized cellular automaton simulator in WebGL. This post is about how it is implemented and what new interesting possibilities await!</description></item><item><title>Rectangle (AABB) Collisions</title><link>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</link><pubDate>Wed, 22 Jul 2020 22:10:40 -0600</pubDate><guid>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</guid><description>Axis-aligned bounding boxes (AABBs) are very useful for doing simple collision detection and 2D physics. The basic idea is: loop through the boxes, checking for intersections with each other box. Then, you resolve these intersections by moving the boxes in the direction of the shortest intersection axis. So if the width of the intersection is smaller than its height, like it is here, then the boxes are moved on the x axis:</description></item><item><title>Hello World!</title><link>https://benpm.github.io/blog/hello_world/</link><pubDate>Wed, 22 Jul 2020 15:57:51 -0600</pubDate><guid>https://benpm.github.io/blog/hello_world/</guid><description>This site is created with Hugo and the theme is based off Codex. Here is a nice little youtube video:</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog Posts on benpm.github.io</title><link>https://benpm.github.io/blog/</link><description>Recent content in Blog Posts on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 20 Sep 2020 10:41:59 -0600</lastBuildDate><atom:link href="https://benpm.github.io/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>Quadtrees for 2D Games with Moving Elements</title><link>https://benpm.github.io/blog/quadtrees/</link><pubDate>Sun, 20 Sep 2020 10:41:59 -0600</pubDate><guid>https://benpm.github.io/blog/quadtrees/</guid><description>&lt;p>A quadtree is a very useful data structure for performing spatial searches. I am currently using them in &lt;a href="https://benpm.github.io/gamedev/#tiletest"
+>Tiletest&lt;/a> for collision detection and monster behavior. Quadtrees partition 2D space into quadrants (stored as nodes in a tree), dividing these quadrants into smaller quadrants when they contain more than a certain threshold of elements (shown as dots):&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/quadtrees/quadrant_division.png" alt="Quadrant division">&lt;/p>
+&lt;p>There are a couple uses for this structure, one of the most useful is searching for the nearest element to a given location.&lt;/p>
+&lt;h2 id="nearest-element-to-chosen-location">Nearest Element to Chosen Location&lt;/h2>
+&lt;p>To find the nearest element to a chosen location, there are &lt;a href="https://stackoverflow.com/a/32412425/2909339"
+target="_blank" rel="noreferrer noopener"
+>many algorithms out there&lt;/a>. I went with a simple yet efficient one, a breadth-first search with quadrant exclusion. First, we look through each leaf node at the highest level of the tree, keeping track of the closest element we&amp;rsquo;ve found so far. Then, we check the next level of the tree, and so on. The exclusion part is just skipping our search of nodes that cannot contain a closer element than the closest we&amp;rsquo;ve found so far. Here&amp;rsquo;s a simple example:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/quadtrees/quadrant_exclusion.png" alt="Exclusion of nodes based on signed distance">&lt;/p>
+&lt;p>To do this, we calculate the smallest distance (shown as blue lines) from our search location (the blue dot) to a node&amp;rsquo;s rectangular boundary. This gives us the shortest distance an element of this node could possibly have. If that shortest distance is farther than the nearest element so far (red dot), we don&amp;rsquo;t search it &lt;em>or&lt;/em> its children (excluded nodes are shown in grey).&lt;/p>
+&lt;p>This works fairly well on its own, but to make it more efficient, we will also try to search the closest nodes first. This avoids extra data structure accesses by excluding nodes as early as possible.&lt;/p>
+&lt;p>Here you can see this algorithm in action:&lt;/p>
+&lt;p class="codepen" data-height="431" data-theme-id="light" data-default-tab="result" data-user="_bm" data-slug-hash="ExPBMrW" style="height: 431px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 2em 0 2em 0; padding: 1em;" data-pen-title="AABB Collisions Test">
+&lt;/p>
+&lt;script async src="https://static.codepen.io/assets/embed/ei.js">&lt;/script>
+&lt;p>This is just a static set of elements, though. Things get a little tricky when the elements are constantly moving.&lt;/p>
+&lt;h2 id="dealing-with-moving-elements--relocation">Dealing With Moving Elements / Relocation&lt;/h2>
+&lt;p>The naive solution to moving elements is to walk through the whole tree, checking if each element&amp;rsquo;s position is truly within the bounds of its current parent node, reinserting those that have do not pass the check.&lt;/p>
+&lt;p>This solution can be improved, as it needs to traverse the whole tree in order to perform relocation. Instead, let&amp;rsquo;s have the elements themselves keep track of which node they are children of. This way, we can check that they are within bounds without traversing the tree. If an element has moved outside its bounds, then we reinsert it.&lt;/p>
+&lt;p>Another optimization involves not worrying about leftover empty leaf nodes. Checking if the parent node we just removed from is easy enough, but sometimes if we remove an element from the last populated node of its siblings, the parent node won&amp;rsquo;t get removed. To solve this we can either check all ancestors of a node each time we remove an element (expensive), or we can worry about it later (the lazy, cheap choice, better when lots of elements are moving constantly).&lt;/p>
+&lt;p>In Tiletest, this has led to a huge performance improvement as many entities need information about their neighbors every tick. Here you can see slimes grouping together, which is done by finding the nearest slime and moving away from it each tick:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/quadtrees/2020-10-20_20-21.png" alt="tiletest">&lt;/p>
+&lt;p>More updates on the game later!&lt;/p></description></item><item><title>Cellular Automata in WebGL: Part 1</title><link>https://benpm.github.io/blog/gol_1/</link><pubDate>Tue, 28 Jul 2020 10:08:45 -0600</pubDate><guid>https://benpm.github.io/blog/gol_1/</guid><description>&lt;p>I&amp;rsquo;ve always been fascinated with cellular automata, like Conway&amp;rsquo;s Game of Life:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/gol_1.gif" alt="game of life">&lt;/p>
+&lt;p>The idea that simple rules can produce structured, complex systems is beautiful to me. Of course I&amp;rsquo;m not the only one, &lt;a href="https://www.youtube.com/watch?v=VguG_y05Xe8"
+target="_blank" rel="noreferrer noopener"
+>Stephen Wolfram really has a thing for em&amp;rsquo;&lt;/a>.&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/machine_rule.gif" alt="machine-like rule">&lt;/p>
+&lt;p>Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a &lt;a href="https://benpm.github.io/webgl-cellular-automata/"
+target="_blank" rel="noreferrer noopener"
+>generalized cellular automaton simulator in WebGL&lt;/a>. This post is about how it is implemented and what new interesting possibilities await!&lt;/p>
+&lt;iframe src="https://itch.io/embed/715896" width="552" height="167" frameborder="0">&lt;a href="https://ben-m.itch.io/webcell">WebGL Cellular Automata Explorer by Benjamin Mastripolito&lt;/a>&lt;/iframe>
+&lt;h2 id="how-it-works">How it Works&lt;/h2>
+&lt;p>Basically, cellular automata consist of, well, cells, each with exactly the same set of possible states. To determine their states, they use a rule. These rules are basically functions that take the states of a cell&amp;rsquo;s neighbors, and possibly the cell itself (like in game of life), as input, and produce the cell&amp;rsquo;s new state as output. Through iteration over discrete time, the whole space evolves:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/worms_rule.gif" alt="worms rule">&lt;/p>
+&lt;p>Now, that&amp;rsquo;s a very general definition. For the sake of this particular demonstration we will only take into account a subset of all possible cellular automata, called &lt;em>totalistic&lt;/em> cellular automata. &amp;ldquo;Totalistic&amp;rdquo; because its rules only take into account the &lt;em>total&lt;/em> number of cells in the neighborhood, ignoring their arrangement.&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/illustration_1.png" alt="totalistic ca">&lt;/p>
+&lt;p>So what is inside the neighborhood? Well we&amp;rsquo;ll focus on the &lt;em>Moore Neighborhood&lt;/em>, which consists of the eight surrounding cells:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/illustration_2.png" alt="moore neighborhood">&lt;/p>
+&lt;p>And for now we only have two possible states: on and off. This may seem like a somewhat restrictive subset, but keep in mind that it contains Conway&amp;rsquo;s Game of Life, as well as quite a large number of other rules. How many other rules, you ask? Well get out your pocket calculator, we&amp;rsquo;re going to do some simple math.&lt;/p>
+&lt;p>First, we need to think about how to represent a rule in our subset as a string of bits. This will be relevant later when we look at the simulator&amp;rsquo;s code. So what information do we actually need? Well we need to know what to do with each possible input. Our inputs will be the number of neighbors (because it is totalistic) and the current state of the cell.&lt;/p>
+&lt;p>There are ($ s = 2 $) possible states, and ($ N = 9 $) possible values for the number of neighbors (that&amp;rsquo;s 0, 1, 2&amp;hellip; up to and including 8). If we combine these, we get 9 bits for all the neighbor states, twice, for each possible existing state. That means we need exactly 18 bits to fully specify a rule in our set. So it follows that the number of possible rules is:&lt;/p>
+&lt;p>$$ n = 2^{sN} = 2^{18} = 262144 $$&lt;/p>
+&lt;p>Not bad! Most of those are probably not very interesting, but that&amp;rsquo;s okay. It&amp;rsquo;s still a pretty large space to explore.&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/spread_rule.gif" alt="spread rule">&lt;/p>
+&lt;p>So know we have a pretty good idea of how to represent any rule in our set in a useful way, just a string of 18 bits! Let&amp;rsquo;s take a look at Game of Life in this format. The rules of Game of Life, in English, are:&lt;/p>
+&lt;ol>
+&lt;li>Any &lt;em>on&lt;/em> cell with two or three &lt;em>on&lt;/em> neighbours stays &lt;em>on&lt;/em>&lt;/li>
+&lt;li>Any &lt;em>off&lt;/em> cell with three &lt;em>on&lt;/em> neighbours turns &lt;em>on&lt;/em>&lt;/li>
+&lt;li>All other cells turn &lt;em>off&lt;/em>, including cells that are already &lt;em>off&lt;/em>&lt;/li>
+&lt;/ol>
+&lt;p>So let&amp;rsquo;s look at the representation in our bit string:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/illustration_3.png" alt="bit representation">&lt;/p>
+&lt;p>Nice! That&amp;rsquo;s really easy to pass to a shader. We&amp;rsquo;ll just write that information to a texture and make a uniform to access it:&lt;/p>
+&lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">sampler2D&lt;/span> uRule;
+&lt;span style="color:#069;font-weight:bold">void&lt;/span> main(&lt;span style="color:#069;font-weight:bold">void&lt;/span>) {
+...
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> state &lt;span style="color:#555">=&lt;/span> texture2D(uRule, &lt;span style="color:#069;font-weight:bold">vec2&lt;/span>(total, previousState));
+...
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Yeah&amp;hellip; if you&amp;rsquo;ve written GLSL you know there&amp;rsquo;s a bunch of stuff wrong here, but I&amp;rsquo;m just simplifying so it isn&amp;rsquo;t confusing. Okay, now we can use the rule, so all we need to do now is count the total number of neighbors. A simple way to do that is with a loop:&lt;/p>
+&lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#09f;font-style:italic">// The coordinates of the current pixel&lt;/span>
+&lt;span style="color:#069;font-weight:bold">varying&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span> vTextureCoord;
+&lt;span style="color:#09f;font-style:italic">// Sampler into the texture&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">sampler2D&lt;/span> uSampler;
+&lt;span style="color:#09f;font-style:italic">// Size of the texture&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">float&lt;/span> uWidth;
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">float&lt;/span> uHeight;
+&lt;span style="color:#069;font-weight:bold">void&lt;/span> main(&lt;span style="color:#069;font-weight:bold">void&lt;/span>) {
+&lt;span style="color:#09f;font-style:italic">// Size of a pixel&lt;/span>
+&lt;span style="color:#069;font-weight:bold">vec2&lt;/span> pSize &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span>(&lt;span style="color:#f60">1.0&lt;/span> &lt;span style="color:#555">/&lt;/span> uWidth, &lt;span style="color:#f60">1.0&lt;/span> &lt;span style="color:#555">/&lt;/span> uHeight);
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> previousState &lt;span style="color:#555">=&lt;/span> texture2D(uSampler, vTextureCoord);
+&lt;span style="color:#09f;font-style:italic">// Count neighbors&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> total &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#f60">0&lt;/span>;
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> x &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>; x &lt;span style="color:#555">&amp;lt;=&lt;/span> &lt;span style="color:#f60">1&lt;/span>; x &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> y &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>; y &lt;span style="color:#555">&amp;lt;=&lt;/span> &lt;span style="color:#f60">1&lt;/span>; y &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+total &lt;span style="color:#555">+=&lt;/span> texture2D(uSampler, vTextureCoord &lt;span style="color:#555">+&lt;/span> pSize &lt;span style="color:#555">*&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span>(x, y));
+}
+}
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> state &lt;span style="color:#555">=&lt;/span> texture2D(uRule, &lt;span style="color:#069;font-weight:bold">vec2&lt;/span>(total, previousState));
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>But wait!! That total will include the value of the current pixel, which we don&amp;rsquo;t want! Let&amp;rsquo;s remove it. Instead of &lt;code>int total = 0;&lt;/code>, we&amp;rsquo;ll write &lt;code>int total = -previousState&lt;/code>.&lt;/p>
+&lt;p>By removing the value of the current cell in this way, we avoid branching, which can be expensive for the GPU, &lt;a href="https://developer.nvidia.com/gpugems/gpugems2/part-iv-general-purpose-computation-gpus-primer/chapter-34-gpu-flow-control-idioms"
+target="_blank" rel="noreferrer noopener"
+>depending on the situation&lt;/a>. In our case, we can avoid it while keeping the code simple, which is great.&lt;/p>
+&lt;p>The last notable element to getting this to work is the double framebuffer. In order to simulate steps in time, we need to apply this shader to its own result. The only way to do that is to have two different textures and alternate each between being the source and the destination. This happens every time step, however long we choose that to be.&lt;/p>
+&lt;p>That about does it! You can look at the code for the simulation &lt;a href="https://github.com/benpm/webgl-cellular-automata"
+target="_blank" rel="noreferrer noopener"
+>here&lt;/a>.&lt;/p>
+&lt;h2 id="finding-interesting-rules">Finding Interesting Rules&lt;/h2>
+&lt;p>Now that we have a nice framework for running the simulation, we can start finding interesting rules. The naive way to do this is to just create random rule strings. This can create interesting results, but usually it just produces boring noise-like rules:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/noise.png" alt="noise rule">&lt;/p>
+&lt;p>How about just modifying game of life? Well what we can do is just flip a single bit of a rule&amp;rsquo;s bitstring. Unfortunately, since Game of Life is very unusual rule in our set, adjacent rules aren&amp;rsquo;t actually very interesting.&lt;/p>
+&lt;p>Instead, let&amp;rsquo;s start with a cool maze generator rule I found randomly (there are a lot of rules like this):&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/maze.png" alt="maze rule">&lt;/p>
+&lt;p>Flip a single bit, and we get:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/sierpinski_arrowheads.png" alt="sierpinski arrowheads">&lt;/p>
+&lt;p>Sierpinski arrowheads! Very different and interesting, and only a single bit away. Let&amp;rsquo;s do it again:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/growth.png" alt="interesting growing maze">&lt;/p>
+&lt;p>By iterating existing rules in this way, we can often produce fun new rules. I have already found almost a dozen rules by this process, which I have included as presets in the simulator. &lt;a href="https://benpm.github.io/webgl-cellular-automata/"
+target="_blank" rel="noreferrer noopener"
+>Check it out&lt;/a> and try and find some yourself!&lt;/p>
+&lt;h2 id="next-steps">Next Steps&lt;/h2>
+&lt;p>Well now we have a functioning cellular automata simular running in the browser. It&amp;rsquo;s extremely fast because it runs on the GPU, as well as very dynamic, as arbitrary rules can be passed as textures to the fragment shader.&lt;/p>
+&lt;p>Next, we&amp;rsquo;ll look at expanding our set of possible rules by allowing &lt;strong>more than two possible states&lt;/strong>. It will be a little complicated, as the way we specify rules will have to change. Not only will there be multiple possible input states (remember our rule is really a function), but also multiple quantities of neighbors. If we have 4 neighbors of state A, we can only have a maximum total of 4 for other states B, C, D, etc. If we want our rule texture to occupy the least possible space, we need to think carefuly about representation.&lt;/p>
+&lt;p>This will allow us to simulate some really interesting rules like &lt;a href="https://www.wikiwand.com/en/Brian%27s_Brain"
+target="_blank" rel="noreferrer noopener"
+>Brian&amp;rsquo;s Brain&lt;/a> (3 states), &lt;a href="https://www.wikiwand.com/en/Wireworld"
+target="_blank" rel="noreferrer noopener"
+>Wireworld&lt;/a> (4 states), &lt;a href="https://www.wikiwand.com/en/Codd%27s_cellular_automaton"
+target="_blank" rel="noreferrer noopener"
+>Codd&amp;rsquo;s CA&lt;/a> (8 states), and any other totalistic rule we can think of! At some point, we&amp;rsquo;ll also take a look at non-totalistic rules, which will allow an absolutely astounding rule space (more possible rules than particles in the universe!)&lt;/p>
+&lt;p>Stay tuned!&lt;/p></description></item><item><title>Rectangle (AABB) Collisions</title><link>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</link><pubDate>Wed, 22 Jul 2020 22:10:40 -0600</pubDate><guid>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</guid><description>&lt;p>Axis-aligned bounding boxes (AABBs) are very useful for doing simple collision detection and 2D physics.
+The basic idea is: loop through the boxes, checking for intersections with each other box. Then, you resolve
+these intersections by moving the boxes in the direction of the shortest intersection axis. So if the width
+of the intersection is smaller than its height, like it is here, then the boxes are moved on the x axis:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/aabb/boxes.png" alt="">&lt;/p>
+&lt;p>I will be using these types of collisions for the game I am developing. The game is top-down. It looks like this:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/2020-07-22_23-41.png" alt="">&lt;/p>
+&lt;p>So the physics doesn&amp;rsquo;t actually need to have fancy features like bounce (restitution). What it does need is
+to be stable and fast.&lt;/p>
+&lt;p>There are a couple things I&amp;rsquo;ll need to do to acheive both of these goals. First, I&amp;rsquo;ll need to make it stable. Without any modifications, the simple collision algorithm creates far too much jiggliness, especially when there are a lot of boxes pushing on each other all at once. This happens because during a collision pass, a box may be pushed by a collision into another box, causing an intersection. However, this intersection won&amp;rsquo;t be resolved until the next pass.&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/aabb/boxes2.png" alt="">&lt;/p>
+&lt;p>In order to solve this issue, I&amp;rsquo;ve decided to run multiple passes of collision resolution on the boxes before each
+update step. The update step is where velocity is applied to position, friction is applied, etc.
+Here is the result of using multiple passes:&lt;/p>
+&lt;p class="codepen" data-height="431" data-theme-id="light" data-default-tab="result" data-user="_bm" data-slug-hash="xxZMjXb" style="height: 431px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 2em 0 2em 0; padding: 1em;" data-pen-title="AABB Collisions Test">
+&lt;/p>
+&lt;script async src="https://static.codepen.io/assets/embed/ei.js">&lt;/script>
+&lt;p>As you can see, there are still some minor issues. When a constant force is applied, the boxes vibrate slightly. Also, when there is a big pile, they tend to overlap. It&amp;rsquo;s also pretty slow, since each box needs to check against each other box each collision pass, and there are multiple collision passes now.&lt;/p>
+&lt;p>To solve this issue with speed, I&amp;rsquo;ll probably end up using &lt;a href="https://www.wikiwand.com/en/Quadtree"
+target="_blank" rel="noreferrer noopener"
+>quadtrees&lt;/a> for neighbor lookup, but that&amp;rsquo;s for another time!&lt;/p></description></item><item><title>Hello World!</title><link>https://benpm.github.io/blog/hello_world/</link><pubDate>Wed, 22 Jul 2020 15:57:51 -0600</pubDate><guid>https://benpm.github.io/blog/hello_world/</guid><description>&lt;p>This site is created with Hugo and the theme is based off &lt;a href="https://themes.gohugo.io/hugo-theme-codex/"
+target="_blank" rel="noreferrer noopener"
+>Codex&lt;/a>. Here is a nice little youtube video:&lt;/p>
+&lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+&lt;iframe src="https://www.youtube.com/embed/VXDzYtKq7Hw" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video">&lt;/iframe>
+&lt;/div></description></item></channel></rss>

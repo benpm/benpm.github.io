@@ -1,3 +1,91 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cellular-automata on benpm.github.io</title><link>https://benpm.github.io/tags/cellular-automata/</link><description>Recent content in cellular-automata on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Jul 2020 10:08:45 -0600</lastBuildDate><atom:link href="https://benpm.github.io/tags/cellular-automata/index.xml" rel="self" type="application/rss+xml"/><item><title>Cellular Automata in WebGL: Part 1</title><link>https://benpm.github.io/blog/gol_1/</link><pubDate>Tue, 28 Jul 2020 10:08:45 -0600</pubDate><guid>https://benpm.github.io/blog/gol_1/</guid><description>I&amp;rsquo;ve always been fascinated with cellular automata, like Conway&amp;rsquo;s Game of Life:
-The idea that simple rules can produce structured, complex systems is beautiful to me. Of course I&amp;rsquo;m not the only one, Stephen Wolfram really has a thing for em&amp;rsquo;.
-Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a generalized cellular automaton simulator in WebGL. This post is about how it is implemented and what new interesting possibilities await!</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cellular-automata on benpm.github.io</title><link>https://benpm.github.io/tags/cellular-automata/</link><description>Recent content in cellular-automata on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Jul 2020 10:08:45 -0600</lastBuildDate><atom:link href="https://benpm.github.io/tags/cellular-automata/index.xml" rel="self" type="application/rss+xml"/><item><title>Cellular Automata in WebGL: Part 1</title><link>https://benpm.github.io/blog/gol_1/</link><pubDate>Tue, 28 Jul 2020 10:08:45 -0600</pubDate><guid>https://benpm.github.io/blog/gol_1/</guid><description>&lt;p>I&amp;rsquo;ve always been fascinated with cellular automata, like Conway&amp;rsquo;s Game of Life:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/gol_1.gif" alt="game of life">&lt;/p>
+&lt;p>The idea that simple rules can produce structured, complex systems is beautiful to me. Of course I&amp;rsquo;m not the only one, &lt;a href="https://www.youtube.com/watch?v=VguG_y05Xe8"
+target="_blank" rel="noreferrer noopener"
+>Stephen Wolfram really has a thing for em&amp;rsquo;&lt;/a>.&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/machine_rule.gif" alt="machine-like rule">&lt;/p>
+&lt;p>Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a &lt;a href="https://benpm.github.io/webgl-cellular-automata/"
+target="_blank" rel="noreferrer noopener"
+>generalized cellular automaton simulator in WebGL&lt;/a>. This post is about how it is implemented and what new interesting possibilities await!&lt;/p>
+&lt;iframe src="https://itch.io/embed/715896" width="552" height="167" frameborder="0">&lt;a href="https://ben-m.itch.io/webcell">WebGL Cellular Automata Explorer by Benjamin Mastripolito&lt;/a>&lt;/iframe>
+&lt;h2 id="how-it-works">How it Works&lt;/h2>
+&lt;p>Basically, cellular automata consist of, well, cells, each with exactly the same set of possible states. To determine their states, they use a rule. These rules are basically functions that take the states of a cell&amp;rsquo;s neighbors, and possibly the cell itself (like in game of life), as input, and produce the cell&amp;rsquo;s new state as output. Through iteration over discrete time, the whole space evolves:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/worms_rule.gif" alt="worms rule">&lt;/p>
+&lt;p>Now, that&amp;rsquo;s a very general definition. For the sake of this particular demonstration we will only take into account a subset of all possible cellular automata, called &lt;em>totalistic&lt;/em> cellular automata. &amp;ldquo;Totalistic&amp;rdquo; because its rules only take into account the &lt;em>total&lt;/em> number of cells in the neighborhood, ignoring their arrangement.&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/illustration_1.png" alt="totalistic ca">&lt;/p>
+&lt;p>So what is inside the neighborhood? Well we&amp;rsquo;ll focus on the &lt;em>Moore Neighborhood&lt;/em>, which consists of the eight surrounding cells:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/illustration_2.png" alt="moore neighborhood">&lt;/p>
+&lt;p>And for now we only have two possible states: on and off. This may seem like a somewhat restrictive subset, but keep in mind that it contains Conway&amp;rsquo;s Game of Life, as well as quite a large number of other rules. How many other rules, you ask? Well get out your pocket calculator, we&amp;rsquo;re going to do some simple math.&lt;/p>
+&lt;p>First, we need to think about how to represent a rule in our subset as a string of bits. This will be relevant later when we look at the simulator&amp;rsquo;s code. So what information do we actually need? Well we need to know what to do with each possible input. Our inputs will be the number of neighbors (because it is totalistic) and the current state of the cell.&lt;/p>
+&lt;p>There are ($ s = 2 $) possible states, and ($ N = 9 $) possible values for the number of neighbors (that&amp;rsquo;s 0, 1, 2&amp;hellip; up to and including 8). If we combine these, we get 9 bits for all the neighbor states, twice, for each possible existing state. That means we need exactly 18 bits to fully specify a rule in our set. So it follows that the number of possible rules is:&lt;/p>
+&lt;p>$$ n = 2^{sN} = 2^{18} = 262144 $$&lt;/p>
+&lt;p>Not bad! Most of those are probably not very interesting, but that&amp;rsquo;s okay. It&amp;rsquo;s still a pretty large space to explore.&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/spread_rule.gif" alt="spread rule">&lt;/p>
+&lt;p>So know we have a pretty good idea of how to represent any rule in our set in a useful way, just a string of 18 bits! Let&amp;rsquo;s take a look at Game of Life in this format. The rules of Game of Life, in English, are:&lt;/p>
+&lt;ol>
+&lt;li>Any &lt;em>on&lt;/em> cell with two or three &lt;em>on&lt;/em> neighbours stays &lt;em>on&lt;/em>&lt;/li>
+&lt;li>Any &lt;em>off&lt;/em> cell with three &lt;em>on&lt;/em> neighbours turns &lt;em>on&lt;/em>&lt;/li>
+&lt;li>All other cells turn &lt;em>off&lt;/em>, including cells that are already &lt;em>off&lt;/em>&lt;/li>
+&lt;/ol>
+&lt;p>So let&amp;rsquo;s look at the representation in our bit string:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/illustration_3.png" alt="bit representation">&lt;/p>
+&lt;p>Nice! That&amp;rsquo;s really easy to pass to a shader. We&amp;rsquo;ll just write that information to a texture and make a uniform to access it:&lt;/p>
+&lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">sampler2D&lt;/span> uRule;
+&lt;span style="color:#069;font-weight:bold">void&lt;/span> main(&lt;span style="color:#069;font-weight:bold">void&lt;/span>) {
+...
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> state &lt;span style="color:#555">=&lt;/span> texture2D(uRule, &lt;span style="color:#069;font-weight:bold">vec2&lt;/span>(total, previousState));
+...
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Yeah&amp;hellip; if you&amp;rsquo;ve written GLSL you know there&amp;rsquo;s a bunch of stuff wrong here, but I&amp;rsquo;m just simplifying so it isn&amp;rsquo;t confusing. Okay, now we can use the rule, so all we need to do now is count the total number of neighbors. A simple way to do that is with a loop:&lt;/p>
+&lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#09f;font-style:italic">// The coordinates of the current pixel&lt;/span>
+&lt;span style="color:#069;font-weight:bold">varying&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span> vTextureCoord;
+&lt;span style="color:#09f;font-style:italic">// Sampler into the texture&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">sampler2D&lt;/span> uSampler;
+&lt;span style="color:#09f;font-style:italic">// Size of the texture&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">float&lt;/span> uWidth;
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">float&lt;/span> uHeight;
+&lt;span style="color:#069;font-weight:bold">void&lt;/span> main(&lt;span style="color:#069;font-weight:bold">void&lt;/span>) {
+&lt;span style="color:#09f;font-style:italic">// Size of a pixel&lt;/span>
+&lt;span style="color:#069;font-weight:bold">vec2&lt;/span> pSize &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span>(&lt;span style="color:#f60">1.0&lt;/span> &lt;span style="color:#555">/&lt;/span> uWidth, &lt;span style="color:#f60">1.0&lt;/span> &lt;span style="color:#555">/&lt;/span> uHeight);
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> previousState &lt;span style="color:#555">=&lt;/span> texture2D(uSampler, vTextureCoord);
+&lt;span style="color:#09f;font-style:italic">// Count neighbors&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> total &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#f60">0&lt;/span>;
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> x &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>; x &lt;span style="color:#555">&amp;lt;=&lt;/span> &lt;span style="color:#f60">1&lt;/span>; x &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> y &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>; y &lt;span style="color:#555">&amp;lt;=&lt;/span> &lt;span style="color:#f60">1&lt;/span>; y &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+total &lt;span style="color:#555">+=&lt;/span> texture2D(uSampler, vTextureCoord &lt;span style="color:#555">+&lt;/span> pSize &lt;span style="color:#555">*&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span>(x, y));
+}
+}
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> state &lt;span style="color:#555">=&lt;/span> texture2D(uRule, &lt;span style="color:#069;font-weight:bold">vec2&lt;/span>(total, previousState));
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>But wait!! That total will include the value of the current pixel, which we don&amp;rsquo;t want! Let&amp;rsquo;s remove it. Instead of &lt;code>int total = 0;&lt;/code>, we&amp;rsquo;ll write &lt;code>int total = -previousState&lt;/code>.&lt;/p>
+&lt;p>By removing the value of the current cell in this way, we avoid branching, which can be expensive for the GPU, &lt;a href="https://developer.nvidia.com/gpugems/gpugems2/part-iv-general-purpose-computation-gpus-primer/chapter-34-gpu-flow-control-idioms"
+target="_blank" rel="noreferrer noopener"
+>depending on the situation&lt;/a>. In our case, we can avoid it while keeping the code simple, which is great.&lt;/p>
+&lt;p>The last notable element to getting this to work is the double framebuffer. In order to simulate steps in time, we need to apply this shader to its own result. The only way to do that is to have two different textures and alternate each between being the source and the destination. This happens every time step, however long we choose that to be.&lt;/p>
+&lt;p>That about does it! You can look at the code for the simulation &lt;a href="https://github.com/benpm/webgl-cellular-automata"
+target="_blank" rel="noreferrer noopener"
+>here&lt;/a>.&lt;/p>
+&lt;h2 id="finding-interesting-rules">Finding Interesting Rules&lt;/h2>
+&lt;p>Now that we have a nice framework for running the simulation, we can start finding interesting rules. The naive way to do this is to just create random rule strings. This can create interesting results, but usually it just produces boring noise-like rules:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/noise.png" alt="noise rule">&lt;/p>
+&lt;p>How about just modifying game of life? Well what we can do is just flip a single bit of a rule&amp;rsquo;s bitstring. Unfortunately, since Game of Life is very unusual rule in our set, adjacent rules aren&amp;rsquo;t actually very interesting.&lt;/p>
+&lt;p>Instead, let&amp;rsquo;s start with a cool maze generator rule I found randomly (there are a lot of rules like this):&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/maze.png" alt="maze rule">&lt;/p>
+&lt;p>Flip a single bit, and we get:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/sierpinski_arrowheads.png" alt="sierpinski arrowheads">&lt;/p>
+&lt;p>Sierpinski arrowheads! Very different and interesting, and only a single bit away. Let&amp;rsquo;s do it again:&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/growth.png" alt="interesting growing maze">&lt;/p>
+&lt;p>By iterating existing rules in this way, we can often produce fun new rules. I have already found almost a dozen rules by this process, which I have included as presets in the simulator. &lt;a href="https://benpm.github.io/webgl-cellular-automata/"
+target="_blank" rel="noreferrer noopener"
+>Check it out&lt;/a> and try and find some yourself!&lt;/p>
+&lt;h2 id="next-steps">Next Steps&lt;/h2>
+&lt;p>Well now we have a functioning cellular automata simular running in the browser. It&amp;rsquo;s extremely fast because it runs on the GPU, as well as very dynamic, as arbitrary rules can be passed as textures to the fragment shader.&lt;/p>
+&lt;p>Next, we&amp;rsquo;ll look at expanding our set of possible rules by allowing &lt;strong>more than two possible states&lt;/strong>. It will be a little complicated, as the way we specify rules will have to change. Not only will there be multiple possible input states (remember our rule is really a function), but also multiple quantities of neighbors. If we have 4 neighbors of state A, we can only have a maximum total of 4 for other states B, C, D, etc. If we want our rule texture to occupy the least possible space, we need to think carefuly about representation.&lt;/p>
+&lt;p>This will allow us to simulate some really interesting rules like &lt;a href="https://www.wikiwand.com/en/Brian%27s_Brain"
+target="_blank" rel="noreferrer noopener"
+>Brian&amp;rsquo;s Brain&lt;/a> (3 states), &lt;a href="https://www.wikiwand.com/en/Wireworld"
+target="_blank" rel="noreferrer noopener"
+>Wireworld&lt;/a> (4 states), &lt;a href="https://www.wikiwand.com/en/Codd%27s_cellular_automaton"
+target="_blank" rel="noreferrer noopener"
+>Codd&amp;rsquo;s CA&lt;/a> (8 states), and any other totalistic rule we can think of! At some point, we&amp;rsquo;ll also take a look at non-totalistic rules, which will allow an absolutely astounding rule space (more possible rules than particles in the universe!)&lt;/p>
+&lt;p>Stay tuned!&lt;/p></description></item></channel></rss>
