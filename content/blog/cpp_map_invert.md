@@ -82,5 +82,7 @@ clogs:400
 lamp:300
 ```
 
+[Try it yourself here!](https://replit.com/@_bm/transformmap#main.cpp)
+
 And it doesn't need to stop at reversing a map! You can use any function to transform the input
-to the output map. Go crazy!
+to the output map. Go crazy! 
