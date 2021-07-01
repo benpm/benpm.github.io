@@ -51,5 +51,8 @@ bread:100
 sword:200
 clogs:400
 lamp:300
-&lt;/code>&lt;/pre>&lt;p>And it doesn&amp;rsquo;t need to stop at reversing a map! You can use any function to transform the input
+&lt;/code>&lt;/pre>&lt;p>&lt;a href="https://replit.com/@_bm/transformmap#main.cpp"
+target="_blank" rel="noreferrer noopener"
+>Try it yourself here!&lt;/a>&lt;/p>
+&lt;p>And it doesn&amp;rsquo;t need to stop at reversing a map! You can use any function to transform the input
 to the output map. Go crazy!&lt;/p></description></item></channel></rss>

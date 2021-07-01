@@ -51,7 +51,10 @@ bread:100
 sword:200
 clogs:400
 lamp:300
-&lt;/code>&lt;/pre>&lt;p>And it doesn&amp;rsquo;t need to stop at reversing a map! You can use any function to transform the input
+&lt;/code>&lt;/pre>&lt;p>&lt;a href="https://replit.com/@_bm/transformmap#main.cpp"
+target="_blank" rel="noreferrer noopener"
+>Try it yourself here!&lt;/a>&lt;/p>
+&lt;p>And it doesn&amp;rsquo;t need to stop at reversing a map! You can use any function to transform the input
 to the output map. Go crazy!&lt;/p></description></item><item><title>Branching Fractal Generator</title><link>https://benpm.github.io/experiments/treegen/</link><pubDate>Wed, 11 Nov 2020 19:59:15 -0700</pubDate><guid>https://benpm.github.io/experiments/treegen/</guid><description/></item><item><title>Quadtrees for 2D Games with Moving Elements</title><link>https://benpm.github.io/blog/quadtrees/</link><pubDate>Sun, 20 Sep 2020 10:41:59 -0600</pubDate><guid>https://benpm.github.io/blog/quadtrees/</guid><description>&lt;p>A quadtree is a very useful data structure for performing spatial searches. I am currently using them in &lt;a href="https://benpm.github.io/gamedev/#tiletest"
 >Tiletest&lt;/a> for collision detection and monster behavior. Quadtrees partition 2D space into quadrants (stored as nodes in a tree), dividing these quadrants into smaller quadrants when they contain more than a certain threshold of elements (shown as dots):&lt;/p>
 &lt;p>&lt;img src="https://benpm.github.io/images/quadtrees/quadrant_division.png" alt="Quadrant division">&lt;/p>
