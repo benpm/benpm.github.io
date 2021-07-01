@@ -9,6 +9,9 @@
 <header class="list__header">
   <h1 id="list__title">{{ .Title }}</h1>
 </header>
+<div class="list__desc">
+  {{ partial "anchored-headings.html" .Content }}
+</div>
 <div class="post-list__container">
   <ul class="post-list">
     {{ range .Pages }}
