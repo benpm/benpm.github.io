@@ -3,12 +3,12 @@ $fullwidth: 42rem;
 // From https://medium.com/@katiemctigue/how-to-create-a-dark-mode-in-sass-609f131a3995
 $themes: (
   default: (
-    col-fg: #111,
+    col-fg: #252525,
     col-mbg: #f7f7f7,
     col-tborder: #eeeeee,
     col-mg: #9b9b9b,
     col-bmg: #717171,
-    col-bg: #fff,
+    col-bg: #f7f7f7,
     col-primary: #63b83b,
     col-primary-bg: #a4d39b,
     col-primary-fg: #1d4b14,
@@ -20,7 +20,7 @@ $themes: (
     col-tborder: #131313,
     col-mg: #5e5e5e,
     col-bmg: #c7c7c7,
-    col-bg: #151515,
+    col-bg: #252525,
     col-primary: #88ff51,
     col-primary-bg: #243022,
     col-primary-fg: #409e2d,

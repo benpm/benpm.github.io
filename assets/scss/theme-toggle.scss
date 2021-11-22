@@ -1,6 +1,18 @@
-.theme-toggle-button {
+#theme-toggle-button {
     width: 3rem;
     height: 3rem;
     background-size: contain;
     background-repeat: no-repeat;
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    &:hover {
+        cursor: pointer;
+    }
+    .theme--default & {
+        background-image: url('/svg/dark_mode.svg');
+    }
+    .theme--dark & {
+        background-image: url('/svg/light_mode.svg');
+    }
 }

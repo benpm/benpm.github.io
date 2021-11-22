@@ -112,6 +112,13 @@ iframe {
   }
 }
 
+// Invert icons
+.theme--dark {
+  .social-icons__icon, .profile-pic, .invertable {
+    filter: invert(1);
+  }
+}
+
 // Workaround... can't seem to get this working with the mixin
 body.theme--default {
   background-color: map-get(map-get($themes, 'default'), 'col-bg');
