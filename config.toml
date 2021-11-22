@@ -3,6 +3,8 @@ languageCode = "en-us"
 title = "benpm.github.io"
 theme = "hugo-theme-codex"
 
+googleAnalytics = "G-PPST2B8G8Z"
+
 [params]
     twitter = "https://twitter.com/_bpmw"
     github = "https://github.com/benpm"
