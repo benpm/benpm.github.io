@@ -6,6 +6,7 @@ img.profile-pic {
   width: 100px;
   float: left;
   margin-right: 1em;
+  border-radius: 4px;
 }
 
 // Latest blog post displayed on index page
@@ -75,17 +76,6 @@ iframe {
   font-size: 0.8rem;
 }}
 
-// Category on page links
-.post__desc { @include themed {
-  color: t('col-bmg');
-  font-size: 0.8rem;
-  
-  p {
-    margin-top: 0.3em;
-    line-height: 1.5em;
-  }
-}}
-
 // Post
 .post {
   max-width: $fullwidth;
@@ -95,6 +85,10 @@ iframe {
 .post-list__container {
   max-width: $fullwidth;
 }
+
+.post__footer { @include themed() {
+  background-color: t('col-bg');
+}}
 
 // List description
 .list__desc {

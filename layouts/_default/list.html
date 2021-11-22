@@ -17,6 +17,7 @@
     {{ range .Pages }}
     <li class="post">
       <div class="post__header">
+        <time class="post__date" datetime="{{ .Date }}">{{ .Date.Format $dateFormat }}</time>
         <h2 class="post__title">
           {{ if .Params.Outlink }}
             <a href="{{.Params.Outlink}}" target="_blank">{{ .Title }}</a>
@@ -32,11 +33,7 @@
         {{ partial "tags.html" .}}
       </div>
       <div class="post__desc">
-        <p><time class="post__date" datetime="{{ .Date }}"
-          >{{ .Date.Format $dateFormat }}</time> ~ {{ .Params.Description }}
-          {{ if .Params.Outlink }}
-            <span class="post__date"><br>→ {{.Params.Outlink}}</span>
-          {{ end }}
+        <p>{{ .Params.Description }}
         </p>
       </div>
     </li>

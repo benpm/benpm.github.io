@@ -1,11 +1,18 @@
 const themeClasses = ["theme--default", "theme--dark"];
-var themeIdx = themeClasses.length - 1;
-const toggleButton = document.getElementById("toggle-theme-button");
+var themeIdx = 0;
 
 function toggleTheme() {
-    console.log("Toggling theme");
     themeIdx = (themeIdx + 1) % themeClasses.length;
     document.body.className = themeClasses[themeIdx];
+    localStorage.setItem("theme", themeIdx.toString());
 }
 
-toggleTheme();
+if (localStorage.getItem("theme")) {
+    themeIdx = parseInt(localStorage.getItem("theme"));
+    if (isNaN(themeIdx)) {
+        themeIdx = 0;
+        localStorage.removeItem("theme");
+    }
+}
+
+document.body.className = themeClasses[themeIdx];
