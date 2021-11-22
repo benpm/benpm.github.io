@@ -1,12 +1,12 @@
 @import "burger";
 
-.nav {
+.nav { @include themed {
   font-size: 16px;
   position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: $white;
+  background: t('col-bg');
   visibility: hidden;
   z-index: 1;
 
@@ -16,7 +16,7 @@
     padding-top: 3em;
     width: $navWidth;
   }
-}
+}}
 
 .nav--active .nav {
   visibility: visible;
@@ -63,20 +63,20 @@
   }
 }
 
-.nav__list a {
-  color: $grey;
+.nav__list a { @include themed {
+  color: t('col-mg');
   text-decoration: none;
   font-size: 2em;
 
   &.active {
-    color: $black;
+    color: t('col-fg');
   }
 
   &:hover {
-    color: $black;
+    color: t('col-fg');
   }
 
   @media screen and (min-width: $medium) {
     font-size: 1em;
   }
-}
+}}

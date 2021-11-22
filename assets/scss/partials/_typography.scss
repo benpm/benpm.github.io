@@ -75,7 +75,7 @@ ol {
   }
 }
 
-blockquote {
+blockquote { @include themed {
   &::before {
     position: absolute;
     content: "\201C";
@@ -86,13 +86,13 @@ blockquote {
     margin-left: -0.2em;
 
     z-index: -1;
-    color: darken($white, 7%);
+    color: t('col-mbg');
   }
 
   margin-top: $leading;
   margin-bottom: $leading;
   line-height: $leading;
-  color: $black;
+  color: t('col-fg');
 
   cite {
     &::before {
@@ -101,9 +101,9 @@ blockquote {
 
     font-style: italic;
     font-size: 0.95em;
-    color: $darkGrey;
+    color: t('col-bmg');
   }
-}
+}}
 
 pre {
   line-height: 1.45;
@@ -156,13 +156,13 @@ abbr[title] {
 
 // Text links
 p a, h1 a, h2 a, h3 a {
-  @include themed {
-    color: t('primary');
+  @include themed() {
+    color: t('col-primary');
     &:visited {
-        color: t('primaryDark');
+      color: t('col-primary-fg');
     }
     &:hover {
-        color: t('primaryAlt');
+      color: t('col-primary-alt');
     }
   }
 }

@@ -18,17 +18,17 @@
   margin-bottom: 1.5rem;
 }
 
-.post__title {
+.post__title { @include themed {
   margin-top: 0;
   font-weight: 500;
 
   a {
-    color: $black;
+    color: t('col-fg');
     text-decoration: none;
   }
-}
+}}
 
-.post__date {
-  color: $grey;
+.post__date { @include themed {
+  color: t('col-mg');
   font-size: 0.8rem;
-}
+}}

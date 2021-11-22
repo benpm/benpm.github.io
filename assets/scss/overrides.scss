@@ -1,34 +1,34 @@
-$medGrey: #c4dfbf;
-$primaryDark: #265a1c;
-$primaryAlt: #44c52a;
+$fullwidth: 42rem;
 
 // From https://medium.com/@katiemctigue/how-to-create-a-dark-mode-in-sass-609f131a3995
 $themes: (
-    default: (
-        black: #111,
-        lightGrey: #f7f7f7,
-        greyTableBorder: #eeeeee,
-        grey: #9b9b9b,
-        darkGrey: #717171,
-        white: #fff,
-        primary: #63b83b,
-        medGrey: #a4d39b,
-        primaryDark: #1d4b14,
-        primaryAlt: #73b865
-    ),
-    dark: (
-        black: #f7f7f7,
-        lightGrey: #1d1d1d,
-        greyTableBorder: #131313,
-        grey: #5e5e5e,
-        darkGrey: #c7c7c7,
-        white: rgb(15, 15, 15),
-        primary: #88ff51,
-        medGrey: #243022,
-        primaryDark: #409e2d,
-        primaryAlt: #8ce67a
-    ),
+  default: (
+    col-fg: #111,
+    col-mbg: #f7f7f7,
+    col-tborder: #eeeeee,
+    col-mg: #9b9b9b,
+    col-bmg: #717171,
+    col-bg: #fff,
+    col-primary: #63b83b,
+    col-primary-bg: #a4d39b,
+    col-primary-fg: #1d4b14,
+    col-primary-alt: #73b865
+  ),
+  dark: (
+    col-fg: #f7f7f7,
+    col-mbg: #1d1d1d,
+    col-tborder: #131313,
+    col-mg: #5e5e5e,
+    col-bmg: #c7c7c7,
+    col-bg: rgb(15, 15, 15),
+    col-primary: #88ff51,
+    col-primary-bg: #243022,
+    col-primary-fg: #409e2d,
+    col-primary-alt: #8ce67a
+  ),
 );
+
+$theme-map: null;
 
 @mixin themed() {
   @each $theme, $map in $themes {
