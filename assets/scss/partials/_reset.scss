@@ -1,9 +1,7 @@
 html,
-body { @include themed {
-  background-color: t('col-bg');
-  color: t('col-fg');
+body {
   height: 100%;
-}}
+}
 
 html {
   box-sizing: border-box;
