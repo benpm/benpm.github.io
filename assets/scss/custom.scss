@@ -1,6 +1,7 @@
 @import "partials/vars";
+@import "theme-toggle";
+@import "partials/typography";
 
-$medGrey: #e2e2e2;
 $fullwidth: 42rem;
 
 // Profile picture
@@ -35,7 +36,7 @@ img.profile-pic {
     
     a {
         text-decoration: none;
-        color: black;
+        color: $black;
     }
 }
 
@@ -47,14 +48,14 @@ img.profile-pic {
 
 // Active nav link
 .nav__list li>.indicator {
-    background-color: #eeeeee;
+    background-color: $lightGrey;
     width: 6px;
     height: 6px;
     border-radius: 100%;
     margin: -14px calc(100% + 6px);
 
     &.active {
-        background-color: black;
+        background-color: $black;
     }
 
     @media screen and (max-width: $medium) {
@@ -62,16 +63,7 @@ img.profile-pic {
     }
 }
 
-// Text links
-p a, h1 a, h2 a, h3 a {
-    color: #ac2121;
-    &:visited {
-        color: #6b1e1e;
-    }
-    &:hover {
-        color: #eb2b2b;
-    }
-}
+
 
 // External content
 iframe {
@@ -81,18 +73,18 @@ iframe {
 }
 
 // Tags on blog posts
-.post li a.tag__link {
-    background: #e9e1e1;
-    color: #a57a7a;
-
-    &:hover {
-        background: #dfc2c2;
+.post {
+    li a.tag__link {
+        background: $lightGrey;
+        color: $darkGrey;
+    
+        &:hover {
+            background: $medGrey;
+        }
     }
-}
-
-// Images in posts
-.post img {
-    max-width: 650px;
+    img {
+        max-width: 650px;
+    }
 }
 
 // Category on page links

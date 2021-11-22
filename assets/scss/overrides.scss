@@ -1,0 +1,49 @@
+$medGrey: #c4dfbf;
+$primaryDark: #265a1c;
+$primaryAlt: #44c52a;
+
+// From https://medium.com/@katiemctigue/how-to-create-a-dark-mode-in-sass-609f131a3995
+$themes: (
+    default: (
+        black: #111,
+        lightGrey: #f7f7f7,
+        greyTableBorder: #eeeeee,
+        grey: #9b9b9b,
+        darkGrey: #717171,
+        white: #fff,
+        primary: #63b83b,
+        medGrey: #a4d39b,
+        primaryDark: #1d4b14,
+        primaryAlt: #73b865
+    ),
+    dark: (
+        black: #f7f7f7,
+        lightGrey: #1d1d1d,
+        greyTableBorder: #131313,
+        grey: #5e5e5e,
+        darkGrey: #c7c7c7,
+        white: rgb(15, 15, 15),
+        primary: #88ff51,
+        medGrey: #243022,
+        primaryDark: #409e2d,
+        primaryAlt: #8ce67a
+    ),
+);
+
+@mixin themed() {
+  @each $theme, $map in $themes {
+    .theme--#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), '#{$key}');
+        $theme-map: map-merge($theme-map, ($key: $value)) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+
+@function t($key) {
+  @return map-get($theme-map, $key);
+}
