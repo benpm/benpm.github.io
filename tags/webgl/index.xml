@@ -2,7 +2,7 @@
 &lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/gol_1.gif" alt="game of life">&lt;/p>
 &lt;p>The idea that simple rules can produce structured, complex systems is beautiful to me. Of course I&amp;rsquo;m not the only one, &lt;a href="https://www.youtube.com/watch?v=VguG_y05Xe8"
 target="_blank" rel="noreferrer noopener"
->Stephen Wolfram really has a thing for em&amp;rsquo;&lt;/a>.&lt;/p>
+>Stephen Wolfram really has a thing for em'&lt;/a>.&lt;/p>
 &lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/machine_rule.gif" alt="machine-like rule">&lt;/p>
 &lt;p>Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a &lt;a href="https://benpm.github.io/webgl-cellular-automata/"
 target="_blank" rel="noreferrer noopener"
