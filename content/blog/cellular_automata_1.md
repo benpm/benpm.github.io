@@ -29,11 +29,11 @@ Basically, cellular automata consist of, well, cells, each with exactly the same
 
 Now, that's a very general definition. For the sake of this particular demonstration we will only take into account a subset of all possible cellular automata, called *totalistic* cellular automata. "Totalistic" because its rules only take into account the *total* number of cells in the neighborhood, ignoring their arrangement.
 
-![totalistic ca](/images/cellular_automata/illustration_1.png)
+{{< drawing "/images/cellular_automata/illustration_1.png" "totalistic ca" >}}
 
 So what is inside the neighborhood? Well we'll focus on the *Moore Neighborhood*, which consists of the eight surrounding cells:
 
-![moore neighborhood](/images/cellular_automata/illustration_2.png)
+{{< drawing "/images/cellular_automata/illustration_2.png" "moore neighborhood" >}}
 
 And for now we only have two possible states: on and off. This may seem like a somewhat restrictive subset, but keep in mind that it contains Conway's Game of Life, as well as quite a large number of other rules. How many other rules, you ask? Well get out your pocket calculator, we're going to do some simple math.
 
@@ -55,7 +55,7 @@ So know we have a pretty good idea of how to represent any rule in our set in a 
 
 So let's look at the representation in our bit string:
 
-![bit representation](/images/cellular_automata/illustration_3.png)
+{{< drawing "/images/cellular_automata/illustration_3.png" "bit representation" >}}
 
 Nice! That's really easy to pass to a shader. We'll just write that information to a texture and make a uniform to access it:
 

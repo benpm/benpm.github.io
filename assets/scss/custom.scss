@@ -97,7 +97,7 @@ iframe {
 
 // Headers for list pages
 .list__header {
-  margin: 0 auto 50px;
+  margin: 0 auto 1em;
   max-width: $fullwidth;
   width: 100%;
   
@@ -123,9 +123,16 @@ body.theme--dark {
   color: map-get(map-get($themes, 'dark'), 'col-fg');
 }
 
-
+// Splash text typing effect caret
 #splash-text::after {
   width: 3px;
   height: 100%;
   background-color: black;
+}
+
+// Shave off some head room
+main {
+  @media screen and (max-width: $medium) {
+    padding-top: 6rem;
+  }
 }

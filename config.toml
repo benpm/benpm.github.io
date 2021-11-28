@@ -11,7 +11,8 @@ googleAnalytics = "G-PPST2B8G8Z"
     youtube = "https://www.youtube.com/c/BenjaminMastripolito"
     soundcloud = "https://soundcloud.com/trope"
     itchio = "https://ben-m.itch.io/"
-    iconTitles = ["youtube", "soundcloud", "itchio"]
+    ko-fi = "https://ko-fi.com/benpm"
+    iconTitles = ["youtube", "soundcloud", "itchio", "ko-fi"]
 
 [markup]
     [markup.highlight]

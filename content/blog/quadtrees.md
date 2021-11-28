@@ -12,7 +12,7 @@ toc: false
 
 A quadtree is a very useful data structure for performing spatial searches. I am currently using them in [Tiletest](/gamedev/#tiletest) for collision detection and monster behavior. Quadtrees partition 2D space into quadrants (stored as nodes in a tree), dividing these quadrants into smaller quadrants when they contain more than a certain threshold of elements (shown as dots):
 
-![Quadrant division](/images/quadtrees/quadrant_division.png)
+{{< drawing "/images/quadtrees/quadrant_division.png" "Quadrant division" >}}
 
 There are a couple uses for this structure, one of the most useful is searching for the nearest element to a given location.
 
@@ -20,7 +20,7 @@ There are a couple uses for this structure, one of the most useful is searching 
 
 To find the nearest element to a chosen location, there are [many algorithms out there](https://stackoverflow.com/a/32412425/2909339). I went with a simple yet efficient one, a breadth-first search with quadrant exclusion. First, we look through each leaf node at the highest level of the tree, keeping track of the closest element we've found so far. Then, we check the next level of the tree, and so on. The exclusion part is just skipping our search of nodes that cannot contain a closer element than the closest we've found so far. Here's a simple example:
 
-![Exclusion of nodes based on signed distance](/images/quadtrees/quadrant_exclusion.png)
+{{< drawing "/images/quadtrees/quadrant_exclusion.png" "Exclusion of nodes based on signed distance" >}}
 
 To do this, we calculate the smallest distance (shown as blue lines) from our search location (the blue dot) to a node's rectangular boundary. This gives us the shortest distance an element of this node could possibly have. If that shortest distance is farther than the nearest element so far (red dot), we don't search it *or* its children (excluded nodes are shown in grey).
 

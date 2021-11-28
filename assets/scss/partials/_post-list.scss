@@ -50,9 +50,13 @@
   border-radius: 4px;
   margin-top: 4px;
   font-size: 0.8rem;
-  width: 7em;
   display: inline-block;
   position: absolute;
-  left: -8em;
-  text-align: right;
+  left: -7em;
+
+  @media screen and (max-width: $medium) {
+    left: unset;
+    position: relative;
+    margin-bottom: 0.5em;
+  }
 }}

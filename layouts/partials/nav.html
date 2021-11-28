@@ -1,8 +1,5 @@
 <nav class="nav" id="navigation">
 
-  {{ $script := resources.Get "js/theme_toggle.js" | minify | fingerprint }}
-  <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity | safeHTMLAttr }}" crossorigin="anonymous"></script>
-  {{ partial "partials/theme-toggle.html" . }}
   <ul class="nav__list">
     {{ $currentPage := . }}
     {{ range .Site.Menus.main }}
