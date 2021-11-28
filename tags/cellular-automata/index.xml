@@ -12,9 +12,9 @@ target="_blank" rel="noreferrer noopener"
 &lt;p>Basically, cellular automata consist of, well, cells, each with exactly the same set of possible states. To determine their states, they use a rule. These rules are basically functions that take the states of a cell&amp;rsquo;s neighbors, and possibly the cell itself (like in game of life), as input, and produce the cell&amp;rsquo;s new state as output. Through iteration over discrete time, the whole space evolves:&lt;/p>
 &lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/worms_rule.gif" alt="worms rule">&lt;/p>
 &lt;p>Now, that&amp;rsquo;s a very general definition. For the sake of this particular demonstration we will only take into account a subset of all possible cellular automata, called &lt;em>totalistic&lt;/em> cellular automata. &amp;ldquo;Totalistic&amp;rdquo; because its rules only take into account the &lt;em>total&lt;/em> number of cells in the neighborhood, ignoring their arrangement.&lt;/p>
-&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/illustration_1.png" alt="totalistic ca">&lt;/p>
+&lt;p>&lt;img class="invertable drawing" src="https://benpm.github.io/images/cellular_automata/illustration_1.png" alt="totalistic ca">&lt;/p>
 &lt;p>So what is inside the neighborhood? Well we&amp;rsquo;ll focus on the &lt;em>Moore Neighborhood&lt;/em>, which consists of the eight surrounding cells:&lt;/p>
-&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/illustration_2.png" alt="moore neighborhood">&lt;/p>
+&lt;p>&lt;img class="invertable drawing" src="https://benpm.github.io/images/cellular_automata/illustration_2.png" alt="moore neighborhood">&lt;/p>
 &lt;p>And for now we only have two possible states: on and off. This may seem like a somewhat restrictive subset, but keep in mind that it contains Conway&amp;rsquo;s Game of Life, as well as quite a large number of other rules. How many other rules, you ask? Well get out your pocket calculator, we&amp;rsquo;re going to do some simple math.&lt;/p>
 &lt;p>First, we need to think about how to represent a rule in our subset as a string of bits. This will be relevant later when we look at the simulator&amp;rsquo;s code. So what information do we actually need? Well we need to know what to do with each possible input. Our inputs will be the number of neighbors (because it is totalistic) and the current state of the cell.&lt;/p>
 &lt;p>There are ($ s = 2 $) possible states, and ($ N = 9 $) possible values for the number of neighbors (that&amp;rsquo;s 0, 1, 2&amp;hellip; up to and including 8). If we combine these, we get 9 bits for all the neighbor states, twice, for each possible existing state. That means we need exactly 18 bits to fully specify a rule in our set. So it follows that the number of possible rules is:&lt;/p>
@@ -28,7 +28,7 @@ target="_blank" rel="noreferrer noopener"
 &lt;li>All other cells turn &lt;em>off&lt;/em>, including cells that are already &lt;em>off&lt;/em>&lt;/li>
 &lt;/ol>
 &lt;p>So let&amp;rsquo;s look at the representation in our bit string:&lt;/p>
-&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/illustration_3.png" alt="bit representation">&lt;/p>
+&lt;p>&lt;img class="invertable drawing" src="https://benpm.github.io/images/cellular_automata/illustration_3.png" alt="bit representation">&lt;/p>
 &lt;p>Nice! That&amp;rsquo;s really easy to pass to a shader. We&amp;rsquo;ll just write that information to a texture and make a uniform to access it:&lt;/p>
 &lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">sampler2D&lt;/span> uRule;
 &lt;span style="color:#069;font-weight:bold">void&lt;/span> main(&lt;span style="color:#069;font-weight:bold">void&lt;/span>) {
