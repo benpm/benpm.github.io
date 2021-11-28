@@ -122,3 +122,10 @@ body.theme--dark {
   background-color: map-get(map-get($themes, 'dark'), 'col-bg');
   color: map-get(map-get($themes, 'dark'), 'col-fg');
 }
+
+
+#splash-text::after {
+  width: 3px;
+  height: 100%;
+  background-color: black;
+}
