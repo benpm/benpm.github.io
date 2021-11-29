@@ -13,8 +13,11 @@ img.profile-pic {
 .latest-post { @include themed {
   font-size: 12px;
   border-radius: 4px;
-  width: 60%;
   margin-top: 4em;
+
+  @media screen and (min-width: $medium) {
+    width: 60%;
+  }
   
   .post__header {
     background-color: t('col-primary-bg');
