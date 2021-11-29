@@ -4,11 +4,13 @@ $fullwidth: 42rem;
 $themes: (
   default: (
     col-fg: #202020,
+    col-ffg: #000,
     col-mbg: #e2e2e2,
     col-tborder: #eeeeee,
     col-mg: #9b9b9b,
     col-bmg: #717171,
     col-bg: #f7f7f7,
+    col-bbg: #F0F3F3,
     col-primary: #62924c,
     col-primary-bg: #b9cfb4,
     col-primary-fg: #374933,
@@ -16,11 +18,13 @@ $themes: (
   ),
   dark: (
     col-fg: #f7f7f7,
+    col-ffg: #DBD6D1,
     col-mbg: #2e2e2e,
     col-tborder: #131313,
     col-mg: #797979,
     col-bmg: #c7c7c7,
     col-bg: #202020,
+    col-bbg: #0F0C0C,
     col-primary: #aae68d,
     col-primary-bg: #63745f,
     col-primary-fg: #ace0a0,

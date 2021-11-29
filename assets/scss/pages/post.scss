@@ -61,6 +61,10 @@ $tocBreakpoint: 1024px;
   }
 }}
 
+.theme--dark div.highlight {
+  filter: invert(1);
+}
+
 #post__title {
   margin-top: 0;
   margin-bottom: 0.5rem;
@@ -125,18 +129,20 @@ $tocBreakpoint: 1024px;
   }
 }
 
+// Tag under post
 .tag__link { @include themed {
   display: inline-block;
   text-decoration: none;
   padding: 0.2em 0.4em;
   border-radius: 3px;
   font-size: 0.8rem;
+  font-weight: bold;
 
-  background-color: t('col-primary-bg');
+  background-color: t('col-mbg');
   color: t('col-fg');
 
   &:hover {
-    background-color: t('col-primary-alt');
+    background-color: t('col-primary-bg');
   }
 }}
 
