@@ -17,7 +17,9 @@
     {{ range .Pages }}
     <li class="post">
       <div class="post__header">
-        <time class="post__date" datetime="{{ .Date }}">{{ .Date.Format $dateFormat }}</time>
+        <div class="post-date__container">
+          <time class="post-date" datetime="{{ .Date }}">{{ .Date.Format $dateFormat }}</time>
+        </div>
         <h2 class="post__title">
           {{ if .Params.Outlink }}
             <a href="{{.Params.Outlink}}" target="_blank">{{ .Title }}</a>

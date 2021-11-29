@@ -12,7 +12,7 @@
           <header class="post__header">
             <h1 id="post__title">{{.Title}}</h1>
             {{ if (eq .Section "blog") }}
-            <time datetime="{{ .Date }}" class="post__date"
+            <time datetime="{{ .Date }}" class="post-date"
             >{{ .Date.Format $dateFormat }}</time>
             {{ end }}
           </header>

@@ -22,37 +22,51 @@ googleAnalytics = "G-PPST2B8G8Z"
     unsafe = true
 
 [[menu.main]]
+    weight = 1
+    identifier = "splash"
+    name = "splash ★"
+    title = "splash"
+    url = "/"
+
+[[menu.main]]
+    weight = 2
     identifier = "blog"
     name = "blog"
     title = "blog"
     url = "/blog"
 
 [[menu.main]]
+    weight = 2
     identifier = "experiments"
     name = "experiments"
     title = "experiments"
     url = "/experiments"
 
 [[menu.main]]
+    weight = 2
     identifier = "projects"
     name = "projects"
     title = "projects"
     url = "/projects"
 
-[[menu.main]]
-    identifier = "splash"
-    name = "_splash"
-    title = "splash"
-    url = "/"
 
 [[menu.main]]
-    identifier = "Music"
+    weight = 2
+    identifier = "music"
     name = "music"
-    title = "Music"
+    title = "music"
     url = "/music"
 
 [[menu.main]]
-    identifier = "Game Development"
+    weight = 2
+    identifier = "gamedev"
     name = "gamedev"
-    title = "Game Development"
+    title = "gamedev"
     url = "/gamedev"
+
+[[menu.main]]
+    weight = 3
+    identifier = "cv"
+    name = "cv ⭳"
+    title = "cv"
+    url = "https://github.com/benpm/cv/raw/master/benpm_cv.pdf"

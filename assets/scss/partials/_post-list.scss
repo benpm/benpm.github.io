@@ -42,7 +42,7 @@
 }}
 
 // Date shown next to post list item
-.post__date { @include themed {
+.post-date { @include themed {
   color: t('col-bg');
   background-color: t('col-mg');
   padding: 3px;
@@ -53,6 +53,7 @@
   display: inline-block;
   position: absolute;
   left: -7em;
+  font-weight: bold;
 
   @media screen and (max-width: $medium) {
     left: unset;
