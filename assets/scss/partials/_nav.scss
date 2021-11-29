@@ -15,6 +15,10 @@
     padding-top: 3em;
     width: $navWidth;
   }
+
+  @media screen and (max-width: $medium) {
+    background: t('col-bg');
+  }
 }}
 
 .nav--active .nav {

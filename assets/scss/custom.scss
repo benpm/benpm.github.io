@@ -60,7 +60,9 @@ img.profile-pic {
   }
   
   @media screen and (max-width: $medium) {
-    visibility: hidden;
+    margin-top: -1.2em;
+    width: 9px;
+    height: 9px;
   }
 }}
 
