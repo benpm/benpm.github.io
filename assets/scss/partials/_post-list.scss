@@ -54,16 +54,16 @@
   font-weight: bold;
   width: 100%;
   text-align: center;
-
-  @media screen and (max-width: $medium) {
-    left: unset;
-    position: relative;
-    margin-bottom: 0.5em;
-  }
 }}
 
 .post-date__container {
   position: absolute;
   left: -6em;
   width: 5.5em;
+
+  @media screen and (max-width: $medium) {
+    left: unset;
+    position: relative;
+    margin-bottom: 0.5em;
+  }
 }
