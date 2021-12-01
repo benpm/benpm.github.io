@@ -31,6 +31,12 @@
   }
 }
 
+#splash-text {
+  @media screen and (max-width: $medium) {
+    height: 2em;
+  }
+}
+
 .fancy { @include themed {
   color: t('col-primary');
 }}
