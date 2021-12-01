@@ -51,9 +51,9 @@
   margin-top: 4px;
   font-size: 0.8rem;
   display: inline-block;
-  position: absolute;
-  left: -7em;
   font-weight: bold;
+  width: 100%;
+  text-align: center;
 
   @media screen and (max-width: $medium) {
     left: unset;
@@ -61,3 +61,9 @@
     margin-bottom: 0.5em;
   }
 }}
+
+.post-date__container {
+  position: absolute;
+  left: -6em;
+  width: 5.5em;
+}
