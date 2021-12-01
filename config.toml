@@ -24,7 +24,7 @@ googleAnalytics = "G-PPST2B8G8Z"
 [[menu.main]]
     weight = 1
     identifier = "splash"
-    name = "splash ★"
+    name = "splash!"
     title = "splash"
     url = "/"
 
@@ -67,6 +67,6 @@ googleAnalytics = "G-PPST2B8G8Z"
 [[menu.main]]
     weight = 3
     identifier = "cv"
-    name = "cv ⭳"
+    name = "cv (download)"
     title = "cv"
     url = "https://github.com/benpm/cv/raw/master/benpm_cv.pdf"
