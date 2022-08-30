@@ -18,7 +18,7 @@ The idea that simple rules can produce structured, complex systems is beautiful 
 
 ![machine-like rule](/images/cellular_automata/machine_rule.gif)
 
-Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a [generalized cellular automaton simulator in WebGL](https://benpm.github.io/webgl-cellular-automata/). This post is about how it is implemented and what new interesting possibilities await!
+Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a [generalized cellular automaton simulator in WebGL](https://benpm.github.io/cellarium/). This post is about how it is implemented and what new interesting possibilities await!
 
 <iframe src="https://itch.io/embed/715896" width="552" height="167" frameborder="0"><a href="https://ben-m.itch.io/webcell">WebGL Cellular Automata Explorer by Benjamin Mastripolito</a></iframe>
 
@@ -101,7 +101,7 @@ By removing the value of the current cell in this way, we avoid branching, which
 
 The last notable element to getting this to work is the double framebuffer. In order to simulate steps in time, we need to apply this shader to its own result. The only way to do that is to have two different textures and alternate each between being the source and the destination. This happens every time step, however long we choose that to be.
 
-That about does it! You can look at the code for the simulation [here](https://github.com/benpm/webgl-cellular-automata).
+That about does it! You can look at the code for the simulation [here](https://github.com/benpm/cellarium).
 
 ## Finding Interesting Rules
 
@@ -123,7 +123,7 @@ Sierpinski arrowheads! Very different and interesting, and only a single bit awa
 
 ![interesting growing maze](/images/cellular_automata/growth.png)
 
-By iterating existing rules in this way, we can often produce fun new rules. I have already found almost a dozen rules by this process, which I have included as presets in the simulator. [Check it out](https://benpm.github.io/webgl-cellular-automata/) and try and find some yourself!
+By iterating existing rules in this way, we can often produce fun new rules. I have already found almost a dozen rules by this process, which I have included as presets in the simulator. [Check it out](https://benpm.github.io/cellarium/) and try and find some yourself!
 
 ## Next Steps
 
