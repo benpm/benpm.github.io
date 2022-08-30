@@ -83,7 +83,7 @@ target="_blank" rel="noreferrer noopener"
 target="_blank" rel="noreferrer noopener"
 >Stephen Wolfram really has a thing for em'&lt;/a>.&lt;/p>
 &lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/machine_rule.gif" alt="machine-like rule">&lt;/p>
-&lt;p>Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a &lt;a href="https://benpm.github.io/webgl-cellular-automata/"
+&lt;p>Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a &lt;a href="https://benpm.github.io/cellarium/"
 target="_blank" rel="noreferrer noopener"
 >generalized cellular automaton simulator in WebGL&lt;/a>. This post is about how it is implemented and what new interesting possibilities await!&lt;/p>
 &lt;iframe src="https://itch.io/embed/715896" width="552" height="167" frameborder="0">&lt;a href="https://ben-m.itch.io/webcell">WebGL Cellular Automata Explorer by Benjamin Mastripolito&lt;/a>&lt;/iframe>
@@ -141,7 +141,7 @@ total &lt;span style="color:#555">+=&lt;/span> texture2D(uSampler, vTextureCoord
 target="_blank" rel="noreferrer noopener"
 >depending on the situation&lt;/a>. In our case, we can avoid it while keeping the code simple, which is great.&lt;/p>
 &lt;p>The last notable element to getting this to work is the double framebuffer. In order to simulate steps in time, we need to apply this shader to its own result. The only way to do that is to have two different textures and alternate each between being the source and the destination. This happens every time step, however long we choose that to be.&lt;/p>
-&lt;p>That about does it! You can look at the code for the simulation &lt;a href="https://github.com/benpm/webgl-cellular-automata"
+&lt;p>That about does it! You can look at the code for the simulation &lt;a href="https://github.com/benpm/cellarium"
 target="_blank" rel="noreferrer noopener"
 >here&lt;/a>.&lt;/p>
 &lt;h2 id="finding-interesting-rules">Finding Interesting Rules&lt;/h2>
@@ -154,7 +154,7 @@ target="_blank" rel="noreferrer noopener"
 &lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/sierpinski_arrowheads.png" alt="sierpinski arrowheads">&lt;/p>
 &lt;p>Sierpinski arrowheads! Very different and interesting, and only a single bit away. Let&amp;rsquo;s do it again:&lt;/p>
 &lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/growth.png" alt="interesting growing maze">&lt;/p>
-&lt;p>By iterating existing rules in this way, we can often produce fun new rules. I have already found almost a dozen rules by this process, which I have included as presets in the simulator. &lt;a href="https://benpm.github.io/webgl-cellular-automata/"
+&lt;p>By iterating existing rules in this way, we can often produce fun new rules. I have already found almost a dozen rules by this process, which I have included as presets in the simulator. &lt;a href="https://benpm.github.io/cellarium/"
 target="_blank" rel="noreferrer noopener"
 >Check it out&lt;/a> and try and find some yourself!&lt;/p>
 &lt;h2 id="next-steps">Next Steps&lt;/h2>
