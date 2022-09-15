@@ -1,7 +1,7 @@
 ---
-title: "C++ thread-safe smart pointer memory pool in 100 lines"
+title: "Simple, thread-safe C++ memory pool"
 date: 2021-11-28
-slug: "How to make a dead simple, thread-safe memory pool / memory arena in C++ that supports multiple types and smart pointers"
+slug: "How to make a dead simple, thread-safe memory pool / arena in C++ that supports multiple types and smart pointers"
 description: "How to make a dead simple, thread-safe memory pool / memory arena in C++ that supports multiple types and smart pointers"
 keywords: ["C++", "memory pool", "shared_ptr", "memory arena", "thread safe"]
 draft: true
@@ -10,130 +10,33 @@ math: false
 toc: false
 ---
 
-```C++
-#pragma once
+Memory pools, by pre-allocating large chunks of memory before it's actually used for something, can reduce the number of expensive memory allocations. Here I present a simple, thread-safe memory pool that supports arbitrary types and smart pointers. It is not the most generally useful case, but it is very simple and easy to use.
 
-#include <stdlib.h>
-#include <memory>
-#include <mutex>
+The code can be found [here](https://github.com/benpm/cppmempool).
 
-class Pool {
-  private: // -----------------------------------------------------------
+## How it Works
 
-  struct Chunk {
-    static constexpr size_t size = 4096;
-    // Next free byte in chunk
-    uint8_t* head = nullptr;
-    // Next free chunk
-    Chunk* next = nullptr;
-    // Occupied bytes in chunk
-    size_t used;
+It works like this: **chunks** of memory (default is 8kB) are allocated together, 32 at a time. These are called **blocks**.
 
-    // Initialize chunk
-    void init(Chunk* next) {
-      this->next = next;
-      this->used = sizeof(Chunk);
-      this->head = ((uint8_t*)this) + sizeof(Chunk);
-    }
-    // Returns if chunk is empty
-    bool empty() const {
-      return used == sizeof(Chunk);
-    }
-    // Emplace object of type T in chunk
-    template<class T, class... V>
-    std::shared_ptr<T> emplace(Pool* pool, V&&... v) {
-      static_assert(sizeof(T) <= size - sizeof(Chunk),
-        "Object is too large for chunk");
-      T* obj = new (head) T(std::forward<V>(v)...);
-      head += sizeof(T);
-      used += sizeof(T);
-      return std::shared_ptr<T>(obj, [this, pool](T* obj) {
-        this->used -= sizeof(T);
-        obj->~T();
-        if (this->empty()) {
-          std::lock_guard<std::mutex> lock(pool->mutex);
-          // Now when I'm full, curChunk will be set to
-          //  the previous non-full chunk
-          this->next = pool->curChunk;
-          // I am now the current chunk to allocate to
-          pool->curChunk = this;
+<!-- a block of chunks being allocated -->
 
-          /* 
-          // This will also work - prefer to fill up 
-          //  current chunk before me
-          this->next = pool->curChunk->next;
-          pool->curChunk->next = this;
-           */
-        }
-      });
-    }
-  };
+Each chunk has a pointer, `next`, to the next chunk in the block. The last chunk in the block points to the first chunk in the next block.
 
-  // Number of chunks in each block of chunks
-  static constexpr size_t chunksPerBlock = 32;
-  // Size of a block in bytes
-  static constexpr size_t blockSize = Chunk::size * chunksPerBlock;
+<!-- pointing chunks -->
 
-  // Non-full chunk which we are currently allocating objects in
-  Chunk* curChunk = nullptr;
-  // Pointer to first chunk in initial block
-  Chunk* initBlock = nullptr;
-  // Used to ensure thread safety
-  std::mutex mutex;
+When the user requests to allocate an object, it is initialized in the current chunk. If there's not enough space to fit our object, we just follow the pointer to the next chunk, which then becomes our new current chunk.
 
-  // Allocates a new block of chunks
-  Chunk* allocBlock() {
-    Chunk* block = reinterpret_cast<Chunk*>(malloc(blockSize));
-    Chunk* chunk = block;
-    for (size_t i = 0; i < chunksPerBlock - 1; i++) {
-      chunk->init(reinterpret_cast<Chunk*>(
-        reinterpret_cast<uint8_t*>(chunk) + Chunk::size));
-      chunk = chunk->next;
-    }
-    chunk->init(nullptr);
-    if (curChunk) {
-      curChunk->next = block;
-    }
-    curChunk = block;
-    return block;
-  }
+<!-- filled chunk, following pointer -->
 
-  public: // -----------------------------------------------------------
+We achieve this by keeping track of the number of bytes allocated in the chunk. We also decrement this counter when we want to de-allocate an object from the pool. If the byte counter reaches zero, we know the entire chunk is empty and we can re-use it. We achieve this by setting the `next` of the current chunk to point to the newly empty chunk, and the newly empty chunk to point to the old `next` of the current chunk.
 
-  Pool() {
-    initBlock = allocBlock();
-  }
+<!-- inserting the newly empty chunk into the linked list -->
 
-  ~Pool() {
-    std::lock_guard<std::mutex> lock(mutex);
 
-    // Free all blocks sequentially starting with first allocated
-    Chunk* block = initBlock;
-    do {
-      Chunk* next = block[chunksPerBlock - 1].next;
-      free(block);
-      block = next;
-    } while (block != nullptr);
-    curChunk = nullptr;
-  }
 
-  // Create new object in pool
-  template<class T, class... V>
-  std::shared_ptr<T> emplace(V&&... v) {
-    std::lock_guard<std::mutex> lock(mutex);
-    if (curChunk->head + sizeof(T) > (uint8_t*)curChunk + Chunk::size) {
-      // Object won't fit in current chunk...
-      if (curChunk->next == nullptr) {
-        // Current chunk
-        allocBlock();
-      } else {
-        curChunk = curChunk->next;
-      }
-    }
-    return curChunk->emplace<T>(this, std::forward<V>(v)...);
-  }
-};
-```
+It's not particularly memory efficient and has very definite limitations:
+- If old objects are typically not systematically destroyed, this pool will just keep allocating more blocks of memory. This is becase
+- It does not use any kind of memory alignment aside from using acceptably sensible power-of-2 sizes for things
 
 \> TODO benchmarks
 
