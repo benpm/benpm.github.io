@@ -1,5 +1,5 @@
 ---
-title: "Cellular Automata in WebGL: Part 2"
+title: "Multi-State Cellular Automata in WebGL"
 date: 2022-09-15T13:00:19-07:00
 slug: "gol_2"
 description: "How to compactly store multi-state cellular automata rules into a texture"
