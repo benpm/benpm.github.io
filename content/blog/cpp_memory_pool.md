@@ -1,7 +1,7 @@
 ---
 title: "Simple, thread-safe C++ memory pool"
 date: 2021-11-28
-slug: "How to make a dead simple, thread-safe memory pool / arena in C++ that supports multiple types and smart pointers"
+slug: "mempool"
 description: "How to make a dead simple, thread-safe memory pool / memory arena in C++ that supports multiple types and smart pointers"
 keywords: ["C++", "memory pool", "shared_ptr", "memory arena", "thread safe"]
 draft: true
