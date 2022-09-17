@@ -1,5 +1,75 @@
-<!doctype html><html lang=en-us><head><title>C++ Invert Map at Compile Time | benpm.github.io</title><meta charset=utf-8><meta name=language content="en"><meta name=description content="How to invert/reverse/transform a map at compile-time in C++!"><meta name=keywords content="C++ ,unordered_map ,transform ,invert ,reverse ,map"><meta name=viewport content="width=device-width,initial-scale=1"><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=twitter:card content="summary"><meta name=twitter:title content="C++ Invert Map at Compile Time"><meta name=twitter:description content="How to invert/reverse/transform a map at compile-time in C++!"><meta name=twitter:site content="https://twitter.com/_bpmw"><meta name=twitter:creator content="https://twitter.com/_bpmw"><link rel="shortcut icon" type=image/png href=/favicon.ico><link type=text/css rel=stylesheet href=/css/post.min.9a955b519df490cf1c93b17141356c3fab7466ff91d74f7b8ac70697c3635fa2.css integrity="sha256-mpVbUZ30kM8ck7FxQTVsP6t0Zv+R1097iscGl8NjX6I="><link type=text/css rel=stylesheet href=/css/custom.min.07e9b415621806a47b49ec8c7ecdbf25587cfa93cfee5f5019087c00a2e528c1.css integrity="sha256-B+m0FWIYBqR7SeyMfs2/JVh8+pPP7l9QGQh8AKLlKME="><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/benpm.github.io\/"},"articleSection":"blog","name":"C\u002b\u002b Invert Map at Compile Time","headline":"C\u002b\u002b Invert Map at Compile Time","description":"How to invert\/reverse\/transform a map at compile-time in C\u002b\u002b!","inLanguage":"en-US","author":"","creator":"","publisher":"","accountablePerson":"","copyrightHolder":"","copyrightYear":"2021","datePublished":"2021-07-01 15:37:49 -0600 -0600","dateModified":"2021-07-01 15:37:49 -0600 -0600","url":"https:\/\/benpm.github.io\/blog\/how-to-invert\/reverse\/transform-a-map-at-compile-time-in-c\u002b\u002b\/","wordCount":"287","keywords":["C\u002b\u002b","unordered_map","transform","invert","reverse","map","Blog"]}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-PPST2B8G8Z"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','G-PPST2B8G8Z');</script></head><body><div class=burger__container><div class=burger aria-controls=navigation aria-label=Menu><div class="burger__meat burger__meat--1"></div><div class="burger__meat burger__meat--2"></div><div class="burger__meat burger__meat--3"></div></div></div><nav class=nav id=navigation><ul class=nav__list><li><a href=/>splash!</a><div class=indicator></div></li><li><a class=active href=/blog>blog</a><div class="indicator active"></div></li><li><a href=/experiments>experiments</a><div class=indicator></div></li><li><a href=/gamedev>gamedev</a><div class=indicator></div></li><li><a href=/music>music</a><div class=indicator></div></li><li><a href=/projects>projects</a><div class=indicator></div></li><li><a href=https://github.com/benpm/cv/raw/master/benpm_cv.pdf>cv (download)</a><div class=indicator></div></li></ul></nav><main><div class=flex-wrapper><div class=post__container><div class=post><header class=post__header><h1 id=post__title>C++ Invert Map at Compile Time</h1><time datetime="2021-07-01 15:37:49 -0600 -0600" class=post-date>Jul 1 2021</time></header><article class=post__content><p>Sometimes it&rsquo;s useful to be able to invert a map in C++ to perform reverse lookup. Say you are mapping names to IDs of something:</p><div class=highlight><pre style=background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C++ data-lang=C++><span style=color:#069;font-weight:700>const</span> std<span style=color:#555>::</span>unordered_map<span style=color:#555>&lt;</span>std<span style=color:#555>::</span>string, <span style=color:#078;font-weight:700>int</span><span style=color:#555>&gt;</span> stuffMap <span style=color:#555>=</span> {
+<!doctype html><html lang=en-us>
+<head>
+<title>C++ Invert Map at Compile Time | benpm.github.io</title>
+<meta charset=utf-8>
+<meta name=language content="en">
+<meta name=description content="How to invert/reverse/transform a map at compile-time in C++!">
+<meta name=keywords content="C++ ,unordered_map ,transform ,invert ,reverse ,map">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="C++ Invert Map at Compile Time">
+<meta name=twitter:description content="How to invert/reverse/transform a map at compile-time in C++!">
+<meta name=twitter:site content="https://twitter.com/_bpmw">
+<meta name=twitter:creator content="https://twitter.com/_bpmw">
+<link rel="shortcut icon" type=image/png href=/favicon.ico>
+<link type=text/css rel=stylesheet href=/css/post.min.9a955b519df490cf1c93b17141356c3fab7466ff91d74f7b8ac70697c3635fa2.css integrity="sha256-mpVbUZ30kM8ck7FxQTVsP6t0Zv+R1097iscGl8NjX6I=">
+<link type=text/css rel=stylesheet href=/css/custom.min.07e9b415621806a47b49ec8c7ecdbf25587cfa93cfee5f5019087c00a2e528c1.css integrity="sha256-B+m0FWIYBqR7SeyMfs2/JVh8+pPP7l9QGQh8AKLlKME=">
+<script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/benpm.github.io\/"},"articleSection":"blog","name":"C\u002b\u002b Invert Map at Compile Time","headline":"C\u002b\u002b Invert Map at Compile Time","description":"How to invert\/reverse\/transform a map at compile-time in C\u002b\u002b!","inLanguage":"en-US","author":"","creator":"","publisher":"","accountablePerson":"","copyrightHolder":"","copyrightYear":"2021","datePublished":"2021-07-01 15:37:49 -0600 -0600","dateModified":"2021-07-01 15:37:49 -0600 -0600","url":"https:\/\/benpm.github.io\/blog\/how-to-invert\/reverse\/transform-a-map-at-compile-time-in-c\u002b\u002b\/","wordCount":"287","keywords":["C\u002b\u002b","unordered_map","transform","invert","reverse","map","Blog"]}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PPST2B8G8Z"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-PPST2B8G8Z')</script></head>
+<body>
+<div class=burger__container>
+<div class=burger aria-controls=navigation aria-label=Menu>
+<div class="burger__meat burger__meat--1"></div>
+<div class="burger__meat burger__meat--2"></div>
+<div class="burger__meat burger__meat--3"></div>
+</div>
+</div>
+<nav class=nav id=navigation>
+<ul class=nav__list>
+<li>
+<a href=/>splash!</a>
+<div class=indicator></div>
+</li>
+<li>
+<a class=active href=/blog>blog</a>
+<div class="indicator active"></div>
+</li>
+<li>
+<a href=/experiments>experiments</a>
+<div class=indicator></div>
+</li>
+<li>
+<a href=/gamedev>gamedev</a>
+<div class=indicator></div>
+</li>
+<li>
+<a href=/music>music</a>
+<div class=indicator></div>
+</li>
+<li>
+<a href=/projects>projects</a>
+<div class=indicator></div>
+</li>
+<li>
+<a href=https://github.com/benpm/cv/raw/master/benpm_cv.pdf>cv (download)</a>
+<div class=indicator></div>
+</li>
+</ul>
+</nav>
+<main>
+<div class=flex-wrapper>
+<div class=post__container>
+<div class=post>
+<header class=post__header>
+<h1 id=post__title>C++ Invert Map at Compile Time</h1>
+<time datetime="2021-07-01 15:37:49 -0600 -0600" class=post-date>Jul 1 2021</time>
+</header>
+<article class=post__content>
+<p>Sometimes it&rsquo;s useful to be able to invert a map in C++ to perform reverse lookup. Say you are mapping names to IDs of something:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C++ data-lang=C++><span style=color:#069;font-weight:700>const</span> std<span style=color:#555>::</span>unordered_map<span style=color:#555>&lt;</span>std<span style=color:#555>::</span>string, <span style=color:#078;font-weight:700>int</span><span style=color:#555>&gt;</span> stuffMap <span style=color:#555>=</span> {
     {<span style=color:#c30>&#34;bread&#34;</span>, <span style=color:#f60>100</span>},
     {<span style=color:#c30>&#34;sword&#34;</span>, <span style=color:#f60>200</span>},
     {<span style=color:#c30>&#34;lamp&#34;</span>,  <span style=color:#f60>300</span>},
@@ -8,7 +78,8 @@ gtag('js',new Date());gtag('config','G-PPST2B8G8Z');</script></head><body><div c
 </code></pre></div><p>Maybe you have the ID and want to get the name. That&rsquo;s something we can do by reversing the map.
 Inserting the reversed pairs in a loop seems like a good solution, but maybe we also want this done at compile-time!
 So let&rsquo;s define a function which does this for us, but with an arbitrary function, so we can do any
-kind of transformation our hearts desire:</p><div class=highlight><pre style=background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C++ data-lang=C++><span style=color:#09f;font-style:italic>//Function which can transform an std::unordered_map of one type to another with a given transform function
+kind of transformation our hearts desire:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C++ data-lang=C++><span style=color:#09f;font-style:italic>//Function which can transform an std::unordered_map of one type to another with a given transform function
 </span><span style=color:#09f;font-style:italic></span><span style=color:#069;font-weight:700>template</span><span style=color:#555>&lt;</span><span style=color:#069;font-weight:700>typename</span> Kout, <span style=color:#069;font-weight:700>typename</span> Vout, <span style=color:#069;font-weight:700>typename</span> Kin, <span style=color:#069;font-weight:700>typename</span> Vin<span style=color:#555>&gt;</span>
 std<span style=color:#555>::</span>unordered_map<span style=color:#555>&lt;</span>Kout, Vout<span style=color:#555>&gt;</span> transformMap(
     <span style=color:#069;font-weight:700>const</span> std<span style=color:#555>::</span>unordered_map<span style=color:#555>&lt;</span>Kin, Vin<span style=color:#555>&gt;&amp;</span> inMap,
@@ -22,12 +93,14 @@ std<span style=color:#555>::</span>unordered_map<span style=color:#555>&lt;</spa
     );
     <span style=color:#069;font-weight:700>return</span> outMap;
 }
-</code></pre></div><p>We can use this function to reverse our <code>stuffMap</code> to allow reverse lookup, all at compile-time:</p><div class=highlight><pre style=background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C++ data-lang=C++><span style=color:#069;font-weight:700>const</span> std<span style=color:#555>::</span>unordered_map<span style=color:#555>&lt;</span><span style=color:#078;font-weight:700>int</span>, std<span style=color:#555>::</span>string<span style=color:#555>&gt;</span> revStuffMap <span style=color:#555>=</span> transformMap(stuffMap,
+</code></pre></div><p>We can use this function to reverse our <code>stuffMap</code> to allow reverse lookup, all at compile-time:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C++ data-lang=C++><span style=color:#069;font-weight:700>const</span> std<span style=color:#555>::</span>unordered_map<span style=color:#555>&lt;</span><span style=color:#078;font-weight:700>int</span>, std<span style=color:#555>::</span>string<span style=color:#555>&gt;</span> revStuffMap <span style=color:#555>=</span> transformMap(stuffMap,
     std<span style=color:#555>::</span>function([](<span style=color:#069;font-weight:700>const</span> std<span style=color:#555>::</span>pair<span style=color:#555>&lt;</span>std<span style=color:#555>::</span>string, <span style=color:#078;font-weight:700>int</span><span style=color:#555>&gt;&amp;</span> p) {
         <span style=color:#069;font-weight:700>return</span> std<span style=color:#555>::</span>make_pair(p.second, p.first);
     })
 );
-</code></pre></div><p>Let&rsquo;s try it out:</p><div class=highlight><pre style=background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C++ data-lang=C++><span style=color:#078;font-weight:700>int</span> <span style=color:#c0f>main</span>() {
+</code></pre></div><p>Let&rsquo;s try it out:</p>
+<div class=highlight><pre tabindex=0 style=background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-C++ data-lang=C++><span style=color:#078;font-weight:700>int</span> <span style=color:#c0f>main</span>() {
     std<span style=color:#555>::</span>cout <span style=color:#555>&lt;&lt;</span> <span style=color:#c30>&#34;stuffMap:&#34;</span> <span style=color:#555>&lt;&lt;</span> std<span style=color:#555>::</span>endl;
     <span style=color:#069;font-weight:700>for</span> (<span style=color:#069;font-weight:700>const</span> <span style=color:#069;font-weight:700>auto</span><span style=color:#555>&amp;</span> <span style=color:#99f>p</span> : stuffMap) {
         std<span style=color:#555>::</span>cout <span style=color:#555>&lt;&lt;</span> p.first <span style=color:#555>&lt;&lt;</span> <span style=color:#c30>&#34;:&#34;</span> <span style=color:#555>&lt;&lt;</span> p.second <span style=color:#555>&lt;&lt;</span> std<span style=color:#555>::</span>endl;
@@ -37,7 +110,8 @@ std<span style=color:#555>::</span>unordered_map<span style=color:#555>&lt;</spa
         std<span style=color:#555>::</span>cout <span style=color:#555>&lt;&lt;</span> p.first <span style=color:#555>&lt;&lt;</span> <span style=color:#c30>&#34;:&#34;</span> <span style=color:#555>&lt;&lt;</span> p.second <span style=color:#555>&lt;&lt;</span> std<span style=color:#555>::</span>endl;
     }
 }
-</code></pre></div><p>&mldr;</p><pre><code>stuffMap:
+</code></pre></div><p>&mldr;</p>
+<pre tabindex=0><code>stuffMap:
 400:clogs
 300:lamp
 200:sword
@@ -48,6 +122,56 @@ bread:100
 sword:200
 clogs:400
 lamp:300
-</code></pre><p><a href=https://replit.com/@_bm/transformmap#main.cpp target=_blank rel="noreferrer noopener">Try it yourself here!</a></p><p>And it doesn&rsquo;t need to stop at reversing a map! You can use any function to transform the input
-to the output map. Go crazy!</p></article><ul class=tags__list><li class=tag__item><a class=tag__link href=https://benpm.github.io/tags/c++/>C++</a></li></ul><div class=pagination><a class=pagination__item href=https://benpm.github.io/blog/quadtrees/><span class=pagination__label>Previous Post</span>
-<span class=pagination__title>Quadtrees for 2D Games with Moving Elements</span></a></div><footer class=post__footer><div class=social-icons><a class=social-icons__link title=Twitter href=https://twitter.com/_bpmw target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/twitter.svg)></div></a><a class=social-icons__link title=GitHub href=https://github.com/benpm target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/github.svg)></div></a><a class=social-icons__link title=YouTube href=https://www.youtube.com/c/BenjaminMastripolito target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/youtube.svg)></div></a><a class=social-icons__link title=SoundCloud href=https://soundcloud.com/trope target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/soundcloud.svg)></div></a><a class=social-icons__link title=ItchIO href=https://ben-m.itch.io/ target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/itchio.svg)></div></a><a class=social-icons__link title=ko-fi href=https://ko-fi.com/benpm target=_blank rel=noopener><div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/ko-fi.svg)></div></a></div><p></p></footer></div></div></div></main><script src=/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr+kQ=" crossorigin=anonymous></script><script src=https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js></script><script src=https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js data-autoloader-path=https://unpkg.com/prismjs@1.20.0/components/></script><script src=/js/theme_toggle.min.849493ff7ff93f4d1ced5d05d4e096c9968165968b41ebbe21a57f3690305a10.js integrity="sha256-hJST/3/5P00c7V0F1OCWyZaBZZaLQeu+IaV/NpAwWhA=" crossorigin=anonymous></script><div id=theme-toggle-button class=invertable onclick=toggleTheme()></div></body></html>
+</code></pre><p><a href=https://replit.com/@_bm/transformmap#main.cpp target=_blank rel="noreferrer noopener">Try it yourself here!</a></p>
+<p>And it doesn&rsquo;t need to stop at reversing a map! You can use any function to transform the input
+to the output map. Go crazy!</p>
+</article>
+<ul class=tags__list>
+<li class=tag__item>
+<a class=tag__link href=https://benpm.github.io/tags/c++/>C++</a>
+</li></ul>
+<div class=pagination>
+<a class=pagination__item href=https://benpm.github.io/blog/quadtrees/>
+<span class=pagination__label>Previous Post</span>
+<span class=pagination__title>Quadtrees for 2D Games with Moving Elements</span>
+</a>
+<a class=pagination__item href=https://benpm.github.io/blog/gol_2/>
+<span class=pagination__label>Next Post</span>
+<span class=pagination__title>Cellular Automata in WebGL: Part 2</span>
+</a>
+</div>
+<footer class=post__footer>
+<div class=social-icons>
+<a class=social-icons__link title=Twitter href=https://twitter.com/_bpmw target=_blank rel=noopener>
+<div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/twitter.svg)></div>
+</a>
+<a class=social-icons__link title=GitHub href=https://github.com/benpm target=_blank rel=noopener>
+<div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/github.svg)></div>
+</a>
+<a class=social-icons__link title=YouTube href=https://www.youtube.com/c/BenjaminMastripolito target=_blank rel=noopener>
+<div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/youtube.svg)></div>
+</a>
+<a class=social-icons__link title=SoundCloud href=https://soundcloud.com/trope target=_blank rel=noopener>
+<div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/soundcloud.svg)></div>
+</a>
+<a class=social-icons__link title=ItchIO href=https://ben-m.itch.io/ target=_blank rel=noopener>
+<div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/itchio.svg)></div>
+</a>
+<a class=social-icons__link title=ko-fi href=https://ko-fi.com/benpm target=_blank rel=noopener>
+<div class=social-icons__icon style=background-image:url(https://benpm.github.io/svg/ko-fi.svg)></div>
+</a>
+</div>
+<p></p>
+</footer>
+</div>
+</div>
+</div>
+</main>
+<script src=/js/index.min.575dda8d49ee02639942c63564273e6da972ab531dda26a08800bdcb477cbd7f.js integrity="sha256-V13ajUnuAmOZQsY1ZCc+balyq1Md2iagiAC9y0d8vX8=" crossorigin=anonymous></script>
+<script src=https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js></script>
+<script src=https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js data-autoloader-path=https://unpkg.com/prismjs@1.20.0/components/></script>
+<script src=/js/theme_toggle.min.97c859030c6d024aa131cd2b64b288db04fe84c2f7407d1af86211565503530a.js integrity="sha256-l8hZAwxtAkqhMc0rZLKI2wT+hML3QH0a+GIRVlUDUwo=" crossorigin=anonymous></script>
+<div id=theme-toggle-button class=invertable onclick=toggleTheme()>
+</div>
+</body>
+</html>

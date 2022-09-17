@@ -1,4 +1,342 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cellular-automata on benpm.github.io</title><link>https://benpm.github.io/tags/cellular-automata/</link><description>Recent content in cellular-automata on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Jul 2020 10:08:45 -0600</lastBuildDate><atom:link href="https://benpm.github.io/tags/cellular-automata/index.xml" rel="self" type="application/rss+xml"/><item><title>Cellular Automata in WebGL: Part 1</title><link>https://benpm.github.io/blog/gol_1/</link><pubDate>Tue, 28 Jul 2020 10:08:45 -0600</pubDate><guid>https://benpm.github.io/blog/gol_1/</guid><description>&lt;p>I&amp;rsquo;ve always been fascinated with cellular automata, like Conway&amp;rsquo;s Game of Life:&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cellular-automata on benpm.github.io</title><link>https://benpm.github.io/tags/cellular-automata/</link><description>Recent content in cellular-automata on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 15 Sep 2022 13:00:19 -0700</lastBuildDate><atom:link href="https://benpm.github.io/tags/cellular-automata/index.xml" rel="self" type="application/rss+xml"/><item><title>Cellular Automata in WebGL: Part 2</title><link>https://benpm.github.io/blog/gol_2/</link><pubDate>Thu, 15 Sep 2022 13:00:19 -0700</pubDate><guid>https://benpm.github.io/blog/gol_2/</guid><description>&lt;p>&lt;em>This is a rewrite and significant expansion of my first cellular automata article. It covers everything in the first article, plus a significant amount of explanation of multi-state automata. If you&amp;rsquo;re coming from the first article, feel free &lt;a href="#encoding-multiple-states"
+>skip to that part&lt;/a>.&lt;/em>&lt;/p>
+&lt;p>I&amp;rsquo;ve always been fascinated with cellular automata like Conway&amp;rsquo;s Game of Life. The idea that complex and interesting behavior can emerge from simple rules is captivating to me. In this document I&amp;rsquo;ll explain my method of encoding a class cellular automata rules, as well as how I implemented my simulator.&lt;/p>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/banner.gif" alt="">&lt;/p>
+&lt;h2 id="the-basics">The Basics&lt;/h2>
+&lt;p>Cellular automata are essentially an arrangement of cells with states (in our case, integers) that are determined by a &lt;strong>rule&lt;/strong>. These rules are functions which take the states of a cell and its neighbors as input, and produce the cell&amp;rsquo;s new state as output. By applying this rule to every cell simultaneously, we advance the simulation in time.&lt;/p>
+&lt;p>For this undertaking we will only consider &lt;strong>totalistic&lt;/strong> cellular automata with a &lt;strong>Moore neighborhood&lt;/strong>, which contains the eight immediately adjacent cells. By being totalistic, these rules only take into account the &lt;em>total&lt;/em> number of cells of each state in the neighborhood, ignoring their arrangement.&lt;/p>
+&lt;p>&lt;img class="invertable drawing" src="https://benpm.github.io/images/cellular_automata/illustration_1.png" alt="With totalistic automata, the arrangement of neighboring cells is ignored. Here, there are three possible states, labeled 0 through 2.">&lt;/p>
+&lt;p>With these definitions we can specify a &lt;strong>rule function&lt;/strong>, $F$:&lt;/p>
+&lt;p>$$ o = F(c, N) $$&lt;/p>
+&lt;p>$o$ is the output state, $c$ is the current state, and $N$ is a sequence of integers which represents the total neighbor count for each possible state: the $i^{th}$ element of $N$ is the total number of neighbors with state $i$. In the above example, $c=0$ and $N=(3,3,2)$.&lt;/p>
+&lt;p>To begin, let&amp;rsquo;s just consider two possible states: &amp;ldquo;on&amp;rdquo; ($1$) and &amp;ldquo;off&amp;rdquo; ($0$), like in Game of Life. The first thing to notice is that since the total number of neighbors is always 8, we only need to consider the number of ($1$) neighbors, as the number of ($0$) neighbors is always $8 - N_1$. (We could also choose to only count the number of ($0$) neighbors).&lt;/p>
+&lt;p>So how do we represent the rule function so that we can simulate &lt;em>any&lt;/em> two-state rule under our constraints? Well, since the inputs to our functions are just integers, we can use them to index a table, like this one:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>$c$ / $N_1$&lt;/th>
+&lt;th>0&lt;/th>
+&lt;th>1&lt;/th>
+&lt;th>2&lt;/th>
+&lt;th>3&lt;/th>
+&lt;th>4&lt;/th>
+&lt;th>5&lt;/th>
+&lt;th>6&lt;/th>
+&lt;th>7&lt;/th>
+&lt;th>8&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>(0)&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>(1)&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;td>.&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Here, we have a table that contains output states, which we find by querying the table by row (current state, $c$) and column (number of ($1$) neighbors, $N_1$). In the above example, $F(1,5)=0$, so if a cell&amp;rsquo;s state is ($1$), and it has five ($1$) neighbors, it becomes ($0$).&lt;/p>
+&lt;p>Let&amp;rsquo;s try to encode Game of Life in this format. The rules of Game of Life, in English, are:&lt;/p>
+&lt;ol>
+&lt;li>Any &lt;em>on&lt;/em> cell with two or three &lt;em>on&lt;/em> neighbours stays &lt;em>on&lt;/em>&lt;/li>
+&lt;li>Any &lt;em>off&lt;/em> cell with three &lt;em>on&lt;/em> neighbours turns &lt;em>on&lt;/em>&lt;/li>
+&lt;li>All other cells turn &lt;em>off&lt;/em>, including cells that are already &lt;em>off&lt;/em>&lt;/li>
+&lt;/ol>
+&lt;p>So, in our table representation of $F$:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>$c$ / $N_1$&lt;/th>
+&lt;th>0&lt;/th>
+&lt;th>1&lt;/th>
+&lt;th>2&lt;/th>
+&lt;th>3&lt;/th>
+&lt;th>4&lt;/th>
+&lt;th>5&lt;/th>
+&lt;th>6&lt;/th>
+&lt;th>7&lt;/th>
+&lt;th>8&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>(0)&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>(1)&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>1&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;td>0&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Nice and simple! Now we can start thinking about how to use this in a shader. The simulation will take place on an integer-format texture, which we can access like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#09f;font-style:italic">// simulate.frag&lt;/span>
+&lt;span style="color:#099">#version 300 es&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">highp&lt;/span> usampler2D uSim; &lt;span style="color:#09f;font-style:italic">// Simulation texture&lt;/span>
+&lt;span style="color:#069;font-weight:bold">in&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span> vTextureCoord; &lt;span style="color:#09f;font-style:italic">// Texture coordinates 0.0 to 1.0&lt;/span>
+&lt;span style="color:#069;font-weight:bold">void&lt;/span> main(&lt;span style="color:#069;font-weight:bold">void&lt;/span>) {
+&lt;span style="color:#09f;font-style:italic">// Get the current state&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> curstate &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#069;font-weight:bold">int&lt;/span>(texture(uSim, vTextureCoord).r);
+&lt;span style="color:#09f;font-style:italic">// Determine number of (1) neighbors&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> count &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>curstate;
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> x &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>; x &lt;span style="color:#555">&amp;lt;=&lt;/span> &lt;span style="color:#f60">1&lt;/span>; x &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> y &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>; y &lt;span style="color:#555">&amp;lt;=&lt;/span> &lt;span style="color:#f60">1&lt;/span>; y &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">if&lt;/span> (v &lt;span style="color:#555">==&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+count &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>;
+}
+}
+}
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>NOTE:&lt;/strong> We initialize &lt;code>count&lt;/code> to &lt;code>-curstate&lt;/code> to prevent counting the current cell. It also avoids branching, which can be expensive on a GPU, &lt;a href="https://developer.nvidia.com/gpugems/gpugems2/part-iv-general-purpose-computation-gpus-primer/chapter-34-gpu-flow-control-idioms"
+target="_blank" rel="noreferrer noopener"
+>depending on the situation&lt;/a>.&lt;/p>
+&lt;/blockquote>
+&lt;p>Now that we have $c$ as &lt;code>curstate&lt;/code> and $N_1$ as &lt;code>count&lt;/code>, we can grab our next state from the rule, which is also stored in a texture:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#09f;font-style:italic">// simulate.frag&lt;/span>
+&lt;span style="color:#099">#version 300 es&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">highp&lt;/span> usampler2D uRule; &lt;span style="color:#09f;font-style:italic">// Rule table&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">highp&lt;/span> usampler2D uSim; &lt;span style="color:#09f;font-style:italic">// Simulation texture&lt;/span>
+&lt;span style="color:#069;font-weight:bold">in&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span> vTextureCoord; &lt;span style="color:#09f;font-style:italic">// Texture coordinates 0.0 to 1.0&lt;/span>
+&lt;span style="color:#069;font-weight:bold">out&lt;/span> uvec3 fragColor;
+&lt;span style="color:#069;font-weight:bold">void&lt;/span> main(&lt;span style="color:#069;font-weight:bold">void&lt;/span>) {
+&lt;span style="color:#09f;font-style:italic">// Get the current state&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> curstate &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#069;font-weight:bold">int&lt;/span>(texture(uSim, vTextureCoord).r);
+&lt;span style="color:#09f;font-style:italic">// Determine number of (1) neighbors&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> count &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>curstate;
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> x &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>; x &lt;span style="color:#555">&amp;lt;=&lt;/span> &lt;span style="color:#f60">1&lt;/span>; x &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> y &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>; y &lt;span style="color:#555">&amp;lt;=&lt;/span> &lt;span style="color:#f60">1&lt;/span>; y &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">if&lt;/span> (v &lt;span style="color:#555">==&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+count &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>;
+}
+}
+}
+uint newstate &lt;span style="color:#555">=&lt;/span> texelFetch(uRule, &lt;span style="color:#069;font-weight:bold">ivec2&lt;/span>(count, curstate), &lt;span style="color:#f60">0&lt;/span>).r;
+fragColor &lt;span style="color:#555">=&lt;/span> uvec3(newstate);
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;blockquote>
+&lt;p>&lt;strong>NOTE:&lt;/strong> Here we use &lt;a href="https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/texelFetch.xhtml"
+target="_blank" rel="noreferrer noopener"
+>&lt;code>texelFetch()&lt;/code>&lt;/a> instead of &lt;a href="https://www.khronos.org/registry/OpenGL-Refpages/es3.0/html/texture.xhtml"
+target="_blank" rel="noreferrer noopener"
+>&lt;code>texture()&lt;/code>&lt;/a> to avoid expensive floating-point conversion and fragment-to-texel coordinate conversion. We don&amp;rsquo;t do this for sampling the simulation texture because it doesn&amp;rsquo;t support texture wrapping.&lt;/p>
+&lt;/blockquote>
+&lt;p>To run our simulation, we use two different textures attached to framebuffers, one as output, one as input. By alternating their roles each time step, our desired result is finally produced!&lt;/p>
+&lt;p>So how many possible rules does this give us? Well, there are 2 possible values for $c$, and 9 possible values for $N_1$ (that&amp;rsquo;s 0, 1, 2&amp;hellip; up to and including 8). Since $F$ can only return 2 possible values, the total number of possible rules is $2^{2\cdot9} = 262144$! Not bad, but we can do better&amp;hellip;&lt;/p>
+&lt;h2 id="encoding-multiple-states">Encoding Multiple States&lt;/h2>
+&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/banner2.gif" alt="">&lt;/p>
+&lt;p>Although two states is enough to produce interesting behavior, multi-state rules can have &lt;a href="https://en.wikipedia.org/wiki/Brian%27s_Brain"
+target="_blank" rel="noreferrer noopener"
+>some&lt;/a> &lt;a href="https://en.wikipedia.org/wiki/Wireworld"
+target="_blank" rel="noreferrer noopener"
+>very&lt;/a> &lt;a href="https://en.wikipedia.org/wiki/Codd%27s_cellular_automaton"
+target="_blank" rel="noreferrer noopener"
+>cool&lt;/a> &lt;a href="https://en.wikipedia.org/wiki/Von_Neumann_cellular_automaton"
+target="_blank" rel="noreferrer noopener"
+>properties&lt;/a>, so let&amp;rsquo;s figure out how to encode these more complex rules efficiently.&lt;/p>
+&lt;p>First let&amp;rsquo;s just imagine the case were we have 3 states instead of 2. Not only do we need an additional neighbor count $N_2$ as input to our rule function, but the set of possible inputs becomes more nuanced. For example, if $N_2 = 4$, the possible neighbor counts for ($1$) and ($0$) are restricted, because the sum of all neighbor counts must equal 8. In other words:&lt;/p>
+&lt;p>$$
+\sum^{n-1}_{i=0} N_i = 8
+$$&lt;/p>
+&lt;p>In this case, $N=(3,4,5)$ is &lt;em>invalid&lt;/em> because the sum of $N$ would unfortunately be 12, not 8. Of course, this applied our 2-state case as well, but we didn&amp;rsquo;t have to worry about it because the value of $N_0$ was implicitly defined solely by $N_1$.&lt;/p>
+&lt;p>So how do we index our rule texture with this property in mind? Well, let&amp;rsquo;s start by looking at how we might want to map possible $N$s to indices, by sort of &amp;ldquo;counting up&amp;rdquo;:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>input states ($N_0$,$N_1$,$N_2$)&lt;/th>
+&lt;th>index&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;code>(0,0,8)&lt;/code>&lt;/td>
+&lt;td>0&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>(0,1,7)&lt;/code>&lt;/td>
+&lt;td>1&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>(0,2,6)&lt;/code>&lt;/td>
+&lt;td>2&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;hellip;&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>(0,7,1)&lt;/code>&lt;/td>
+&lt;td>7&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>(0,8,0)&lt;/code>&lt;/td>
+&lt;td>8&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>(1,0,7)&lt;/code>&lt;/td>
+&lt;td>9&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&amp;hellip;&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>(1,6,1)&lt;/code>&lt;/td>
+&lt;td>15&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>(1,7,0)&lt;/code>&lt;/td>
+&lt;td>16&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>(2,0,6)&lt;/code>&lt;/td>
+&lt;td>17&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>&lt;strong>NOTE:&lt;/strong> We are just considering $N$ here because adding in $c$ is simple: we just multiply the index of $N$ by $c$ to get the final index into the rule texture.&lt;/p>
+&lt;/blockquote>
+&lt;p>The first thing to notice is that the first 9 entries have $N_0=0$, which is like we only have two states. This means that if we allowed for a 4th state, we could just add on to the end of the table. It also means we can express the length of the table (the total number of possible $N$s) as a function of the number of states, $n$.&lt;/p>
+&lt;p>One state has 1 possible inputs, two states has 9, and if we extended the table we&amp;rsquo;d find that 3 states gives us 45 possible inputs. The &lt;a href="https://oeis.org"
+target="_blank" rel="noreferrer noopener"
+>OEIS&lt;/a> tells us that the sequence of 1, 9, 45, &amp;hellip; is $\binom{n+7}{8}$. Notice: 8 is our target sum and 7 is just 8-1. Indeed, $\binom{n+s-1}{s}$ is the general form for any target sum $s$.&lt;/p>
+&lt;p>So where do these numbers come from? Well, if we arrange the possible input sequences by state, it becomes clear:&lt;/p>
+&lt;p>&lt;img class="invertable drawing" src="https://benpm.github.io/images/cellular_automata/sequences.png" alt="Arrangement of $n=1,2,3$ states and the possible neighbor sequences for each. The grey boxes show that for each additional state, we include the previous sequences.">&lt;/p>
+&lt;p>Now that we can compute the maximum index of any sequence given its length $n$, and target sum $s$, we can finally compute an index. The process is this:&lt;/p>
+&lt;p>$$
+\text{for } i=0 \text{ to } n-1:\
+v = v + \binom{s + n - i - 1}{s} - \binom{s - S_i + n - i - 1}{s - S_i} , s = s - S_i
+$$&lt;/p>
+&lt;p>&amp;hellip;where $v$, which is initialized to 0, is the computed index of the given sequence $S$. $s$ is the remaining sum of the elements in the sequence after $i$, which begins as our target sum (for our purposes, 8). $s$ decreases by the value of each element of $S$ as we iterate through it.&lt;/p>
+&lt;p>$\binom{s + n - i - 1}{s}$ is the formula for computing max index, except we are computing the max index for the sequences of length $n-i$ which sum to the remaining sum of the whole sequence, $s$.&lt;/p>
+&lt;p>$\binom{s - S_i + n - i - 1}{s - S_i}$ provides the max index of the sequences of length $n-i$ which sum to $s-S_i$, which is just the remaining sum after the element $S_i$.&lt;/p>
+&lt;p>Taking the difference of these two quantities gives us the index of the sequence up to $i$. By summing all $i &amp;lt; n-1$, we get the index of the whole sequence!&lt;/p>
+&lt;p>For clarity, I&amp;rsquo;ve also written the algorithm in Python:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-python" data-lang="python">&lt;span style="color:#09f;font-style:italic"># n: sequence length&lt;/span>
+&lt;span style="color:#09f;font-style:italic"># S: the sequence&lt;/span>
+&lt;span style="color:#09f;font-style:italic"># s: the integer value which each sequence sums to&lt;/span>
+&lt;span style="color:#09f;font-style:italic"># The computed index, starts at 0&lt;/span>
+v &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#f60">0&lt;/span>
+&lt;span style="color:#09f;font-style:italic"># algorithm: Consider each element of the sequence S as a subsequence,&lt;/span>
+&lt;span style="color:#09f;font-style:italic"># where each element is an increasingly smaller subsequence.&lt;/span>
+&lt;span style="color:#09f;font-style:italic"># By summing together the indices of each subsequence, we get the&lt;/span>
+&lt;span style="color:#09f;font-style:italic"># index of the whole sequence. We start with the longest subsequence.&lt;/span>
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> i &lt;span style="color:#000;font-weight:bold">in&lt;/span> &lt;span style="color:#366">range&lt;/span>(n &lt;span style="color:#555">-&lt;/span> &lt;span style="color:#f60">1&lt;/span>):
+&lt;span style="color:#09f;font-style:italic"># l: Max index of subsequence that sums to n minus whatever we&amp;#39;ve seen so far&lt;/span>
+l &lt;span style="color:#555">=&lt;/span> comb((s) &lt;span style="color:#555">+&lt;/span> (n &lt;span style="color:#555">-&lt;/span> i &lt;span style="color:#555">-&lt;/span> &lt;span style="color:#f60">1&lt;/span>), s)
+&lt;span style="color:#09f;font-style:italic"># r: Like l, but for sequences that sum to current minus S[i], the element we are considering&lt;/span>
+r &lt;span style="color:#555">=&lt;/span> comb((s &lt;span style="color:#555">-&lt;/span> S[i]) &lt;span style="color:#555">+&lt;/span> (n &lt;span style="color:#555">-&lt;/span> i &lt;span style="color:#555">-&lt;/span> &lt;span style="color:#f60">1&lt;/span>), s &lt;span style="color:#555">-&lt;/span> S[i])
+&lt;span style="color:#09f;font-style:italic"># Add l-r, the index of the part of the sequence we&amp;#39;ve seen so far&lt;/span>
+v &lt;span style="color:#555">+=&lt;/span> ( l &lt;span style="color:#555">-&lt;/span> r )
+&lt;span style="color:#09f;font-style:italic"># Subtract the current sequence element from current sum&lt;/span>
+s &lt;span style="color:#555">-=&lt;/span> S[i]
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/banner3.gif" alt="complex gliders">&lt;/p>
+&lt;h2 id="implementation">Implementation&lt;/h2>
+&lt;p>To implement this algorithm efficiently in a shader, we need to pre-compute binomial coefficients into a texture:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-javascript" data-lang="javascript">&lt;span style="color:#069;font-weight:bold">function&lt;/span> buildBinomial() {
+&lt;span style="color:#069;font-weight:bold">const&lt;/span> data &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#069;font-weight:bold">new&lt;/span> Uint32Array(&lt;span style="color:#f60">32&lt;/span> &lt;span style="color:#555">*&lt;/span> &lt;span style="color:#f60">32&lt;/span>);
+data.fill(&lt;span style="color:#f60">0&lt;/span>);
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">let&lt;/span> n &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#f60">0&lt;/span>; n &lt;span style="color:#555">&amp;lt;&lt;/span> &lt;span style="color:#f60">32&lt;/span>; n&lt;span style="color:#555">++&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">let&lt;/span> k &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#f60">0&lt;/span>; k &lt;span style="color:#555">&amp;lt;&lt;/span> &lt;span style="color:#f60">32&lt;/span>; k&lt;span style="color:#555">++&lt;/span>) {
+data[k &lt;span style="color:#555">*&lt;/span> &lt;span style="color:#f60">32&lt;/span> &lt;span style="color:#555">+&lt;/span> n] &lt;span style="color:#555">=&lt;/span> binomial(n, k);
+}
+}
+&lt;span style="color:#069;font-weight:bold">const&lt;/span> binomialTex &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#069;font-weight:bold">this&lt;/span>.gl.createTexture();
+&lt;span style="color:#069;font-weight:bold">this&lt;/span>.gl.bindTexture(&lt;span style="color:#069;font-weight:bold">this&lt;/span>.gl.TEXTURE_2D, binomialTex);
+&lt;span style="color:#09f;font-style:italic">// We use 32-bit unsigned integers because we need to store large numbers
+&lt;/span>&lt;span style="color:#09f;font-style:italic">&lt;/span> &lt;span style="color:#069;font-weight:bold">this&lt;/span>.gl.texImage2D(&lt;span style="color:#069;font-weight:bold">this&lt;/span>.gl.TEXTURE_2D, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#069;font-weight:bold">this&lt;/span>.gl.R32UI, &lt;span style="color:#f60">32&lt;/span>, &lt;span style="color:#f60">32&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#069;font-weight:bold">this&lt;/span>.gl.RED_INTEGER, &lt;span style="color:#069;font-weight:bold">this&lt;/span>.gl.UNSIGNED_INT, data);
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>We access the texture like this, using texelFetch():&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-GLSL" data-lang="GLSL">&lt;span style="color:#099">#version 300 es&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">highp&lt;/span> usampler2D uBinomial
+&lt;span style="color:#09f;font-style:italic">// Returns binomial coefficient (n choose k) from precompute texture&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> binomial(&lt;span style="color:#069;font-weight:bold">int&lt;/span> n, &lt;span style="color:#069;font-weight:bold">int&lt;/span> k) {
+&lt;span style="color:#069;font-weight:bold">return&lt;/span> &lt;span style="color:#069;font-weight:bold">int&lt;/span>(texelFetch(uBinomial, &lt;span style="color:#069;font-weight:bold">ivec2&lt;/span>(n, k), &lt;span style="color:#f60">0&lt;/span>).r);
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Finally, we have everything we need for the final shader!&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#09f;font-style:italic">// simulate.frag&lt;/span>
+&lt;span style="color:#099">#version 300 es&lt;/span>
+&lt;span style="color:#069;font-weight:bold">precision&lt;/span> &lt;span style="color:#069;font-weight:bold">mediump&lt;/span> &lt;span style="color:#069;font-weight:bold">float&lt;/span>;
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">highp&lt;/span> usampler2D uSim; &lt;span style="color:#09f;font-style:italic">// Input states texture&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">highp&lt;/span> usampler2D uRule; &lt;span style="color:#09f;font-style:italic">// The cellular automata rule&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">highp&lt;/span> usampler2D uBinomial; &lt;span style="color:#09f;font-style:italic">// Precomputed binomial coefficents&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span> uSize; &lt;span style="color:#09f;font-style:italic">// Size of simulation canvas in pixels&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">int&lt;/span> uStates; &lt;span style="color:#09f;font-style:italic">// Number of states in this rule (MAX 14)&lt;/span>
+&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">int&lt;/span> uSubIndices; &lt;span style="color:#09f;font-style:italic">// Number pf subrule indices&lt;/span>
+&lt;span style="color:#069;font-weight:bold">in&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span> vTextureCoord;
+&lt;span style="color:#069;font-weight:bold">out&lt;/span> uvec3 fragColor;
+&lt;span style="color:#09f;font-style:italic">// Returns binomial coefficient (n choose k) from precompute texture&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> binomial(&lt;span style="color:#069;font-weight:bold">int&lt;/span> n, &lt;span style="color:#069;font-weight:bold">int&lt;/span> k) {
+&lt;span style="color:#069;font-weight:bold">return&lt;/span> &lt;span style="color:#069;font-weight:bold">int&lt;/span>(texelFetch(uBinomial, &lt;span style="color:#069;font-weight:bold">ivec2&lt;/span>(n, k), &lt;span style="color:#f60">0&lt;/span>).r);
+}
+&lt;span style="color:#069;font-weight:bold">void&lt;/span> main(&lt;span style="color:#069;font-weight:bold">void&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> curstate &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#069;font-weight:bold">int&lt;/span>(texture(uSim, vTextureCoord).r);
+&lt;span style="color:#09f;font-style:italic">// Neighbor counts by state index&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> N[&lt;span style="color:#f60">14&lt;/span>] &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#069;font-weight:bold">int&lt;/span>[](&lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>, &lt;span style="color:#f60">0&lt;/span>);
+N[curstate] &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>;
+&lt;span style="color:#09f;font-style:italic">// Determine neighbor counts&lt;/span>
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> x &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>; x &lt;span style="color:#555">&amp;lt;=&lt;/span> &lt;span style="color:#f60">1&lt;/span>; x &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> y &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#555">-&lt;/span>&lt;span style="color:#f60">1&lt;/span>; y &lt;span style="color:#555">&amp;lt;=&lt;/span> &lt;span style="color:#f60">1&lt;/span>; y &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>) {
+uint i &lt;span style="color:#555">=&lt;/span> texture(uSim, vTextureCoord &lt;span style="color:#555">+&lt;/span> (&lt;span style="color:#069;font-weight:bold">vec2&lt;/span>(x, y) &lt;span style="color:#555">/&lt;/span> uSize)).r;
+N[i] &lt;span style="color:#555">+=&lt;/span> &lt;span style="color:#f60">1&lt;/span>;
+}
+}
+&lt;span style="color:#09f;font-style:italic">// Determine the index of the integer sequence formed by the neighbor counts&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> seqIndex &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#f60">0&lt;/span>;
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> s &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#f60">8&lt;/span>;
+&lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">int&lt;/span> i &lt;span style="color:#555">=&lt;/span> &lt;span style="color:#f60">0&lt;/span>; i &lt;span style="color:#555">&amp;lt;&lt;/span> &lt;span style="color:#f60">13&lt;/span>; i&lt;span style="color:#555">++&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">if&lt;/span> (N[i] &lt;span style="color:#555">&amp;gt;&lt;/span> &lt;span style="color:#f60">0&lt;/span>) {
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> x &lt;span style="color:#555">=&lt;/span> uStates &lt;span style="color:#555">-&lt;/span> i &lt;span style="color:#555">-&lt;/span> &lt;span style="color:#f60">1&lt;/span>;
+seqIndex &lt;span style="color:#555">+=&lt;/span> binomial(s &lt;span style="color:#555">+&lt;/span> x, s) &lt;span style="color:#555">-&lt;/span> binomial(s &lt;span style="color:#555">-&lt;/span> N[i] &lt;span style="color:#555">+&lt;/span> x, s &lt;span style="color:#555">-&lt;/span> N[i]);
+s &lt;span style="color:#555">-=&lt;/span> N[i];
+}
+}
+&lt;span style="color:#09f;font-style:italic">// Compute final index into rule tex given current state and neighbor states&lt;/span>
+&lt;span style="color:#069;font-weight:bold">int&lt;/span> ruleIndex &lt;span style="color:#555">=&lt;/span> curstate &lt;span style="color:#555">*&lt;/span> uSubIndices &lt;span style="color:#555">+&lt;/span> seqIndex;
+&lt;span style="color:#09f;font-style:italic">// Convert 1D rule index into 2D coordinate into rule texture&lt;/span>
+uint newstate &lt;span style="color:#555">=&lt;/span> texelFetch(uRule, &lt;span style="color:#069;font-weight:bold">ivec2&lt;/span>(ruleIndex &lt;span style="color:#555">%&lt;/span> &lt;span style="color:#f60">1024&lt;/span>, ruleIndex &lt;span style="color:#555">/&lt;/span> &lt;span style="color:#f60">1024&lt;/span>), &lt;span style="color:#f60">0&lt;/span>).r;
+fragColor &lt;span style="color:#555">=&lt;/span> uvec3(newstate);
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Now we have a working shader that simulates arbitrary multi-state cellular automatons! You can see a live demo &lt;a href="https://benpm.github.io/cellarium/"
+target="_blank" rel="noreferrer noopener"
+>here&lt;/a>, and all the source code &lt;a href="https://github.com/benpm/cellarium"
+target="_blank" rel="noreferrer noopener"
+>here&lt;/a>.&lt;/p></description></item><item><title>Cellular Automata in WebGL: Part 1</title><link>https://benpm.github.io/blog/gol_1/</link><pubDate>Tue, 28 Jul 2020 10:08:45 -0600</pubDate><guid>https://benpm.github.io/blog/gol_1/</guid><description>&lt;p>I&amp;rsquo;ve always been fascinated with cellular automata, like Conway&amp;rsquo;s Game of Life:&lt;/p>
 &lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/gol_1.gif" alt="game of life">&lt;/p>
 &lt;p>The idea that simple rules can produce structured, complex systems is beautiful to me. Of course I&amp;rsquo;m not the only one, &lt;a href="https://www.youtube.com/watch?v=VguG_y05Xe8"
 target="_blank" rel="noreferrer noopener"
@@ -30,14 +368,14 @@ target="_blank" rel="noreferrer noopener"
 &lt;p>So let&amp;rsquo;s look at the representation in our bit string:&lt;/p>
 &lt;p>&lt;img class="invertable drawing" src="https://benpm.github.io/images/cellular_automata/illustration_3.png" alt="bit representation">&lt;/p>
 &lt;p>Nice! That&amp;rsquo;s really easy to pass to a shader. We&amp;rsquo;ll just write that information to a texture and make a uniform to access it:&lt;/p>
-&lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">sampler2D&lt;/span> uRule;
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">sampler2D&lt;/span> uRule;
 &lt;span style="color:#069;font-weight:bold">void&lt;/span> main(&lt;span style="color:#069;font-weight:bold">void&lt;/span>) {
 ...
 &lt;span style="color:#069;font-weight:bold">int&lt;/span> state &lt;span style="color:#555">=&lt;/span> texture2D(uRule, &lt;span style="color:#069;font-weight:bold">vec2&lt;/span>(total, previousState));
 ...
 }
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Yeah&amp;hellip; if you&amp;rsquo;ve written GLSL you know there&amp;rsquo;s a bunch of stuff wrong here, but I&amp;rsquo;m just simplifying so it isn&amp;rsquo;t confusing. Okay, now we can use the rule, so all we need to do now is count the total number of neighbors. A simple way to do that is with a loop:&lt;/p>
-&lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#09f;font-style:italic">// The coordinates of the current pixel&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-glsl" data-lang="glsl">&lt;span style="color:#09f;font-style:italic">// The coordinates of the current pixel&lt;/span>
 &lt;span style="color:#069;font-weight:bold">varying&lt;/span> &lt;span style="color:#069;font-weight:bold">vec2&lt;/span> vTextureCoord;
 &lt;span style="color:#09f;font-style:italic">// Sampler into the texture&lt;/span>
 &lt;span style="color:#069;font-weight:bold">uniform&lt;/span> &lt;span style="color:#069;font-weight:bold">sampler2D&lt;/span> uSampler;

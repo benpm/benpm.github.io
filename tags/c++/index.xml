@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>C++ on benpm.github.io</title><link>https://benpm.github.io/tags/c++/</link><description>Recent content in C++ on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 01 Jul 2021 15:37:49 -0600</lastBuildDate><atom:link href="https://benpm.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml"/><item><title>C++ Invert Map at Compile Time</title><link>https://benpm.github.io/blog/how-to-invert/reverse/transform-a-map-at-compile-time-in-c++/</link><pubDate>Thu, 01 Jul 2021 15:37:49 -0600</pubDate><guid>https://benpm.github.io/blog/how-to-invert/reverse/transform-a-map-at-compile-time-in-c++/</guid><description>&lt;p>Sometimes it&amp;rsquo;s useful to be able to invert a map in C++ to perform reverse lookup. Say you are mapping names to IDs of something:&lt;/p>
-&lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C++" data-lang="C++">&lt;span style="color:#069;font-weight:bold">const&lt;/span> std&lt;span style="color:#555">::&lt;/span>unordered_map&lt;span style="color:#555">&amp;lt;&lt;/span>std&lt;span style="color:#555">::&lt;/span>string, &lt;span style="color:#078;font-weight:bold">int&lt;/span>&lt;span style="color:#555">&amp;gt;&lt;/span> stuffMap &lt;span style="color:#555">=&lt;/span> {
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C++" data-lang="C++">&lt;span style="color:#069;font-weight:bold">const&lt;/span> std&lt;span style="color:#555">::&lt;/span>unordered_map&lt;span style="color:#555">&amp;lt;&lt;/span>std&lt;span style="color:#555">::&lt;/span>string, &lt;span style="color:#078;font-weight:bold">int&lt;/span>&lt;span style="color:#555">&amp;gt;&lt;/span> stuffMap &lt;span style="color:#555">=&lt;/span> {
 {&lt;span style="color:#c30">&amp;#34;bread&amp;#34;&lt;/span>, &lt;span style="color:#f60">100&lt;/span>},
 {&lt;span style="color:#c30">&amp;#34;sword&amp;#34;&lt;/span>, &lt;span style="color:#f60">200&lt;/span>},
 {&lt;span style="color:#c30">&amp;#34;lamp&amp;#34;&lt;/span>, &lt;span style="color:#f60">300&lt;/span>},
@@ -9,7 +9,7 @@
 Inserting the reversed pairs in a loop seems like a good solution, but maybe we also want this done at compile-time!
 So let&amp;rsquo;s define a function which does this for us, but with an arbitrary function, so we can do any
 kind of transformation our hearts desire:&lt;/p>
-&lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C++" data-lang="C++">&lt;span style="color:#09f;font-style:italic">//Function which can transform an std::unordered_map of one type to another with a given transform function
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C++" data-lang="C++">&lt;span style="color:#09f;font-style:italic">//Function which can transform an std::unordered_map of one type to another with a given transform function
 &lt;/span>&lt;span style="color:#09f;font-style:italic">&lt;/span>&lt;span style="color:#069;font-weight:bold">template&lt;/span>&lt;span style="color:#555">&amp;lt;&lt;/span>&lt;span style="color:#069;font-weight:bold">typename&lt;/span> Kout, &lt;span style="color:#069;font-weight:bold">typename&lt;/span> Vout, &lt;span style="color:#069;font-weight:bold">typename&lt;/span> Kin, &lt;span style="color:#069;font-weight:bold">typename&lt;/span> Vin&lt;span style="color:#555">&amp;gt;&lt;/span>
 std&lt;span style="color:#555">::&lt;/span>unordered_map&lt;span style="color:#555">&amp;lt;&lt;/span>Kout, Vout&lt;span style="color:#555">&amp;gt;&lt;/span> transformMap(
 &lt;span style="color:#069;font-weight:bold">const&lt;/span> std&lt;span style="color:#555">::&lt;/span>unordered_map&lt;span style="color:#555">&amp;lt;&lt;/span>Kin, Vin&lt;span style="color:#555">&amp;gt;&amp;amp;&lt;/span> inMap,
@@ -24,13 +24,13 @@ outMap.insert(mapfunc(p));
 &lt;span style="color:#069;font-weight:bold">return&lt;/span> outMap;
 }
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>We can use this function to reverse our &lt;code>stuffMap&lt;/code> to allow reverse lookup, all at compile-time:&lt;/p>
-&lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C++" data-lang="C++">&lt;span style="color:#069;font-weight:bold">const&lt;/span> std&lt;span style="color:#555">::&lt;/span>unordered_map&lt;span style="color:#555">&amp;lt;&lt;/span>&lt;span style="color:#078;font-weight:bold">int&lt;/span>, std&lt;span style="color:#555">::&lt;/span>string&lt;span style="color:#555">&amp;gt;&lt;/span> revStuffMap &lt;span style="color:#555">=&lt;/span> transformMap(stuffMap,
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C++" data-lang="C++">&lt;span style="color:#069;font-weight:bold">const&lt;/span> std&lt;span style="color:#555">::&lt;/span>unordered_map&lt;span style="color:#555">&amp;lt;&lt;/span>&lt;span style="color:#078;font-weight:bold">int&lt;/span>, std&lt;span style="color:#555">::&lt;/span>string&lt;span style="color:#555">&amp;gt;&lt;/span> revStuffMap &lt;span style="color:#555">=&lt;/span> transformMap(stuffMap,
 std&lt;span style="color:#555">::&lt;/span>function([](&lt;span style="color:#069;font-weight:bold">const&lt;/span> std&lt;span style="color:#555">::&lt;/span>pair&lt;span style="color:#555">&amp;lt;&lt;/span>std&lt;span style="color:#555">::&lt;/span>string, &lt;span style="color:#078;font-weight:bold">int&lt;/span>&lt;span style="color:#555">&amp;gt;&amp;amp;&lt;/span> p) {
 &lt;span style="color:#069;font-weight:bold">return&lt;/span> std&lt;span style="color:#555">::&lt;/span>make_pair(p.second, p.first);
 })
 );
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>Let&amp;rsquo;s try it out:&lt;/p>
-&lt;div class="highlight">&lt;pre style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C++" data-lang="C++">&lt;span style="color:#078;font-weight:bold">int&lt;/span> &lt;span style="color:#c0f">main&lt;/span>() {
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C++" data-lang="C++">&lt;span style="color:#078;font-weight:bold">int&lt;/span> &lt;span style="color:#c0f">main&lt;/span>() {
 std&lt;span style="color:#555">::&lt;/span>cout &lt;span style="color:#555">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#c30">&amp;#34;stuffMap:&amp;#34;&lt;/span> &lt;span style="color:#555">&amp;lt;&amp;lt;&lt;/span> std&lt;span style="color:#555">::&lt;/span>endl;
 &lt;span style="color:#069;font-weight:bold">for&lt;/span> (&lt;span style="color:#069;font-weight:bold">const&lt;/span> &lt;span style="color:#069;font-weight:bold">auto&lt;/span>&lt;span style="color:#555">&amp;amp;&lt;/span> &lt;span style="color:#99f">p&lt;/span> : stuffMap) {
 std&lt;span style="color:#555">::&lt;/span>cout &lt;span style="color:#555">&amp;lt;&amp;lt;&lt;/span> p.first &lt;span style="color:#555">&amp;lt;&amp;lt;&lt;/span> &lt;span style="color:#c30">&amp;#34;:&amp;#34;&lt;/span> &lt;span style="color:#555">&amp;lt;&amp;lt;&lt;/span> p.second &lt;span style="color:#555">&amp;lt;&amp;lt;&lt;/span> std&lt;span style="color:#555">::&lt;/span>endl;
@@ -41,7 +41,7 @@ std&lt;span style="color:#555">::&lt;/span>cout &lt;span style="color:#555">&amp
 }
 }
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>&amp;hellip;&lt;/p>
-&lt;pre>&lt;code>stuffMap:
+&lt;pre tabindex="0">&lt;code>stuffMap:
 400:clogs
 300:lamp
 200:sword
