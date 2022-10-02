@@ -24,7 +24,7 @@
       {{ range (first 1 (where .Site.RegularPages "Section" "blog")) }}
       <div class="post__header">
         <time class="post-date" datetime="{{ .Date }}"
-          >{{ .Date.Format $dateFormat }}</time>
+          >Latest Post ({{ .Date.Format $dateFormat }})</time>
         <h2 class="post__title">
           <a href="{{.RelPermalink}}">{{ .Title }}</a>
         </h2>

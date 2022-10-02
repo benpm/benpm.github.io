@@ -4,7 +4,7 @@ const splashText = [
     "learning from someone else's mistakes",
     "project abandoner extraordiniare",
     "adventures in aimless tinkering",
-    "limericks and sh*tposting",
+    "spontaneous skullduggery",
     "procgen goblin"
 ];
 const splashNode = document.getElementById("splash-text");

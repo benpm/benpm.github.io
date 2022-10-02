@@ -6,4 +6,5 @@ hideheader: true
 category: "graphics"
 description: "Simple parallel raytracer on the GPU with CUDA C++"
 outlink: "https://github.com/benpm/cuda-raytracer"
+img: "/images/cuda_raytracer.png"
 ---

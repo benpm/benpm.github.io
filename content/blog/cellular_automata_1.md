@@ -18,7 +18,7 @@ The idea that simple rules can produce structured, complex systems is beautiful 
 
 ![machine-like rule](/images/cellular_automata/machine_rule.gif)
 
-Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a [generalized cellular automaton simulator in WebGL](https://benpm.github.io/cellarium/). This post is about how it is implemented and what new interesting possibilities await!
+Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a [generalized cellular automaton simulator [](http://localhost:1313/)in WebGL](https://benpm.github.io/cellarium/). This post is about how it is implemented and what new interesting possibilities await!
 
 <iframe src="https://itch.io/embed/715896" width="552" height="167" frameborder="0"><a href="https://ben-m.itch.io/webcell">WebGL Cellular Automata Explorer by Benjamin Mastripolito</a></iframe>
 

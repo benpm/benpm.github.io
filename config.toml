@@ -13,6 +13,7 @@ googleAnalytics = "G-PPST2B8G8Z"
     itchio = "https://ben-m.itch.io/"
     ko-fi = "https://ko-fi.com/benpm"
     iconTitles = ["youtube", "soundcloud", "itchio", "ko-fi"]
+    dateFormat = "Jan 2006"
 
 [markup]
     [markup.highlight]

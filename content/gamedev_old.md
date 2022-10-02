@@ -3,6 +3,7 @@ title: "Game Development"
 date: 2020-07-22T15:57:51-06:00
 math: false
 toc: false
+draft: true
 ---
 
 I like to make games! I don't finish them very often, but that doesn't really matter, right?

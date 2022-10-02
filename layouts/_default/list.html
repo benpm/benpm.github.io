@@ -4,7 +4,7 @@
 
 {{ define "main" }}
     
-{{ $dateFormat := .Site.Params.dateFormat | default "Jan 2 2006" }}    
+{{ $dateFormat := .Site.Params.dateFormat | default "Jan 2 2006" }}
 
 <header class="list__header">
   <h1 id="list__title">{{ .Title }}</h1>
@@ -14,11 +14,15 @@
 </div>
 <div class="post-list__container">
   <ul class="post-list">
-    {{ range .Pages }}
+    {{ range .Pages.ByDate.Reverse }}
     <li class="post">
       <div class="post__header">
         <div class="post-date__container">
-          <time class="post-date" datetime="{{ .Date }}">{{ .Date.Format $dateFormat }}</time>
+          {{ if not .Params.is_wip }}
+            <time class="post-date" datetime="{{ .Date }}">{{ .Date.Format $dateFormat }}</time>
+          {{ else }}
+            <time class="post-date wip" datetime="{{ now }}">WIP</time>
+          {{ end }}
         </div>
         <h2 class="post__title">
           {{ if .Params.Outlink }}
@@ -38,6 +42,24 @@
         <p>{{ .Params.Description }}
         </p>
       </div>
+      {{ if .Params.Img }}
+        {{ if .Params.Outlink }}
+          <a href="{{.Params.Outlink}}" target="_blank">
+        {{ else }}
+          <a href="{{.RelPermalink}}">
+        {{ end }}
+        {{/*  Create background video embed if image has .webm extension  */}}
+        {{ if eq (path.Ext .Params.Img) ".webm" }}
+          <div class="post__video-container">
+            <video class="post__video" autoplay loop muted playsinline>
+              <source src="{{ .Params.Img }}" type="video/webm">
+            </video>
+          </div>
+        {{ else }}
+          <div class="post__img-container" style="background-image: url('{{ .Params.Img }}');"></div>
+        {{ end }}
+        </a>
+      {{ end }}
     </li>
     {{ end }}
   </ul>
