@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>benpm.github.io</title><link>https://benpm.github.io/</link><description>Recent content on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 15 Sep 2022 13:00:19 -0700</lastBuildDate><atom:link href="https://benpm.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Multi-State Cellular Automata in WebGL</title><link>https://benpm.github.io/blog/gol_2/</link><pubDate>Thu, 15 Sep 2022 13:00:19 -0700</pubDate><guid>https://benpm.github.io/blog/gol_2/</guid><description>&lt;p>&lt;em>This is a rewrite and significant expansion of my first cellular automata article. It covers everything in the first article, plus a significant amount of explanation of multi-state automata. If you&amp;rsquo;re coming from the first article, feel free &lt;a href="#encoding-multiple-states"
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>benpm.github.io</title><link>https://benpm.github.io/</link><description>Recent content on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 01 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://benpm.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Cellarium</title><link>https://benpm.github.io/projects/cellarium/</link><pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate><guid>https://benpm.github.io/projects/cellarium/</guid><description/></item><item><title>Demon Island</title><link>https://benpm.github.io/gamedev/demon-island/</link><pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate><guid>https://benpm.github.io/gamedev/demon-island/</guid><description/></item><item><title>Petri</title><link>https://benpm.github.io/projects/petri/</link><pubDate>Sat, 01 Oct 2022 00:00:00 +0000</pubDate><guid>https://benpm.github.io/projects/petri/</guid><description/></item><item><title>Multi-State Cellular Automata in WebGL</title><link>https://benpm.github.io/blog/gol_2/</link><pubDate>Thu, 15 Sep 2022 13:00:19 -0700</pubDate><guid>https://benpm.github.io/blog/gol_2/</guid><description>&lt;p>&lt;em>This is a rewrite and significant expansion of my first cellular automata article. It covers everything in the first article, plus a significant amount of explanation of multi-state automata. If you&amp;rsquo;re coming from the first article, feel free &lt;a href="#encoding-multiple-states"
 >skip to that part&lt;/a>.&lt;/em>&lt;/p>
 &lt;p>I&amp;rsquo;ve always been fascinated with cellular automata like Conway&amp;rsquo;s Game of Life. The idea that complex and interesting behavior can emerge from simple rules is captivating to me. In this document I&amp;rsquo;ll explain my method of encoding a class cellular automata rules, as well as how I implemented my simulator.&lt;/p>
 &lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/banner.gif" alt="">&lt;/p>
@@ -336,7 +336,7 @@ fragColor &lt;span style="color:#555">=&lt;/span> uvec3(newstate);
 target="_blank" rel="noreferrer noopener"
 >here&lt;/a>, and all the source code &lt;a href="https://github.com/benpm/cellarium"
 target="_blank" rel="noreferrer noopener"
->here&lt;/a>.&lt;/p></description></item><item><title>Petri</title><link>https://benpm.github.io/projects/petri/</link><pubDate>Sun, 28 Nov 2021 00:39:37 -0700</pubDate><guid>https://benpm.github.io/projects/petri/</guid><description/></item><item><title>C++ Invert Map at Compile Time</title><link>https://benpm.github.io/blog/how-to-invert/reverse/transform-a-map-at-compile-time-in-c++/</link><pubDate>Thu, 01 Jul 2021 15:37:49 -0600</pubDate><guid>https://benpm.github.io/blog/how-to-invert/reverse/transform-a-map-at-compile-time-in-c++/</guid><description>&lt;p>Sometimes it&amp;rsquo;s useful to be able to invert a map in C++ to perform reverse lookup. Say you are mapping names to IDs of something:&lt;/p>
+>here&lt;/a>.&lt;/p></description></item><item><title>WaifuXL</title><link>https://benpm.github.io/projects/waifuxl/</link><pubDate>Tue, 24 May 2022 00:00:00 +0000</pubDate><guid>https://benpm.github.io/projects/waifuxl/</guid><description/></item><item><title>C++ Invert Map at Compile Time</title><link>https://benpm.github.io/blog/how-to-invert/reverse/transform-a-map-at-compile-time-in-c++/</link><pubDate>Thu, 01 Jul 2021 15:37:49 -0600</pubDate><guid>https://benpm.github.io/blog/how-to-invert/reverse/transform-a-map-at-compile-time-in-c++/</guid><description>&lt;p>Sometimes it&amp;rsquo;s useful to be able to invert a map in C++ to perform reverse lookup. Say you are mapping names to IDs of something:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-C++" data-lang="C++">&lt;span style="color:#069;font-weight:bold">const&lt;/span> std&lt;span style="color:#555">::&lt;/span>unordered_map&lt;span style="color:#555">&amp;lt;&lt;/span>std&lt;span style="color:#555">::&lt;/span>string, &lt;span style="color:#078;font-weight:bold">int&lt;/span>&lt;span style="color:#555">&amp;gt;&lt;/span> stuffMap &lt;span style="color:#555">=&lt;/span> {
 {&lt;span style="color:#c30">&amp;#34;bread&amp;#34;&lt;/span>, &lt;span style="color:#f60">100&lt;/span>},
 {&lt;span style="color:#c30">&amp;#34;sword&amp;#34;&lt;/span>, &lt;span style="color:#f60">200&lt;/span>},
@@ -393,7 +393,7 @@ lamp:300
 target="_blank" rel="noreferrer noopener"
 >Try it yourself here!&lt;/a>&lt;/p>
 &lt;p>And it doesn&amp;rsquo;t need to stop at reversing a map! You can use any function to transform the input
-to the output map. Go crazy!&lt;/p></description></item><item><title>Branching Fractal Generator</title><link>https://benpm.github.io/experiments/treegen/</link><pubDate>Wed, 11 Nov 2020 19:59:15 -0700</pubDate><guid>https://benpm.github.io/experiments/treegen/</guid><description/></item><item><title>Quadtrees for 2D Games with Moving Elements</title><link>https://benpm.github.io/blog/quadtrees/</link><pubDate>Sun, 20 Sep 2020 10:41:59 -0600</pubDate><guid>https://benpm.github.io/blog/quadtrees/</guid><description>&lt;p>A quadtree is a very useful data structure for performing spatial searches. I am currently using them in &lt;a href="https://benpm.github.io/gamedev/#tiletest"
+to the output map. Go crazy!&lt;/p></description></item><item><title>Ludum Dare 48</title><link>https://benpm.github.io/gamedev/ld48/</link><pubDate>Fri, 26 Mar 2021 00:00:00 +0000</pubDate><guid>https://benpm.github.io/gamedev/ld48/</guid><description/></item><item><title>Branching Fractal Generator</title><link>https://benpm.github.io/experiments/treegen/</link><pubDate>Wed, 11 Nov 2020 19:59:15 -0700</pubDate><guid>https://benpm.github.io/experiments/treegen/</guid><description/></item><item><title>Ludum Dare 47</title><link>https://benpm.github.io/gamedev/ld47/</link><pubDate>Fri, 02 Oct 2020 00:00:00 +0000</pubDate><guid>https://benpm.github.io/gamedev/ld47/</guid><description/></item><item><title>Quadtrees for 2D Games with Moving Elements</title><link>https://benpm.github.io/blog/quadtrees/</link><pubDate>Sun, 20 Sep 2020 10:41:59 -0600</pubDate><guid>https://benpm.github.io/blog/quadtrees/</guid><description>&lt;p>A quadtree is a very useful data structure for performing spatial searches. I am currently using them in &lt;a href="https://benpm.github.io/gamedev/#tiletest"
 >Tiletest&lt;/a> for collision detection and monster behavior. Quadtrees partition 2D space into quadrants (stored as nodes in a tree), dividing these quadrants into smaller quadrants when they contain more than a certain threshold of elements (shown as dots):&lt;/p>
 &lt;p>&lt;img class="invertable drawing" src="https://benpm.github.io/images/quadtrees/quadrant_division.png" alt="Quadrant division">&lt;/p>
 &lt;p>There are a couple uses for this structure, one of the most useful is searching for the nearest element to a given location.&lt;/p>
@@ -421,9 +421,11 @@ target="_blank" rel="noreferrer noopener"
 target="_blank" rel="noreferrer noopener"
 >Stephen Wolfram really has a thing for em'&lt;/a>.&lt;/p>
 &lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/machine_rule.gif" alt="machine-like rule">&lt;/p>
-&lt;p>Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a &lt;a href="https://benpm.github.io/cellarium/"
+&lt;p>Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a [generalized cellular automaton simulator &lt;a href="http://localhost:1313/"
 target="_blank" rel="noreferrer noopener"
->generalized cellular automaton simulator in WebGL&lt;/a>. This post is about how it is implemented and what new interesting possibilities await!&lt;/p>
+>&lt;/a>in WebGL](&lt;a href="https://benpm.github.io/cellarium/%29"
+target="_blank" rel="noreferrer noopener"
+>https://benpm.github.io/cellarium/)&lt;/a>. This post is about how it is implemented and what new interesting possibilities await!&lt;/p>
 &lt;iframe src="https://itch.io/embed/715896" width="552" height="167" frameborder="0">&lt;a href="https://ben-m.itch.io/webcell">WebGL Cellular Automata Explorer by Benjamin Mastripolito&lt;/a>&lt;/iframe>
 &lt;h2 id="how-it-works">How it Works&lt;/h2>
 &lt;p>Basically, cellular automata consist of, well, cells, each with exactly the same set of possible states. To determine their states, they use a rule. These rules are basically functions that take the states of a cell&amp;rsquo;s neighbors, and possibly the cell itself (like in game of life), as input, and produce the cell&amp;rsquo;s new state as output. Through iteration over discrete time, the whole space evolves:&lt;/p>
@@ -505,7 +507,7 @@ target="_blank" rel="noreferrer noopener"
 >Wireworld&lt;/a> (4 states), &lt;a href="https://www.wikiwand.com/en/Codd%27s_cellular_automaton"
 target="_blank" rel="noreferrer noopener"
 >Codd&amp;rsquo;s CA&lt;/a> (8 states), and any other totalistic rule we can think of! At some point, we&amp;rsquo;ll also take a look at non-totalistic rules, which will allow an absolutely astounding rule space (more possible rules than particles in the universe!)&lt;/p>
-&lt;p>Stay tuned!&lt;/p></description></item><item><title>CUDA Raytracer</title><link>https://benpm.github.io/projects/cuda-raytracer/</link><pubDate>Sat, 25 Jul 2020 11:11:17 -0600</pubDate><guid>https://benpm.github.io/projects/cuda-raytracer/</guid><description/></item><item><title>Cellarium</title><link>https://benpm.github.io/experiments/cellular_automata/</link><pubDate>Fri, 24 Jul 2020 13:21:52 -0600</pubDate><guid>https://benpm.github.io/experiments/cellular_automata/</guid><description/></item><item><title>Rectangle (AABB) Collisions</title><link>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</link><pubDate>Wed, 22 Jul 2020 22:10:40 -0600</pubDate><guid>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</guid><description>&lt;p>Axis-aligned bounding boxes (AABBs) are very useful for doing simple collision detection and 2D physics.
+&lt;p>Stay tuned!&lt;/p></description></item><item><title>CUDA Raytracer</title><link>https://benpm.github.io/projects/cuda-raytracer/</link><pubDate>Sat, 25 Jul 2020 11:11:17 -0600</pubDate><guid>https://benpm.github.io/projects/cuda-raytracer/</guid><description/></item><item><title>Rectangle (AABB) Collisions</title><link>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</link><pubDate>Wed, 22 Jul 2020 22:10:40 -0600</pubDate><guid>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</guid><description>&lt;p>Axis-aligned bounding boxes (AABBs) are very useful for doing simple collision detection and 2D physics.
 The basic idea is: loop through the boxes, checking for intersections with each other box. Then, you resolve
 these intersections by moving the boxes in the direction of the shortest intersection axis. So if the width
 of the intersection is smaller than its height, like it is here, then the boxes are moved on the x axis:&lt;/p>
@@ -525,52 +527,7 @@ Here is the result of using multiple passes:&lt;/p>
 &lt;p>As you can see, there are still some minor issues. When a constant force is applied, the boxes vibrate slightly. Also, when there is a big pile, they tend to overlap. It&amp;rsquo;s also pretty slow, since each box needs to check against each other box each collision pass, and there are multiple collision passes now.&lt;/p>
 &lt;p>To solve this issue with speed, I&amp;rsquo;ll probably end up using &lt;a href="https://www.wikiwand.com/en/Quadtree"
 target="_blank" rel="noreferrer noopener"
->quadtrees&lt;/a> for neighbor lookup, but that&amp;rsquo;s for another time!&lt;/p></description></item><item><title>Game Development</title><link>https://benpm.github.io/gamedev/</link><pubDate>Wed, 22 Jul 2020 15:57:51 -0600</pubDate><guid>https://benpm.github.io/gamedev/</guid><description>&lt;p>I like to make games! I don&amp;rsquo;t finish them very often, but that doesn&amp;rsquo;t really matter, right?
-Here are some of the notable ones I&amp;rsquo;ve made:&lt;/p>
-&lt;h2 id="demon-islandhttpsben-mitchiodemon-island">&lt;a href="https://ben-m.itch.io/demon-island"
-target="_blank" rel="noreferrer noopener"
->Demon Island&lt;/a>&lt;/h2>
-&lt;p>Work-in-progress adventure game.&lt;/p>
-&lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe src="https://www.youtube.com/embed/gZAINGMhRZI" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" allowfullscreen title="YouTube Video">&lt;/iframe>
-&lt;/div>
-&lt;h2 id="i-stole-a-wizards-sack-and-all-i-got-was-this-infinite-pocket-universehttpsben-mitchiowizsack">&lt;a href="https://ben-m.itch.io/wizsack"
-target="_blank" rel="noreferrer noopener"
->I Stole a Wizard&amp;rsquo;s Sack and All I Got Was This Infinite Pocket Universe&lt;/a>&lt;/h2>
-&lt;p>Mind-bending recursive puzzle game. Made for Ludum Dare 48.&lt;/p>
-&lt;p>&lt;img src="https://i.imgur.com/zsrUuyI.gif" alt="game gif">&lt;/p>
-&lt;h2 id="groovy-b-and-the-great-cownundrumhttpsben-mitchiogroovy-b">&lt;a href="https://ben-m.itch.io/groovy-b"
-target="_blank" rel="noreferrer noopener"
->Groovy B and the Great Cownundrum&lt;/a>&lt;/h2>
-&lt;p>Join protagonist Groovy B, in their time-cursed Groundhog-Day-esque adventure to cure the town&amp;rsquo;s government and dairy industry of cow-rruption! Made for Ludum Dare 47.&lt;/p>
-&lt;p>&lt;img src="https://benpm.github.io/images/groovy_b_logo.png" alt="game screenshot">
-&lt;img src="https://benpm.github.io/images/groovy_b.png" alt="game screenshot">&lt;/p>
-&lt;h2 id="npigshttpsben-mitchionpigs">&lt;a href="https://ben-m.itch.io/npigs"
-target="_blank" rel="noreferrer noopener"
->Npigs&lt;/a>&lt;/h2>
-&lt;p>Npigs was a game I made for Ludum Dare 40 (&lt;em>theme: &amp;ldquo;The more you have, the worse it is&amp;rdquo;&lt;/em>). It&amp;rsquo;s a fairly challenging platformer with some funky clone mechanics. Your score depends on how many clones you have and how high you&amp;rsquo;ve climbed. There&amp;rsquo;s a (probably) functioning scoreboard of top scores. The current high score is very high, so good luck beating it!&lt;/p>
-&lt;p>&lt;img src="https://benpm.github.io/images/npigs.gif" alt="game screenshot">&lt;/p>
-&lt;h2 id="rundashhttpsgamejoltcomgamesrundash511953">&lt;a href="https://gamejolt.com/games/rundash/511953"
-target="_blank" rel="noreferrer noopener"
->Rundash&lt;/a>&lt;/h2>
-&lt;p>Rundash is a simple multiplayer platformer where you race other players across randomly constructed levels.&lt;/p>
-&lt;p>&lt;img src="https://benpm.github.io/images/rundash.png" alt="game screenshot">&lt;/p>
-&lt;h2 id="deep-cutshttpsgamejoltcomgamesdeep-cuts146526">&lt;a href="https://gamejolt.com/games/deep-cuts/146526"
-target="_blank" rel="noreferrer noopener"
->Deep Cuts&lt;/a>&lt;/h2>
-&lt;p>An dark, atmospheric puzzle game made for GameJolt Adventure Jam 2016. It won a judge&amp;rsquo;s pick!&lt;/p>
-&lt;p>&lt;img src="https://benpm.github.io/images/deep_cuts.jpg" alt="game screenshot">&lt;/p>
-&lt;h2 id="paperlikehttpsgithubcombenpmpaperlike">&lt;a href="https://github.com/benpm/paperlike"
-target="_blank" rel="noreferrer noopener"
->Paperlike&lt;/a>&lt;/h2>
-&lt;p>A simple web roguelike, originally intended to be run on the kindle paperwhite&amp;rsquo;s &amp;ldquo;experimental&amp;rdquo; browser.&lt;/p>
-&lt;p>&lt;img src="https://benpm.github.io/images/paperlike.png" alt="game screenshot">&lt;/p>
-&lt;h2 id="erthhttpsben-mitchioerth">&lt;a href="https://ben-m.itch.io/erth"
-target="_blank" rel="noreferrer noopener"
->Erth&lt;/a>&lt;/h2>
-&lt;p>This is a pretty old one. It&amp;rsquo;s a top-down RPG with crafting and building elements. It&amp;rsquo;s kind of a disaster,
-unbalanced and unpolished, but, hey, I made it in highschool.&lt;/p>
-&lt;p>&lt;img src="https://benpm.github.io/images/erth.png" alt="game screenshot">&lt;/p></description></item><item><title>Hello World!</title><link>https://benpm.github.io/blog/hello_world/</link><pubDate>Wed, 22 Jul 2020 15:57:51 -0600</pubDate><guid>https://benpm.github.io/blog/hello_world/</guid><description>&lt;p>This site is created with Hugo and the theme is based off &lt;a href="https://themes.gohugo.io/hugo-theme-codex/"
+>quadtrees&lt;/a> for neighbor lookup, but that&amp;rsquo;s for another time!&lt;/p></description></item><item><title>Hello World!</title><link>https://benpm.github.io/blog/hello_world/</link><pubDate>Wed, 22 Jul 2020 15:57:51 -0600</pubDate><guid>https://benpm.github.io/blog/hello_world/</guid><description>&lt;p>This site is created with Hugo and the theme is based off &lt;a href="https://themes.gohugo.io/hugo-theme-codex/"
 target="_blank" rel="noreferrer noopener"
 >Codex&lt;/a>. Here is a nice little youtube video:&lt;/p>
 &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
@@ -590,4 +547,4 @@ target="_blank" rel="noreferrer noopener"
 I like to play around with samples, often creating instruments out of samples I
 found on the Internet or recorded myself.&lt;/p>
 &lt;p>I make music as a hobby, and I&amp;rsquo;m constantly learning! You can keep up with my music &lt;a href="https://benpm.github.io/tags/music/"
->here&lt;/a>.&lt;/p></description></item><item><title>Petting Zoo</title><link>https://benpm.github.io/projects/pettingzoo/</link><pubDate>Sat, 11 Jan 2020 11:11:17 -0600</pubDate><guid>https://benpm.github.io/projects/pettingzoo/</guid><description/></item><item><title>RSS Feeds</title><link>https://benpm.github.io/rss/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://benpm.github.io/rss/</guid><description/></item></channel></rss>
+>here&lt;/a>.&lt;/p></description></item><item><title>Petting Zoo</title><link>https://benpm.github.io/projects/pettingzoo/</link><pubDate>Sat, 11 Jan 2020 11:11:17 -0600</pubDate><guid>https://benpm.github.io/projects/pettingzoo/</guid><description/></item><item><title>Rundash</title><link>https://benpm.github.io/gamedev/rundash/</link><pubDate>Wed, 01 May 2019 00:00:00 +0000</pubDate><guid>https://benpm.github.io/gamedev/rundash/</guid><description/></item><item><title>Ludum Dare 40</title><link>https://benpm.github.io/gamedev/ld40/</link><pubDate>Mon, 04 Dec 2017 00:00:00 +0000</pubDate><guid>https://benpm.github.io/gamedev/ld40/</guid><description/></item><item><title>Deep Cuts</title><link>https://benpm.github.io/gamedev/deep_cuts/</link><pubDate>Sat, 26 Mar 2016 00:00:00 +0000</pubDate><guid>https://benpm.github.io/gamedev/deep_cuts/</guid><description/></item><item><title>RSS Feeds</title><link>https://benpm.github.io/rss/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://benpm.github.io/rss/</guid><description/></item></channel></rss>

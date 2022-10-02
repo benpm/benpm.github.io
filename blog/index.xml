@@ -421,9 +421,11 @@ target="_blank" rel="noreferrer noopener"
 target="_blank" rel="noreferrer noopener"
 >Stephen Wolfram really has a thing for em'&lt;/a>.&lt;/p>
 &lt;p>&lt;img src="https://benpm.github.io/images/cellular_automata/machine_rule.gif" alt="machine-like rule">&lt;/p>
-&lt;p>Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a &lt;a href="https://benpm.github.io/cellarium/"
+&lt;p>Anyways, I wanted a fun way to create and tweak cellular automata rules, so I decided to write a [generalized cellular automaton simulator &lt;a href="http://localhost:1313/"
 target="_blank" rel="noreferrer noopener"
->generalized cellular automaton simulator in WebGL&lt;/a>. This post is about how it is implemented and what new interesting possibilities await!&lt;/p>
+>&lt;/a>in WebGL](&lt;a href="https://benpm.github.io/cellarium/%29"
+target="_blank" rel="noreferrer noopener"
+>https://benpm.github.io/cellarium/)&lt;/a>. This post is about how it is implemented and what new interesting possibilities await!&lt;/p>
 &lt;iframe src="https://itch.io/embed/715896" width="552" height="167" frameborder="0">&lt;a href="https://ben-m.itch.io/webcell">WebGL Cellular Automata Explorer by Benjamin Mastripolito&lt;/a>&lt;/iframe>
 &lt;h2 id="how-it-works">How it Works&lt;/h2>
 &lt;p>Basically, cellular automata consist of, well, cells, each with exactly the same set of possible states. To determine their states, they use a rule. These rules are basically functions that take the states of a cell&amp;rsquo;s neighbors, and possibly the cell itself (like in game of life), as input, and produce the cell&amp;rsquo;s new state as output. Through iteration over discrete time, the whole space evolves:&lt;/p>
