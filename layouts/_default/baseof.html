@@ -41,7 +41,7 @@
   {{ block "links" . }} {{ end }}
   {{ partial "seo-schema.html" .}}
 
-  {{- if not .Site.IsServer -}}
+  {{- if not hugo.IsServer -}}
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PPST2B8G8Z"></script>
     <script>
@@ -71,7 +71,7 @@
   
   {{ $script := resources.Get "js/theme_toggle.js" | minify | fingerprint }}
   <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity | safeHTMLAttr }}" crossorigin="anonymous"></script>
-  {{ partial "partials/theme-toggle.html" . }}
+  {{ partial "theme-toggle.html" . }}
 </body>
 
 </html>
