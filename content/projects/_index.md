@@ -1,5 +1,5 @@
 ---
-title: "Projects"
+title: "Projects / Past Work"
 ---
 
-Miscellaneous projects
+Projects I've worked on, personal and professional.

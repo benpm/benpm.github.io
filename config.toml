@@ -24,50 +24,49 @@ googleAnalytics = "G-PPST2B8G8Z"
 
 [[menu.main]]
     weight = 1
-    identifier = "splash"
-    name = "splash!"
-    title = "splash"
+    identifier = ""
+    name = "Splash!"
+    title = "Splash!"
     url = "/"
 
 [[menu.main]]
-    weight = 2
+    weight = 5
+    identifier = "about"
+    name = "About"
+    title = "About"
+    url = "/about"
+
+[[menu.main]]
+    weight = 20
     identifier = "blog"
-    name = "blog"
-    title = "blog"
+    name = "Blog"
+    title = "Blog"
     url = "/blog"
 
 [[menu.main]]
-    weight = 2
-    identifier = "experiments"
-    name = "experiments"
-    title = "experiments"
-    url = "/experiments"
+    weight = 15
+    identifier = "professional"
+    name = "Professional"
+    title = "Professional"
+    url = "/professional"
 
 [[menu.main]]
-    weight = 2
-    identifier = "projects"
-    name = "projects"
-    title = "projects"
-    url = "/projects"
-
+    weight = 15
+    identifier = "interactive"
+    name = "Interactive"
+    title = "Interactive"
+    url = "/interactive"
 
 [[menu.main]]
-    weight = 2
+    weight = 40
     identifier = "music"
-    name = "music"
-    title = "music"
+    name = "Music"
+    title = "Music"
     url = "/music"
 
 [[menu.main]]
-    weight = 2
-    identifier = "gamedev"
-    name = "gamedev"
-    title = "gamedev"
-    url = "/gamedev"
-
-[[menu.main]]
-    weight = 3
+    weight = 50
     identifier = "cv"
-    name = "cv (download)"
-    title = "cv"
+    name = "Résumé [pdf]"
+    title = "Résumé [pdf]"
     url = "https://github.com/benpm/cv/raw/master/benpm_cv.pdf"
