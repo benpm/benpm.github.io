@@ -1,5 +1,6 @@
 ---
 title: "Projects / Past Work"
+filter_categories: true
 ---
 
-Projects I've worked on, personal and professional.
+Various personal projects I've worked on.

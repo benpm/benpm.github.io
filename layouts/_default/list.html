@@ -3,7 +3,7 @@
 {{ end }}
 
 {{ define "main" }}
-    
+
 {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2 2006" }}
 
 <header class="list__header">
@@ -12,10 +12,33 @@
 <div class="list__desc">
   {{ partial "anchored-headings.html" .Content }}
 </div>
+
+{{ if .Params.filter_categories }}
+  {{/* Collect unique categories from all pages */}}
+  {{ $categories := slice }}
+  {{ range .Pages }}
+    {{ if .Params.Category }}
+      {{ range (split .Params.Category ",") }}
+        {{ $cat := trim . " " }}
+        {{ if and $cat (not (in $categories $cat)) }}
+          {{ $categories = $categories | append $cat }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  {{ $categories = sort $categories }}
+  <div class="category-filter">
+    <button class="category-filter__btn active" data-category="all">all</button>
+    {{ range $categories }}
+    <button class="category-filter__btn" data-category="{{ . }}">{{ . }}</button>
+    {{ end }}
+  </div>
+{{ end }}
+
 <div class="post-list__container">
   <ul class="post-list">
     {{ range .Pages.ByDate.Reverse }}
-    <li class="post">
+    <li class="post"{{ if .Params.Category }} data-categories="{{ .Params.Category }}"{{ end }}>
       <div class="post__header">
         <div class="post-date__container">
           {{ if not .Params.is_wip }}
@@ -68,4 +91,30 @@
   {{ end }}
 </div>
 
+{{ end }}
+
+{{ define "scripts" }}
+{{ if .Params.filter_categories }}
+<script>
+(function () {
+  const btns = document.querySelectorAll('.category-filter__btn');
+  const posts = document.querySelectorAll('.post-list .post');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const selected = btn.dataset.category;
+      posts.forEach(post => {
+        if (selected === 'all') {
+          post.hidden = false;
+        } else {
+          const cats = (post.dataset.categories || '').split(',').map(c => c.trim());
+          post.hidden = !cats.includes(selected);
+        }
+      });
+    });
+  });
+}());
+</script>
+{{ end }}
 {{ end }}
