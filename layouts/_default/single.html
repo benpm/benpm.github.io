@@ -5,8 +5,6 @@
 {{ define "main" }}
     {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2 2006" }}
 
-    <p>.Title</p>
-
     <div class="flex-wrapper">
       <div class="post__container">
         <div class="post">
@@ -29,10 +27,6 @@
           {{ partial "tags.html" .}} {{ partial "post-pagination.html" .}}
           {{ template "_internal/disqus.html" . }}
           {{ end }}
-          <footer class="post__footer">
-            {{ partial "social-icons.html" .}}
-            <p>{{ replace .Site.Copyright "{year}" now.Year }}</p>
-          </footer>
           </div>
       </div>
       {{ if .Params.toc }}

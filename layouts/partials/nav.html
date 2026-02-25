@@ -2,8 +2,8 @@
   <ul class="nav__list">
     {{ $currentPage := . }}
     {{ range .Site.Menus.main }}
-      <li>
-        {{ $active := $currentPage.IsMenuCurrent .Menu . }}
+      {{ $active := or ($currentPage.IsMenuCurrent "main" .) (and (ne .Identifier "") (eq $currentPage.Section .Identifier)) (eq $currentPage.RelPermalink (print .URL "/")) (eq $currentPage.RelPermalink .URL) }}
+      <li{{ if $active }} class="active"{{ end }}>
         <a {{ if $active }} class="active" {{end}} href="{{ .URL }}">{{ .Name }}</a>
         <div class = "indicator {{ if $active }} active {{end}}"></div>
       </li>
