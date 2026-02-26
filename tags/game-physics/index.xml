@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>game-physics on benpm.github.io</title><link>https://benpm.github.io/tags/game-physics/</link><description>Recent content in game-physics on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 22 Jul 2020 22:10:40 -0600</lastBuildDate><atom:link href="https://benpm.github.io/tags/game-physics/index.xml" rel="self" type="application/rss+xml"/><item><title>Rectangle (AABB) Collisions</title><link>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</link><pubDate>Wed, 22 Jul 2020 22:10:40 -0600</pubDate><guid>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</guid><description>&lt;p>Axis-aligned bounding boxes (AABBs) are very useful for doing simple collision detection and 2D physics.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Game-Physics on benpm.github.io</title><link>https://benpm.github.io/tags/game-physics/</link><description>Recent content in Game-Physics on benpm.github.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 22 Jul 2020 22:10:40 -0600</lastBuildDate><atom:link href="https://benpm.github.io/tags/game-physics/index.xml" rel="self" type="application/rss+xml"/><item><title>Rectangle (AABB) Collisions</title><link>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</link><pubDate>Wed, 22 Jul 2020 22:10:40 -0600</pubDate><guid>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</guid><description>&lt;p&gt;Axis-aligned bounding boxes (AABBs) are very useful for doing simple collision detection and 2D physics.
 The basic idea is: loop through the boxes, checking for intersections with each other box. Then, you resolve
 these intersections by moving the boxes in the direction of the shortest intersection axis. So if the width
-of the intersection is smaller than its height, like it is here, then the boxes are moved on the x axis:&lt;/p>
-&lt;p>&lt;img class="invertable drawing" src="https://benpm.github.io/images/aabb/boxes.png" alt="">&lt;/p>
-&lt;p>I will be using these types of collisions for the game I am developing. The game is top-down. It looks like this:&lt;/p>
-&lt;p>&lt;img src="https://benpm.github.io/images/2020-07-22_23-41.png" alt="">&lt;/p>
-&lt;p>So the physics doesn&amp;rsquo;t actually need to have fancy features like bounce (restitution). What it does need is
-to be stable and fast.&lt;/p>
-&lt;p>There are a couple things I&amp;rsquo;ll need to do to acheive both of these goals. First, I&amp;rsquo;ll need to make it stable. Without any modifications, the simple collision algorithm creates far too much jiggliness, especially when there are a lot of boxes pushing on each other all at once. This happens because during a collision pass, a box may be pushed by a collision into another box, causing an intersection. However, this intersection won&amp;rsquo;t be resolved until the next pass.&lt;/p>
-&lt;p>&lt;img class="invertable drawing" src="https://benpm.github.io/images/aabb/boxes2.png" alt="">&lt;/p>
-&lt;p>In order to solve this issue, I&amp;rsquo;ve decided to run multiple passes of collision resolution on the boxes before each
+of the intersection is smaller than its height, like it is here, then the boxes are moved on the x axis:&lt;/p&gt;
+&lt;p&gt;&lt;img class="invertable drawing" src="https://benpm.github.io/images/aabb/boxes.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;I will be using these types of collisions for the game I am developing. The game is top-down. It looks like this:&lt;/p&gt;
+&lt;p&gt;&lt;img src="https://benpm.github.io/images/2020-07-22_23-41.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;So the physics doesn&amp;rsquo;t actually need to have fancy features like bounce (restitution). What it does need is
+to be stable and fast.&lt;/p&gt;
+&lt;p&gt;There are a couple things I&amp;rsquo;ll need to do to acheive both of these goals. First, I&amp;rsquo;ll need to make it stable. Without any modifications, the simple collision algorithm creates far too much jiggliness, especially when there are a lot of boxes pushing on each other all at once. This happens because during a collision pass, a box may be pushed by a collision into another box, causing an intersection. However, this intersection won&amp;rsquo;t be resolved until the next pass.&lt;/p&gt;
+&lt;p&gt;&lt;img class="invertable drawing" src="https://benpm.github.io/images/aabb/boxes2.png" alt=""&gt;&lt;/p&gt;
+&lt;p&gt;In order to solve this issue, I&amp;rsquo;ve decided to run multiple passes of collision resolution on the boxes before each
 update step. The update step is where velocity is applied to position, friction is applied, etc.
-Here is the result of using multiple passes:&lt;/p>
-&lt;p class="codepen" data-height="431" data-theme-id="light" data-default-tab="result" data-user="_bm" data-slug-hash="xxZMjXb" style="height: 431px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 2em 0 2em 0; padding: 1em;" data-pen-title="AABB Collisions Test">
-&lt;/p>
-&lt;script async src="https://static.codepen.io/assets/embed/ei.js">&lt;/script>
-&lt;p>As you can see, there are still some minor issues. When a constant force is applied, the boxes vibrate slightly. Also, when there is a big pile, they tend to overlap. It&amp;rsquo;s also pretty slow, since each box needs to check against each other box each collision pass, and there are multiple collision passes now.&lt;/p>
-&lt;p>To solve this issue with speed, I&amp;rsquo;ll probably end up using &lt;a href="https://www.wikiwand.com/en/Quadtree"
+Here is the result of using multiple passes:&lt;/p&gt;
+&lt;p class="codepen" data-height="431" data-theme-id="light" data-default-tab="result" data-user="_bm" data-slug-hash="xxZMjXb" style="height: 431px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 2em 0 2em 0; padding: 1em;" data-pen-title="AABB Collisions Test"&gt;
+&lt;/p&gt;
+&lt;script async src="https://static.codepen.io/assets/embed/ei.js"&gt;&lt;/script&gt;
+&lt;p&gt;As you can see, there are still some minor issues. When a constant force is applied, the boxes vibrate slightly. Also, when there is a big pile, they tend to overlap. It&amp;rsquo;s also pretty slow, since each box needs to check against each other box each collision pass, and there are multiple collision passes now.&lt;/p&gt;
+&lt;p&gt;To solve this issue with speed, I&amp;rsquo;ll probably end up using &lt;a href="https://www.wikiwand.com/en/Quadtree"
 target="_blank" rel="noreferrer noopener"
->quadtrees&lt;/a> for neighbor lookup, but that&amp;rsquo;s for another time!&lt;/p></description></item></channel></rss>
+&gt;quadtrees&lt;/a&gt; for neighbor lookup, but that&amp;rsquo;s for another time!&lt;/p&gt;</description></item></channel></rss>
