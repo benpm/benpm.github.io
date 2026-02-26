@@ -1,5 +1,10 @@
 @import "burger";
 
+@keyframes nav-wave {
+  0%,  100% { color: var(--nav-color-dim); }
+  50%       { color: var(--nav-color-bright); }
+}
+
 .nav { @include themed {
   font-size: 16px;
   position: fixed;
@@ -71,13 +76,29 @@
   }
 }
 
+.nav__item-bg { @include themed {
+  display: inline-block;
+  border-radius: 6px;
+  padding: 2px 8px;
+  background-color: t('col-mbg');
+
+  &.active {
+    background-color: t('col-primary-bg');
+  }
+}}
+
 .nav__list a { @include themed {
+  --nav-color-dim: #{t('col-mg')};
+  --nav-color-bright: #{t('col-fg')};
+
   color: t('col-mg');
   text-decoration: none;
   font-size: 2em;
+  animation: nav-wave 5s ease-in-out infinite;
 
   &.active {
     color: t('col-fg');
+    animation: none;
   }
 
   &:hover {
@@ -86,5 +107,11 @@
 
   @media screen and (min-width: $medium) {
     font-size: 1em;
+  }
+
+  @for $i from 1 through 8 {
+    .nav__list li:nth-child(#{$i}) & {
+      animation-delay: #{($i - 1) * -0.7}s;
+    }
   }
 }}

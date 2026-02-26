@@ -2,11 +2,6 @@
     {{ $.Scratch.Set "style_opts" (dict "src" "scss/pages/about.scss" "dest" "css/about.css") }}
 {{ end }}
 
-{{ define "scripts" }}
-{{ $script := resources.Get "js/bg_canvas.js" | minify | fingerprint }}
-<script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity | safeHTMLAttr }}" crossorigin="anonymous"></script>
-{{ end }}
-
 {{ define "main" }}
 
 {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2 2006" }}    
@@ -20,18 +15,6 @@
 
     <div class="splash-about">
       {{ .Content }}
-    </div>
-
-    <div class="latest-post">
-      {{ range (first 1 (where .Site.RegularPages "Section" "blog")) }}
-      <div class="post__header">
-        <time class="post-date" datetime="{{ .Date }}"
-          >Latest Post ({{ .Date.Format $dateFormat }})</time>
-        <h2 class="post__title">
-          <a href="{{.RelPermalink}}">{{ .Title }}</a>
-        </h2>
-      </div>
-      {{ end }}
     </div>
   </div>
 </div>

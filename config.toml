@@ -37,13 +37,6 @@ googleAnalytics = "G-PPST2B8G8Z"
     url = "/blog"
 
 [[menu.main]]
-    weight = 15
-    identifier = "professional"
-    name = "Professional"
-    title = "Professional"
-    url = "/professional"
-
-[[menu.main]]
     weight = 17
     identifier = "projects"
     name = "Projects"
