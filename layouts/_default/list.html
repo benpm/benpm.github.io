@@ -28,9 +28,9 @@
   {{ end }}
   {{ $categories = sort $categories }}
   <div class="category-filter">
-    <button class="category-filter__btn active" data-category="all">all</button>
+    <button class="category-filter__btn" data-category="all">all</button>
     {{ range $categories }}
-    <button class="category-filter__btn" data-category="{{ . }}">{{ . }}</button>
+    <button class="category-filter__btn{{ if eq . "graphics" }} active{{ end }}" data-category="{{ . }}">{{ . }}</button>
     {{ end }}
   </div>
 {{ end }}
@@ -99,21 +99,26 @@
 (function () {
   const btns = document.querySelectorAll('.category-filter__btn');
   const posts = document.querySelectorAll('.post-list .post');
-  btns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      btns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const selected = btn.dataset.category;
-      posts.forEach(post => {
-        if (selected === 'all') {
-          post.hidden = false;
-        } else {
-          const cats = (post.dataset.categories || '').split(',').map(c => c.trim());
-          post.hidden = !cats.includes(selected);
-        }
-      });
+
+  function applyFilter(selected) {
+    btns.forEach(b => b.classList.toggle('active', b.dataset.category === selected));
+    posts.forEach(post => {
+      if (selected === 'all') {
+        post.hidden = false;
+      } else {
+        const cats = (post.dataset.categories || '').split(',').map(c => c.trim());
+        post.hidden = !cats.includes(selected);
+      }
     });
+  }
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => applyFilter(btn.dataset.category));
   });
+
+  // Apply default filter on load
+  const defaultBtn = document.querySelector('.category-filter__btn.active');
+  if (defaultBtn) applyFilter(defaultBtn.dataset.category);
 }());
 </script>
 {{ end }}

@@ -50,6 +50,24 @@ math: false    # Enable KaTeX math rendering
 toc: false     # Enable table of contents
 ```
 
+## Passing Data from Templates into JS
+
+Use `js.Build` with `params` to pass Hugo template data into JavaScript — **never** inject via inline `<script>window.foo = ...` tags. Hugo's `js.Build` uses esbuild to resolve `@params` as a virtual module at build time.
+
+**Template (`baseof.html`):**
+```go
+{{ $opts := dict "params" (dict "myKey" .Params.myValue) }}
+{{ $script := resources.Get "js/myscript.js" | js.Build $opts | minify | fingerprint }}
+```
+
+**Script (`assets/js/myscript.js`):**
+```js
+import * as params from '@params';
+// params.myKey is available here
+```
+
+Each page gets its own fingerprinted JS bundle since params differ per page — Hugo handles caching correctly.
+
 ## Custom Shortcodes
 
 - `{{< codepen PEN_ID >}}` — Embed CodePen

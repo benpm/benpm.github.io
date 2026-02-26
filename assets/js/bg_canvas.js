@@ -1,3 +1,5 @@
+import * as params from '@params';
+
 (function () {
   // Low-contrast palettes — all colours within ~8 RGB units of the bg.
   const PALETTES = {
@@ -33,7 +35,7 @@
   // Background colours used to clear between point frames
   const BG = {
     light: hexToVec3('#f7f7f7'),
-    dark:  hexToVec3('#202020'),
+    dark: hexToVec3('#202020'),
   };
 
   // ── Standard shaders ──────────────────────────────────────────────
@@ -46,7 +48,7 @@ void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }`;
   // Used as the fragment stage for point (vert) shaders.
   // Draws an anti-aliased circle; colour and size come from the vertex shader
   // via v_color (vec3) and gl_PointSize.
-  const POINTS_FRAG =`#version 300 es
+  const POINTS_FRAG = `#version 300 es
 precision mediump float;
 in  vec3 v_color;
 out vec4 fragColor;
@@ -90,7 +92,7 @@ void main() {
   }
 
   function buildProgram(vsSrc, fsSrc) {
-    const vs = compileShader(gl.VERTEX_SHADER,   vsSrc);
+    const vs = compileShader(gl.VERTEX_SHADER, vsSrc);
     const fs = compileShader(gl.FRAGMENT_SHADER, fsSrc);
     if (!vs || !fs) return null;
     const p = gl.createProgram();
@@ -105,8 +107,8 @@ void main() {
 
   function getLocs(prog) {
     return {
-      time:    gl.getUniformLocation(prog, 'u_time'),
-      res:     gl.getUniformLocation(prog, 'u_res'),
+      time: gl.getUniformLocation(prog, 'u_time'),
+      res: gl.getUniformLocation(prog, 'u_res'),
       palette: gl.getUniformLocation(prog, 'u_palette'),
     };
   }
@@ -124,8 +126,8 @@ void main() {
     const buf = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
-      -1,-1,  1,-1,  -1, 1,
-      -1, 1,  1,-1,   1, 1,
+      -1, -1, 1, -1, -1, 1,
+      -1, 1, 1, -1, 1, 1,
     ]), gl.STATIC_DRAW);
     const aPos = gl.getAttribLocation(prog, 'a_pos');
     gl.enableVertexAttribArray(aPos);
@@ -133,10 +135,11 @@ void main() {
 
     const L = getLocs(prog);
 
+    // Update function
     return function (t, key) {
       gl.useProgram(prog);
       gl.bindVertexArray(vao);
-      gl.uniform1f(L.time, t);
+      gl.uniform1f(L.time, t / 5.0);
       gl.uniform2f(L.res, canvas.width, canvas.height);
       gl.uniform3fv(L.palette, getPaletteVectors(key).flat());
       gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -183,7 +186,7 @@ void main() {
   // ── Resize / theme ────────────────────────────────────────────────
 
   function resize() {
-    canvas.width  = window.innerWidth;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     gl.viewport(0, 0, canvas.width, canvas.height);
   }
@@ -240,10 +243,13 @@ void main() {
     updateButton(idx);
   }
 
+  // Per-page localStorage key so each page remembers its own shader
+  const storageKey = 'shader:' + window.location.pathname;
+
   window.bgCanvas = {
     nextShader: function () {
       currentIdx = (currentIdx + 1) % manifest.length;
-      localStorage.setItem('shader', currentIdx.toString());
+      localStorage.setItem(storageKey, currentIdx.toString());
       activateShader(currentIdx);
     },
   };
@@ -252,10 +258,17 @@ void main() {
 
   async function init() {
     manifest = await fetch('/shaders/shaders.json').then(r => r.json());
-    const saved = parseInt(localStorage.getItem('shader'));
-    currentIdx = (!isNaN(saved) && saved >= 0 && saved < manifest.length)
-      ? saved
-      : Math.floor(Math.random() * manifest.length);
+    const saved = parseInt(localStorage.getItem(storageKey));
+    if (params.pageShader) {
+      const fi = manifest.findIndex(function (s) { return s.file === params.pageShader; });
+      currentIdx = fi >= 0 ? fi : 0;
+    } if (!isNaN(saved) && saved >= 0 && saved < manifest.length) {
+      currentIdx = saved;
+    } else if (window.location.pathname === '/') {
+      currentIdx = Math.floor(Math.random() * manifest.length);
+    } else {
+      currentIdx = 0;
+    }
 
     themeKey = document.body.classList.contains('theme--dark') ? 'dark' : 'light';
 

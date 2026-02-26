@@ -5,6 +5,7 @@ draft: false
 hideheader: true
 description: "Rendering engineer position at OpenSpace, a NASA-funded open source space visualization project. Developed rendering features and optimizations for real-time planetary visualization."
 img: "/images/openspace_saturn.png"
+category: "professional, graphics"
 ---
 
 ![](/images/openspace_saturn.png)

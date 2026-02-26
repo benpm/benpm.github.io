@@ -1,3 +1,0 @@
----
-title: "Interactive Web Projects"
----
