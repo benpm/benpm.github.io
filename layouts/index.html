@@ -2,6 +2,11 @@
     {{ $.Scratch.Set "style_opts" (dict "src" "scss/pages/about.scss" "dest" "css/about.css") }}
 {{ end }}
 
+{{ define "scripts" }}
+{{ $script := resources.Get "js/bg_canvas.js" | minify | fingerprint }}
+<script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity | safeHTMLAttr }}" crossorigin="anonymous"></script>
+{{ end }}
+
 {{ define "main" }}
 
 {{ $dateFormat := .Site.Params.dateFormat | default "Jan 2 2006" }}    

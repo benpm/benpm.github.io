@@ -1,3 +1,31 @@
+#shader-toggle-button {
+    z-index: 10;
+    width: 3rem;
+    height: 3rem;
+    position: fixed;
+    top: 0;
+    right: calc(3rem + 1.5em);
+    margin: 1em 0 0 0;
+    border: none;
+    background: transparent;
+    padding: 0;
+    &:hover {
+        cursor: pointer;
+    }
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+    @media screen and (max-width: $medium) {
+        width: 2.5rem;
+        height: 2.5rem;
+        right: calc(2.5rem + 2.5em);
+        margin-top: 0.75em;
+    }
+}
+
 #theme-toggle-button {
     z-index: 10;
     width: 3rem;

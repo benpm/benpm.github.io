@@ -3,3 +3,13 @@
   class="invertable"
   onclick="toggleTheme()">
 </div>
+{{ if .IsHome }}
+<button
+  id="shader-toggle-button"
+  class="invertable"
+  onclick="window.bgCanvas && window.bgCanvas.nextShader()"
+  title="Switch background shader"
+  aria-label="Switch background shader">
+  <img src="" alt="">
+</button>
+{{ end }}

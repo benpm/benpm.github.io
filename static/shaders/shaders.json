@@ -1,0 +1,9 @@
+[
+  { "type": "frag", "file": "splotch.frag.glsl",     "icon": "cloud"     },
+  { "type": "frag", "file": "waves.frag.glsl",        "icon": "waves"     },
+  { "type": "frag", "file": "ripples.frag.glsl",      "icon": "droplets"  },
+  { "type": "frag", "file": "voronoi.frag.glsl",      "icon": "hexagon"   },
+  { "type": "vert", "file": "grid.vert.glsl",         "icon": "grid-3x3"  },
+  { "type": "vert", "file": "phyllotaxis.vert.glsl",  "icon": "flower-2"  },
+  { "type": "vert", "file": "attractor.vert.glsl",   "icon": "orbit"     }
+]
