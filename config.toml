@@ -30,13 +30,6 @@ googleAnalytics = "G-PPST2B8G8Z"
     url = "/"
 
 [[menu.main]]
-    weight = 5
-    identifier = "about"
-    name = "About"
-    title = "About"
-    url = "/about"
-
-[[menu.main]]
     weight = 20
     identifier = "blog"
     name = "Blog"
@@ -56,13 +49,6 @@ googleAnalytics = "G-PPST2B8G8Z"
     name = "Projects"
     title = "Projects"
     url = "/projects"
-
-[[menu.main]]
-    weight = 15
-    identifier = "interactive"
-    name = "Interactive"
-    title = "Interactive"
-    url = "/interactive"
 
 [[menu.main]]
     weight = 40

@@ -41,16 +41,25 @@
   color: t('col-primary');
 }}
 
-.handle { @include themed {
-  display: inline-block;
-  margin-top: 0.275em;
-  color: t('col-mg');
-  letter-spacing: 0.5px;
-}}
+.splash-about { @include themed {
+  margin-top: 1em;
+  font-size: 0.9em;
+  line-height: 1.6;
+  max-width: 36em;
+  color: t('col-bmg');
 
-.writing { @include themed {
-  text-decoration: none;
-  color: t('col-primary');
+  a {
+    color: t('col-primary');
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
 }}
 
 /* overrides */
