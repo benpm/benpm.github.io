@@ -354,64 +354,7 @@ $$&lt;/p&gt;
 target="_blank" rel="noreferrer noopener"
 &gt;here&lt;/a&gt;, and all the source code &lt;a href="https://github.com/benpm/cellarium"
 target="_blank" rel="noreferrer noopener"
-&gt;here&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>C++ Invert Map at Compile Time</title><link>https://benpm.github.io/blog/how-to-invert/reverse/transform-a-map-at-compile-time-in-c++/</link><pubDate>Thu, 01 Jul 2021 15:37:49 -0600</pubDate><guid>https://benpm.github.io/blog/how-to-invert/reverse/transform-a-map-at-compile-time-in-c++/</guid><description>&lt;p&gt;Sometimes it&amp;rsquo;s useful to be able to invert a map in C++ to perform reverse lookup. Say you are mapping names to IDs of something:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-C++" data-lang="C++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#069;font-weight:bold"&gt;const&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;unordered_map&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;std&lt;span style="color:#555"&gt;::&lt;/span&gt;string, &lt;span style="color:#078;font-weight:bold"&gt;int&lt;/span&gt;&lt;span style="color:#555"&gt;&amp;gt;&lt;/span&gt; stuffMap &lt;span style="color:#555"&gt;=&lt;/span&gt; {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {&lt;span style="color:#c30"&gt;&amp;#34;bread&amp;#34;&lt;/span&gt;, &lt;span style="color:#f60"&gt;100&lt;/span&gt;},
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {&lt;span style="color:#c30"&gt;&amp;#34;sword&amp;#34;&lt;/span&gt;, &lt;span style="color:#f60"&gt;200&lt;/span&gt;},
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {&lt;span style="color:#c30"&gt;&amp;#34;lamp&amp;#34;&lt;/span&gt;, &lt;span style="color:#f60"&gt;300&lt;/span&gt;},
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {&lt;span style="color:#c30"&gt;&amp;#34;clogs&amp;#34;&lt;/span&gt;, &lt;span style="color:#f60"&gt;400&lt;/span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Maybe you have the ID and want to get the name. That&amp;rsquo;s something we can do by reversing the map.
-Inserting the reversed pairs in a loop seems like a good solution, but maybe we also want this done at compile-time!
-So let&amp;rsquo;s define a function which does this for us, but with an arbitrary function, so we can do any
-kind of transformation our hearts desire:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-C++" data-lang="C++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#09f;font-style:italic"&gt;//Function which can transform an std::unordered_map of one type to another with a given transform function
-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#069;font-weight:bold"&gt;template&lt;/span&gt;&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#069;font-weight:bold"&gt;typename&lt;/span&gt; Kout, &lt;span style="color:#069;font-weight:bold"&gt;typename&lt;/span&gt; Vout, &lt;span style="color:#069;font-weight:bold"&gt;typename&lt;/span&gt; Kin, &lt;span style="color:#069;font-weight:bold"&gt;typename&lt;/span&gt; Vin&lt;span style="color:#555"&gt;&amp;gt;&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;std&lt;span style="color:#555"&gt;::&lt;/span&gt;unordered_map&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;Kout, Vout&lt;span style="color:#555"&gt;&amp;gt;&lt;/span&gt; transformMap(
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#069;font-weight:bold"&gt;const&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;unordered_map&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;Kin, Vin&lt;span style="color:#555"&gt;&amp;gt;&amp;amp;&lt;/span&gt; inMap,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#069;font-weight:bold"&gt;const&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;function&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;std&lt;span style="color:#555"&gt;::&lt;/span&gt;pair&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;Kout, Vout&lt;span style="color:#555"&gt;&amp;gt;&lt;/span&gt;(&lt;span style="color:#069;font-weight:bold"&gt;const&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;pair&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;Kin, Vin&lt;span style="color:#555"&gt;&amp;gt;&amp;amp;&lt;/span&gt;)&lt;span style="color:#555"&gt;&amp;gt;&lt;/span&gt; mapfunc)
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;unordered_map&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;Kout, Vout&lt;span style="color:#555"&gt;&amp;gt;&lt;/span&gt; outMap;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;for_each(inMap.begin(), inMap.end(),
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; [&lt;span style="color:#555"&gt;&amp;amp;&lt;/span&gt;outMap, &lt;span style="color:#555"&gt;&amp;amp;&lt;/span&gt;mapfunc] (&lt;span style="color:#069;font-weight:bold"&gt;const&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;pair&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;Kin, Vin&lt;span style="color:#555"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#555"&gt;&amp;amp;&lt;/span&gt;p) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; outMap.insert(mapfunc(p));
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; );
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#069;font-weight:bold"&gt;return&lt;/span&gt; outMap;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We can use this function to reverse our &lt;code&gt;stuffMap&lt;/code&gt; to allow reverse lookup, all at compile-time:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-C++" data-lang="C++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#069;font-weight:bold"&gt;const&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;unordered_map&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;&lt;span style="color:#078;font-weight:bold"&gt;int&lt;/span&gt;, std&lt;span style="color:#555"&gt;::&lt;/span&gt;string&lt;span style="color:#555"&gt;&amp;gt;&lt;/span&gt; revStuffMap &lt;span style="color:#555"&gt;=&lt;/span&gt; transformMap(stuffMap,
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;function([](&lt;span style="color:#069;font-weight:bold"&gt;const&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;pair&lt;span style="color:#555"&gt;&amp;lt;&lt;/span&gt;std&lt;span style="color:#555"&gt;::&lt;/span&gt;string, &lt;span style="color:#078;font-weight:bold"&gt;int&lt;/span&gt;&lt;span style="color:#555"&gt;&amp;gt;&amp;amp;&lt;/span&gt; p) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#069;font-weight:bold"&gt;return&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;make_pair(p.second, p.first);
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;);
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let&amp;rsquo;s try it out:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="background-color:#f0f3f3;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"&gt;&lt;code class="language-C++" data-lang="C++"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#078;font-weight:bold"&gt;int&lt;/span&gt; &lt;span style="color:#c0f"&gt;main&lt;/span&gt;() {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;cout &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#c30"&gt;&amp;#34;stuffMap:&amp;#34;&lt;/span&gt; &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#069;font-weight:bold"&gt;for&lt;/span&gt; (&lt;span style="color:#069;font-weight:bold"&gt;const&lt;/span&gt; &lt;span style="color:#069;font-weight:bold"&gt;auto&lt;/span&gt;&lt;span style="color:#555"&gt;&amp;amp;&lt;/span&gt; &lt;span style="color:#99f"&gt;p&lt;/span&gt; : stuffMap) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;cout &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; p.first &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#c30"&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; p.second &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;cout &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#c30"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#c30;font-weight:bold"&gt;\n&lt;/span&gt;&lt;span style="color:#c30"&gt;revStuffMap:&amp;#34;&lt;/span&gt; &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#069;font-weight:bold"&gt;for&lt;/span&gt; (&lt;span style="color:#069;font-weight:bold"&gt;const&lt;/span&gt; &lt;span style="color:#069;font-weight:bold"&gt;auto&lt;/span&gt;&lt;span style="color:#555"&gt;&amp;amp;&lt;/span&gt; &lt;span style="color:#99f"&gt;p&lt;/span&gt; : revStuffMap) {
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;cout &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; p.first &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style="color:#c30"&gt;&amp;#34;:&amp;#34;&lt;/span&gt; &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; p.second &lt;span style="color:#555"&gt;&amp;lt;&amp;lt;&lt;/span&gt; std&lt;span style="color:#555"&gt;::&lt;/span&gt;endl;
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
-&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&amp;hellip;&lt;/p&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;stuffMap:
-400:clogs
-300:lamp
-200:sword
-100:bread
-revStuffMap:
-bread:100
-sword:200
-clogs:400
-lamp:300
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;a href="https://replit.com/@_bm/transformmap#main.cpp"
-target="_blank" rel="noreferrer noopener"
-&gt;Try it yourself here!&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;And it doesn&amp;rsquo;t need to stop at reversing a map! You can use any function to transform the input
-to the output map. Go crazy!&lt;/p&gt;</description></item><item><title>Quadtrees for 2D Games with Moving Elements</title><link>https://benpm.github.io/blog/quadtrees/</link><pubDate>Sun, 20 Sep 2020 10:41:59 -0600</pubDate><guid>https://benpm.github.io/blog/quadtrees/</guid><description>&lt;p&gt;A quadtree is a very useful data structure for performing spatial searches. I am currently using them in &lt;a href="https://benpm.github.io/gamedev/#tiletest"
+&gt;here&lt;/a&gt;.&lt;/p&gt;</description></item><item><title>Quadtrees for 2D Games with Moving Elements</title><link>https://benpm.github.io/blog/quadtrees/</link><pubDate>Sun, 20 Sep 2020 10:41:59 -0600</pubDate><guid>https://benpm.github.io/blog/quadtrees/</guid><description>&lt;p&gt;A quadtree is a very useful data structure for performing spatial searches. I am currently using them in &lt;a href="https://benpm.github.io/gamedev/#tiletest"
 &gt;Tiletest&lt;/a&gt; for collision detection and monster behavior. Quadtrees partition 2D space into quadrants (stored as nodes in a tree), dividing these quadrants into smaller quadrants when they contain more than a certain threshold of elements (shown as dots):&lt;/p&gt;
 &lt;p&gt;&lt;img class="invertable drawing" src="https://benpm.github.io/images/quadtrees/quadrant_division.png" alt="Quadrant division"&gt;&lt;/p&gt;
 &lt;p&gt;There are a couple uses for this structure, one of the most useful is searching for the nearest element to a given location.&lt;/p&gt;
@@ -527,7 +470,8 @@ target="_blank" rel="noreferrer noopener"
 &gt;Wireworld&lt;/a&gt; (4 states), &lt;a href="https://www.wikiwand.com/en/Codd%27s_cellular_automaton"
 target="_blank" rel="noreferrer noopener"
 &gt;Codd&amp;rsquo;s CA&lt;/a&gt; (8 states), and any other totalistic rule we can think of! At some point, we&amp;rsquo;ll also take a look at non-totalistic rules, which will allow an absolutely astounding rule space (more possible rules than particles in the universe!)&lt;/p&gt;
-&lt;p&gt;Stay tuned!&lt;/p&gt;</description></item><item><title>Rectangle (AABB) Collisions</title><link>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</link><pubDate>Wed, 22 Jul 2020 22:10:40 -0600</pubDate><guid>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</guid><description>&lt;p&gt;Axis-aligned bounding boxes (AABBs) are very useful for doing simple collision detection and 2D physics.
+&lt;p&gt;The following post is here: &lt;a href="cellular_automata_2.md"
+&gt;Cellular Automata in WebGL: Part 2&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Rectangle (AABB) Collisions</title><link>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</link><pubDate>Wed, 22 Jul 2020 22:10:40 -0600</pubDate><guid>https://benpm.github.io/blog/2d-top-down-collisions-with-rectangles-aabbs/</guid><description>&lt;p&gt;Axis-aligned bounding boxes (AABBs) are very useful for doing simple collision detection and 2D physics.
 The basic idea is: loop through the boxes, checking for intersections with each other box. Then, you resolve
 these intersections by moving the boxes in the direction of the shortest intersection axis. So if the width
 of the intersection is smaller than its height, like it is here, then the boxes are moved on the x axis:&lt;/p&gt;
@@ -547,9 +491,4 @@ Here is the result of using multiple passes:&lt;/p&gt;
 &lt;p&gt;As you can see, there are still some minor issues. When a constant force is applied, the boxes vibrate slightly. Also, when there is a big pile, they tend to overlap. It&amp;rsquo;s also pretty slow, since each box needs to check against each other box each collision pass, and there are multiple collision passes now.&lt;/p&gt;
 &lt;p&gt;To solve this issue with speed, I&amp;rsquo;ll probably end up using &lt;a href="https://www.wikiwand.com/en/Quadtree"
 target="_blank" rel="noreferrer noopener"
-&gt;quadtrees&lt;/a&gt; for neighbor lookup, but that&amp;rsquo;s for another time!&lt;/p&gt;</description></item><item><title>Hello World!</title><link>https://benpm.github.io/blog/hello_world/</link><pubDate>Wed, 22 Jul 2020 15:57:51 -0600</pubDate><guid>https://benpm.github.io/blog/hello_world/</guid><description>&lt;p&gt;This site is created with Hugo and the theme is based off &lt;a href="https://themes.gohugo.io/hugo-theme-codex/"
-target="_blank" rel="noreferrer noopener"
-&gt;Codex&lt;/a&gt;. Here is a nice little youtube video:&lt;/p&gt;
-&lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"&gt;
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/VXDzYtKq7Hw?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"&gt;&lt;/iframe&gt;
-&lt;/div&gt;</description></item></channel></rss>
+&gt;quadtrees&lt;/a&gt; for neighbor lookup, but that&amp;rsquo;s for another time!&lt;/p&gt;</description></item></channel></rss>
