@@ -133,4 +133,4 @@ Next, we'll look at expanding our set of possible rules by allowing **more than 
 
 This will allow us to simulate some really interesting rules like [Brian's Brain](https://www.wikiwand.com/en/Brian%27s_Brain) (3 states), [Wireworld](https://www.wikiwand.com/en/Wireworld) (4 states), [Codd's CA](https://www.wikiwand.com/en/Codd%27s_cellular_automaton) (8 states), and any other totalistic rule we can think of! At some point, we'll also take a look at non-totalistic rules, which will allow an absolutely astounding rule space (more possible rules than particles in the universe!)
 
-Stay tuned!
+The following post is here: [Cellular Automata in WebGL: Part 2](cellular_automata_2.md)

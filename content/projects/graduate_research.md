@@ -6,7 +6,7 @@ is_wip: true
 hideheader: true
 description: "Soon-to-be-published research on a new paradigm of 3D modeling using 'Metageometry'"
 img: "/images/metageometry.png"
-category: professional
+category: "professional, graphics"
 ---
 
 This page will soon host details about my graduate research on a new paradigm of 3D modeling using "Metageometry". Stay tuned for updates and publications!
