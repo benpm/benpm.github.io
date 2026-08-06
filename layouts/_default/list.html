@@ -54,9 +54,7 @@
             <a href="{{.RelPermalink}}">{{ .Title }}</a>
           {{ end }}
           {{ if .Params.Category }}
-            <span class="post__category">
-              ({{.Params.Category}})
-            </span>
+            <span class="post__category">({{ range $i, $c := (split .Params.Category ",") }}{{ if $i }}, {{ end }}{{ $cat := trim $c " " }}<button type="button" class="post__category-btn" data-category="{{ $cat }}">{{ $cat }}</button>{{ end }})</span>
           {{ end }}
         </h2>
         {{ partial "tags.html" .}}
@@ -100,25 +98,105 @@
   const btns = document.querySelectorAll('.category-filter__btn');
   const posts = document.querySelectorAll('.post-list .post');
 
-  function applyFilter(selected) {
+  const GROW_MS = 300;
+  const canAnimate = typeof Element.prototype.animate === 'function' &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function applyFilter(selected, animate) {
+    const grow = animate && canAnimate;
+    posts.forEach(post => { if (post.resetPeek) post.resetPeek(); });
+
+    const before = new Map();
+    if (grow) {
+      posts.forEach(p => before.set(p, {
+        height: p.offsetHeight,
+        collapsed: p.classList.contains('post--collapsed'),
+      }));
+    }
+
     btns.forEach(b => b.classList.toggle('active', b.dataset.category === selected));
     posts.forEach(post => {
       if (selected === 'all') {
-        post.hidden = false;
+        post.classList.remove('post--collapsed');
       } else {
         const cats = (post.dataset.categories || '').split(',').map(c => c.trim());
-        post.hidden = !cats.includes(selected);
+        post.classList.toggle('post--collapsed', !cats.includes(selected));
       }
+    });
+
+    if (!grow) return;
+    // Posts that just expanded grow downwards from their collapsed height
+    posts.forEach(post => {
+      const prev = before.get(post);
+      if (!prev.collapsed || post.classList.contains('post--collapsed')) return;
+      const target = post.offsetHeight;
+      if (target <= prev.height) return;
+      post.style.overflow = 'hidden';
+      const anim = post.animate(
+        [{ height: prev.height + 'px' }, { height: target + 'px' }],
+        { duration: GROW_MS, easing: 'ease-out' }
+      );
+      anim.finished.then(() => { post.style.overflow = ''; }, () => { post.style.overflow = ''; });
     });
   }
 
   btns.forEach(btn => {
-    btn.addEventListener('click', () => applyFilter(btn.dataset.category));
+    btn.addEventListener('click', () => applyFilter(btn.dataset.category, true));
+  });
+
+  // Inline category buttons: click to filter, hover to highlight every
+  // occurrence of that same category across the list
+  const catBtns = document.querySelectorAll('.post__category-btn');
+  catBtns.forEach(btn => {
+    btn.addEventListener('click', () => applyFilter(btn.dataset.category, true));
+    btn.addEventListener('mouseenter', () => setCategoryHighlight(btn.dataset.category, true));
+    btn.addEventListener('mouseleave', () => setCategoryHighlight(btn.dataset.category, false));
+  });
+
+  function setCategoryHighlight(category, on) {
+    document.querySelectorAll('.post__category-btn, .category-filter__btn').forEach(b => {
+      if (b.dataset.category === category) b.classList.toggle('cat-highlight', on);
+    });
+  }
+
+  // Hovering the date of a collapsed post types out its description
+  const CHARS_PER_TICK = 3;
+  const TICK_MS = 8;
+
+  posts.forEach(post => {
+    const dateEl = post.querySelector('.post-date__container');
+    const descEl = post.querySelector('.post__desc p');
+    if (!dateEl || !descEl) return;
+
+    const full = descEl.textContent.trim();
+    if (!full) return;
+    let timer = null;
+
+    post.resetPeek = () => {
+      clearInterval(timer);
+      post.classList.remove('post--peek');
+      descEl.textContent = full;
+    };
+
+    dateEl.addEventListener('mouseenter', () => {
+      if (!post.classList.contains('post--collapsed')) return;
+      clearInterval(timer);
+      post.classList.add('post--peek');
+      let i = 0;
+      descEl.textContent = '';
+      timer = setInterval(() => {
+        i = Math.min(i + CHARS_PER_TICK, full.length);
+        descEl.textContent = full.slice(0, i);
+        if (i >= full.length) clearInterval(timer);
+      }, TICK_MS);
+    });
+
+    dateEl.addEventListener('mouseleave', () => post.resetPeek());
   });
 
   // Apply default filter on load
   const defaultBtn = document.querySelector('.category-filter__btn.active');
-  if (defaultBtn) applyFilter(defaultBtn.dataset.category);
+  if (defaultBtn) applyFilter(defaultBtn.dataset.category, false);
 }());
 </script>
 {{ end }}

@@ -134,7 +134,8 @@
   font-size: 0.8rem;
   font-family: inherit;
 
-  &:hover {
+  &:hover,
+  &.cat-highlight {
     border-color: t('col-bmg');
     color: t('col-bmg');
   }

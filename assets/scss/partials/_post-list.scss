@@ -23,47 +23,141 @@
   position: relative;
 }
 
-.post__desc { @include themed {
-  color: t('col-bmg');
-  font-size: 0.8rem;
-  margin-left: 0;
-  margin-right: 0;
-  
-  p {
-    margin-top: 0.3em;
-    line-height: 1.5em;
-  }
-}}
+// Collapsed state for posts filtered out on filterable list pages:
+// keep the date, title and categories, and fill the rest of the row with a
+// faint horizontal line where the image would be
+.post--collapsed {
+  margin-bottom: 0.5rem;
 
-.post__title { @include themed {
-  margin-top: 0;
-  font-weight: 500;
-
-  a {
-    text-decoration: none;
+  .post__header .tags__list,
+  .post__img-container,
+  .post__video-container {
+    display: none;
   }
-}}
+
+  // body > main > div.post-list__container > ul > li:nth-child(1) > div.post__header > div
+
+  .post__header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5em;
+
+    &::after {
+      @include themed {
+        content: "";
+        flex: 1 1 auto;
+        align-self: center;
+        border-top: 1px solid t('col-mbg');
+      }
+    }
+  }
+
+  .post__title {
+    @include themed {
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 400;
+      white-space: nowrap;
+      color: t('col-bmg');
+
+      a {
+        color: inherit;
+      }
+    }
+  }
+
+  .post__desc {
+    display: none;
+  }
+
+  &.post--peek .post__desc {
+    @include themed {
+      display: block;
+      font-size: 0.75rem;
+      font-style: italic;
+
+      p::after {
+        content: "\258C";
+        color: t('col-mg');
+      }
+    }
+  }
+}
+
+// Inline, clickable category names in a post title
+.post__category-btn {
+  @include themed {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    border-radius: 3px;
+
+    &:hover,
+    &.cat-highlight {
+      color: t('col-fg');
+      background-color: t('col-mbg');
+      box-shadow: 0 0 0 2px t('col-mbg');
+    }
+  }
+}
+
+.post__desc {
+  @include themed {
+    color: t('col-bmg');
+    font-size: 0.8rem;
+    margin-left: 0;
+    margin-right: 0;
+
+    p {
+      margin-top: 0.3em;
+      line-height: 1.5em;
+    }
+  }
+}
+
+.post__title {
+  @include themed {
+    margin-top: 0;
+    font-weight: 500;
+
+    a {
+      text-decoration: none;
+    }
+  }
+}
 
 // Date shown next to post list item
-.post-date { @include themed {
-  color: t('col-bg');
-  background-color: t('col-mg');
-  padding: 3px;
-  line-height: 1em;
-  border-radius: 4px;
-  margin-top: 4px;
-  font-size: 0.8rem;
-  display: inline-block;
-  font-weight: bold;
-  width: 100%;
-  text-align: center;
+.post-date {
+  @include themed {
+    color: t('col-bg');
+    background-color: t('col-mg');
+    padding: 3px;
+    line-height: 1em;
+    border-radius: 4px;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    display: inline-block;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
 
-  &.wip {
-    font-style: italic;
-    color: t('col-mg');
-    background-color: t('col-bbg');
+    &.wip {
+      font-style: italic;
+      color: t('col-mg');
+      background-color: t('col-bbg');
+    }
   }
-}}
+}
+
+.post--collapsed .post-date {
+  @include themed {
+    color: t('col-bmg');
+    background-color: t('col-mbg');
+  }
+}
 
 .post-date__container {
   position: absolute;
